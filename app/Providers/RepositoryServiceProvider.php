@@ -26,6 +26,8 @@ class RepositoryServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->bind(UserRepository::class, UserRepositoryEloquent::class);
+        $this->app->bind(\Someline\Repositories\Interfaces\AudioRepository::class, \Someline\Repositories\Eloquent\AudioRepositoryEloquent::class);
+        $this->app->bind(\Someline\Repositories\Interfaces\AlbumRepository::class, \Someline\Repositories\Eloquent\AlbumRepositoryEloquent::class);
         //:end-bindings:
     }
 }
