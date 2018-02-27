@@ -5,6 +5,7 @@
     "license": "MIT",
     "type": "project",
     "repositories": [
+
         {
             "type": "vcs",
             "url": "https://github.com/BafS/api"
@@ -12,6 +13,14 @@
         {
             "type": "vcs",
             "url": "https://github.com/BafS/blueprint"
+        },
+        {
+            "type": "git",
+            "url": "git@bitbucket.org:someline/someline-role.git"
+        },
+        {
+            "type": "git",
+            "url": "git@bitbucket.org:someline/someline-review.git"
         }
     ],
     "require": {
@@ -19,7 +28,10 @@
         "fideloper/proxy": "~3.3",
         "dingo/api": "v1.0.0-beta9",
         "rap2hpoutre/laravel-log-viewer": "^0.10.0",
-        "someline/starter-framework": "1.7.*"
+        "someline/starter-framework": "1.7.*",
+        "someline/someline-role": "1.0.*",
+        "someline/someline-review": "1.0.*",
+        "zizaco/entrust": "5.2.*@dev"
     },
     "require-dev": {
         "filp/whoops": "~2.0",
