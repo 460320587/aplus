@@ -62,6 +62,12 @@ Route::group(['prefix' => 'console', 'middleware' => 'auth', 'namespace' => 'Con
         Route::get('/', 'UserController@getUserList');
     });
 
+    Route::group(['prefix' => 'someline'], function () {
+        Route::get('/form', function () {
+            return view('console.someline.form');
+        });
+    });
+
 });
 
 // Image Routes
@@ -74,6 +80,16 @@ Route::group(['prefix' => 'image'], function () {
 
     Route::get('{type}/{name}', 'ImageController@showTypeImage');
     Route::get('/{name}', 'ImageController@showOriginalImage');
+
+});
+
+// File Routes
+// @WARNING: The 'file' prefix is reserved for SomelineFileService
+Route::group(['prefix' => 'file'], function () {
+
+    Route::group(['middleware' => 'auth'], function () {
+        Route::post('/', 'FileController@postFile');
+    });
 
 });
 

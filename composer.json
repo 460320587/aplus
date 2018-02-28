@@ -21,6 +21,10 @@
         {
             "type": "git",
             "url": "git@bitbucket.org:someline/someline-review.git"
+        },
+        {
+            "type": "git",
+            "url": "git@bitbucket.org:someline/someline-file.git"
         }
     ],
     "require": {
@@ -31,7 +35,8 @@
         "someline/starter-framework": "1.7.*",
         "someline/someline-role": "1.0.*",
         "someline/someline-review": "1.0.*",
-        "zizaco/entrust": "5.2.*@dev"
+        "zizaco/entrust": "5.2.*@dev",
+        "someline/someline-file": "1.0.*"
     },
     "require-dev": {
         "filp/whoops": "~2.0",

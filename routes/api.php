@@ -36,7 +36,7 @@ $api->version('v1', [
             });
 
         });
-
+        \Someline\Component\File\SomelineFileServiceProvider::api_routes($api);
     });
 
 });

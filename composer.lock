@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "b624987b42a26de91a08d03977ac345a",
+    "content-hash": "adbc78169ec05eed795cdd664a6e35ea",
     "packages": [
         {
             "name": "barryvdh/laravel-ide-helper",
@@ -3593,6 +3593,65 @@
                 "someline-starter"
             ],
             "time": "2017-09-01T13:20:33+00:00"
+        },
+        {
+            "name": "someline/someline-file",
+            "version": "v1.0.1",
+            "source": {
+                "type": "git",
+                "url": "git@bitbucket.org:someline/someline-file.git",
+                "reference": "c58d83ae4027d0fdb718f0360a3b61a32cdd8611"
+            },
+            "require": {
+                "laravel/framework": "5.2.*|5.3.*|5.4.*|5.5.*",
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "4.*"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                },
+                "laravel": {
+                    "providers": [
+                        "Someline\\Component\\File\\SomelineFileServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "files": [],
+                "psr-4": {
+                    "Someline\\Component\\File\\": "src/Someline/Component/File"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "Someline\\Components\\File\\Test\\": "tests"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Libern Lin",
+                    "email": "libernlin@gmail.com",
+                    "homepage": "https://www.someline.com/"
+                }
+            ],
+            "description": "Someline File is a part of Someline Monster Components.",
+            "homepage": "https://bitbucket.org/someline/someline-file",
+            "keywords": [
+                "file",
+                "laravel",
+                "service",
+                "someline-file",
+                "someline-starter",
+                "starter-framework"
+            ],
+            "time": "2017-09-02T06:45:21+00:00"
         },
         {
             "name": "someline/someline-image",
