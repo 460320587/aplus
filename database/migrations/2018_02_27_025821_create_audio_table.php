@@ -18,7 +18,14 @@ class CreateAudioTable extends Migration
             $table->unsignedInteger('user_id')->index();
 
             // Adding more table related fields here...
-            
+            $table->string('name')->nullable();
+            $table->string('original_name')->nullable();
+            $table->unsignedInteger('someline_file_id')->index()->nullable();
+            $table->string('audio_length', 20)->nullable();
+            $table->smallInteger('sequence')->nullable();
+            $table->smallInteger('status')->default(0);
+
+            $table->softDeletes();
 
             $table->unsignedInteger('created_by')->nullable();
             $table->timestamp('created_at')->nullable();

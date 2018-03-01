@@ -6,19 +6,35 @@ use Illuminate\Database\Migrations\Migration;
 class CreateAlbumsTable extends Migration
 {
 
-	/**
-	 * Run the migrations.
-	 *
-	 * @return void
-	 */
-	public function up()
-	{
-		Schema::create('albums', function(Blueprint $table) {
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('albums', function (Blueprint $table) {
             $table->increments('album_id');
             $table->unsignedInteger('user_id')->index();
 
             // Adding more table related fields here...
-            
+            $table->string('book_id', 50);
+            $table->string('name', 150)->nullable();
+            $table->string('author', 150)->nullable();
+            $table->string('broadcaster', 150)->nullable();
+            $table->string('broadcaster_type', 150)->nullable();
+            $table->unsignedInteger('someline_image_id')->index()->nullable();
+            $table->text('brief')->nullable();
+            $table->smallInteger('payment_type')->nullable();
+            $table->decimal('payment_amount', 8, 2);
+            $table->unsignedInteger('someline_category_id')->index()->nullable();
+            $table->string('keywords', 150)->nullable();
+            $table->string('copyright', 150)->nullable();
+            $table->smallInteger('status')->default(0);
+
+            //软删除
+            $table->softDeletes();
+
 
             $table->unsignedInteger('created_by')->nullable();
             $table->timestamp('created_at')->nullable();
@@ -26,17 +42,17 @@ class CreateAlbumsTable extends Migration
             $table->unsignedInteger('updated_by')->nullable();
             $table->timestamp('updated_at')->nullable();
             $table->ipAddress('updated_ip')->nullable();
-		});
-	}
+        });
+    }
 
-	/**
-	 * Reverse the migrations.
-	 *
-	 * @return void
-	 */
-	public function down()
-	{
-		Schema::drop('albums');
-	}
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::drop('albums');
+    }
 
 }

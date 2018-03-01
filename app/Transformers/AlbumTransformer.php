@@ -20,9 +20,23 @@ class AlbumTransformer extends BaseTransformer
     public function transform(Album $model)
     {
         return [
-            'id' => (int) $model->id,
+            'album_id' => (int) $model->album_id,
 
             /* place your other model properties here */
+            'user_id' => $model->user_id,
+            'book_id' => $model->book_id,
+            'name' => $model->name,
+            'author' => $model->author,
+            'broadcaster' => $model->broadcaster,
+            'broadcaster_type' => $model->broadcaster_type,
+            'someline_image_id' => $model->someline_image_id,
+            'brief' => $model->brief,
+            'payment_type' => $model->payment_type,
+            'payment_amount' => $model->payment_amount,
+            'someline_category_id' => $model->someline_category_id,
+            'keywords' => $model->keywords,
+            'copyright' => $model->copyright,
+            'status' => $model->status,
 
             'created_at' => (string) $model->created_at,
             'updated_at' => (string) $model->updated_at
