@@ -10,9 +10,19 @@ class Audio extends BaseModel implements Transformable
 {
     use TransformableTrait;
 
-    protected $primaryKey = 'id';
+    protected $table = 'audios';
 
-    protected $fillable = [];
+    protected $primaryKey = 'audio_id';
+
+    protected $fillable = [
+        'user_id',
+        'name',
+        'original_name',
+        'someline_file_id',
+        'audio_length',
+        'sequence',
+        'status',
+    ];
 
     // Fields to be converted to Carbon object automatically
     protected $dates = [];

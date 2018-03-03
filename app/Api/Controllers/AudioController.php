@@ -59,6 +59,7 @@ class AudioController extends BaseController
      * @param  AudioCreateRequest $request
      *
      * @return \Illuminate\Http\Response
+     * @throws \Prettus\Validator\Exceptions\ValidatorException
      */
     public function store(AudioCreateRequest $request)
     {
@@ -97,9 +98,10 @@ class AudioController extends BaseController
      * Update the specified resource in storage.
      *
      * @param  AudioUpdateRequest $request
-     * @param  string            $id
+     * @param  string $id
      *
-     * @return Response
+     * @return \Dingo\Api\Http\Response
+     * @throws \Prettus\Validator\Exceptions\ValidatorException
      */
     public function update(AudioUpdateRequest $request, $id)
     {

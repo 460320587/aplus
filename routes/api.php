@@ -35,8 +35,20 @@ $api->version('v1', [
                 $api->delete('/{id}', 'UsersController@destroy');
             });
 
+            // /albums
+            $api->group(['prefix'=>'albums'],function (Router $api){
+                //查
+                $api->get('/','AlbumsController@index');
+                //增
+                $api->post('/','AlbumsController@store');
+                //改
+                $api->put('/{id}','AlbumsController@update')->where('id','[0-9]+');
+                //删
+                $api->delete('/{id}','AlbumsController@destroy')->where('id','[0,9]+');
+            });
         });
         \Someline\Component\File\SomelineFileServiceProvider::api_routes($api);
+        \Someline\Component\Category\SomelineCategoryServiceProvider::api_routes($api);
     });
 
 });

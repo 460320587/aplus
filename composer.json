@@ -24,6 +24,10 @@
         },
         {
             "type": "git",
+            "url": "git@bitbucket.org:someline/someline-category.git"
+        },
+        {
+            "type": "git",
             "url": "git@bitbucket.org:someline/someline-file.git"
         }
     ],
@@ -34,6 +38,7 @@
         "rap2hpoutre/laravel-log-viewer": "^0.10.0",
         "someline/starter-framework": "1.7.*",
         "someline/someline-role": "1.0.*",
+        "someline/someline-category": "1.0.*",
         "someline/someline-review": "1.0.*",
         "zizaco/entrust": "5.2.*@dev",
         "someline/someline-file": "1.0.*"

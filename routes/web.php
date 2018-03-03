@@ -62,6 +62,14 @@ Route::group(['prefix' => 'console', 'middleware' => 'auth', 'namespace' => 'Con
         Route::get('/', 'UserController@getUserList');
     });
 
+    //albums 专辑
+    Route::group(['prefix' => 'albums'], function (){
+        Route::get('/','AlbumController@getAlubmList');
+        Route::get('/new','AlbumController@getAlubmNew');
+        Route::get('/{id}','AlbumController@getAlubmDetail');
+    });
+
+
     Route::group(['prefix' => 'someline'], function () {
         Route::get('/form', function () {
             return view('console.someline.form');

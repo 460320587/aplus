@@ -59,6 +59,7 @@ class AlbumsController extends BaseController
      * @param  AlbumCreateRequest $request
      *
      * @return \Illuminate\Http\Response
+     * @throws \Prettus\Validator\Exceptions\ValidatorException
      */
     public function store(AlbumCreateRequest $request)
     {
@@ -97,9 +98,10 @@ class AlbumsController extends BaseController
      * Update the specified resource in storage.
      *
      * @param  AlbumUpdateRequest $request
-     * @param  string            $id
+     * @param  string $id
      *
-     * @return Response
+     * @return \Dingo\Api\Http\Response
+     * @throws \Prettus\Validator\Exceptions\ValidatorException
      */
     public function update(AlbumUpdateRequest $request, $id)
     {
