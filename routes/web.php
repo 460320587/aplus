@@ -20,11 +20,12 @@ Auth::routes();
 // Protected Routes
 Route::group(['middleware' => 'auth'], function () {
 
-//    Route::get('/', function () {
-//        return redirect('users');
-//    });
+    //首页路由
+    Route::get('/', function () {
+        return redirect('console');
+    });
 
-    Route::get('/', 'ExampleController@getIndexExample');
+//    Route::get('/', 'ExampleController@getIndexExample');
     Route::get('blank-example', 'ExampleController@getBlankExample');
     Route::get('desktop-example', 'ExampleController@getDesktopExample');
 
@@ -64,9 +65,9 @@ Route::group(['prefix' => 'console', 'middleware' => 'auth', 'namespace' => 'Con
 
     //albums 专辑
     Route::group(['prefix' => 'albums'], function (){
-        Route::get('/','AlbumController@getAlubmList');
-        Route::get('/new','AlbumController@getAlubmNew');
-        Route::get('/{id}','AlbumController@getAlubmDetail');
+        Route::get('/','AlbumController@getAlbumList');
+        Route::get('/new','AlbumController@getAlbumNew');
+        Route::get('/{id}','AlbumController@getAlbumDetail');
     });
 
 

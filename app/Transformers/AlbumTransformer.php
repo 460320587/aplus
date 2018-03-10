@@ -20,7 +20,7 @@ class AlbumTransformer extends BaseTransformer
     public function transform(Album $model)
     {
         return [
-            'album_id' => (int) $model->album_id,
+            'album_id' => (int)$model->album_id,
 
             /* place your other model properties here */
             'user_id' => $model->user_id,
@@ -30,6 +30,8 @@ class AlbumTransformer extends BaseTransformer
             'broadcaster' => $model->broadcaster,
             'broadcaster_type' => $model->broadcaster_type,
             'someline_image_id' => $model->someline_image_id,
+            'someline_image_url' => $model->getSomelineImageUrl(),
+            'thumbnail_image_url' => $model->getSomelineImageUrlForType('thumbnail'),
             'brief' => $model->brief,
             'payment_type' => $model->payment_type,
             'payment_amount' => $model->payment_amount,
@@ -37,9 +39,16 @@ class AlbumTransformer extends BaseTransformer
             'keywords' => $model->keywords,
             'copyright' => $model->copyright,
             'status' => $model->status,
+            'status_text' => $model->status_text,
 
-            'created_at' => (string) $model->created_at,
-            'updated_at' => (string) $model->updated_at
+            'created_at' => (string)$model->created_at,
+            'updated_at' => (string)$model->updated_at
         ];
+
+        $isEdit = request()->get('edit', false);
+        if($isEdit) {
+            $data['keywords_data'] = explode(',', $data['kaywords']);
+        }
+        return $data;
     }
 }

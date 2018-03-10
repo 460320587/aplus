@@ -42,6 +42,8 @@ mix.combine([
         /**
          * console vendor styles
          */
+        'node_modules/element-ui/lib/theme-default/index.css',
+        'node_modules/someline-ui/dist/someline-ui.css',
         // 'public/bower_components/toastr/toastr.css',
     ], 'public/assets/css/console.vendor.css')
     .combine([

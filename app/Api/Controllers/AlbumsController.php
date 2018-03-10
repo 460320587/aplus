@@ -43,17 +43,6 @@ class AlbumsController extends BaseController
     }
 
     /**
-     * Display all resources.
-     *
-     * @param Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function all(Request $request)
-    {
-        return $this->repository->all();
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  AlbumCreateRequest $request
@@ -65,6 +54,12 @@ class AlbumsController extends BaseController
     {
 
         $data = $request->all();
+
+        if (!empty($data['keywords_data'])) {
+            $data['keywords'] = implode(',', $data['keywords_data']);
+        } else {
+            $data['keywords'] = null;
+        }
 
         $this->validator->with($data)->passesOrFail(ValidatorInterface::RULE_CREATE);
 
@@ -107,6 +102,13 @@ class AlbumsController extends BaseController
     {
 
         $data = $request->all();
+
+        if(!empty($data['keywords_data'])) {
+            $data['keywords'] = implode(',',$data['keywords_data']);
+        }else{
+            $data['keywords'] = null;
+        }
+        unset($data['someline_image_url']);
 
         $this->validator->with($data)->passesOrFail(ValidatorInterface::RULE_UPDATE);
 

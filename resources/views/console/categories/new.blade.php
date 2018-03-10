@@ -13,9 +13,9 @@
 @endsection
 
 @push('stylesheets')
-<link rel="stylesheet" href="{{ url('bower_components/wangEditor/dist/css/wangEditor.min.css') }}" type="text/css"/>
+    <link rel="stylesheet" href="{{ url('bower_components/wangEditor/dist/css/wangEditor.min.css') }}" type="text/css"/>
 @endpush
 
 @push('pre_scripts')
-<script src="{{ url('bower_components/wangEditor/dist/js/wangEditor.min.js') }}"></script>
+    <script src="{{ url('bower_components/wangEditor/dist/js/wangEditor.min.js') }}"></script>
 @endpush

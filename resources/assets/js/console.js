@@ -6,6 +6,11 @@
 
 require('./bootstrap');
 
+import ElementUI from 'element-ui';
+Vue.use(ElementUI);
+
+import SomelineUI from 'someline-ui';
+Vue.use(SomelineUI);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -29,6 +34,11 @@ Vue.component(
 
 Vue.component('example', require('./components/Example.vue'));
 Vue.component('sl-oauth', require('./components/console/OAuth.vue'));
+Vue.component('sl-someline-form-example', require('./components/someline/SomelineFormExample.vue'));
+
+Vue.component('sl-album-list', require('./components/console/albums/AlbumList.vue'));
+Vue.component('sl-album-editor', require('./components/console/albums/AlbumEditor.vue'));
+Vue.component('sl-album-detail', require('./components/console/albums/AlbumDetail.vue'));
 
 // Vuex
 // const vuexStore = new Vuex.Store({

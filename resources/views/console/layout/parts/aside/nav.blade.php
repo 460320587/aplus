@@ -1,36 +1,36 @@
 <!-- nav -->
 <nav ui-nav class="navi clearfix">
     <ul class="nav">
-        <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
-            <span>Navigation</span>
-        </li>
-        <li>
-            <a href="{{ url('console') }}">
-                  <span class="pull-right text-muted">
-                    <i class="fa fa-fw fa-angle-right text"></i>
-                    <i class="fa fa-fw fa-angle-down text-active"></i>
-                  </span>
+        {{--<li class="hidden-folded padder m-t m-b-sm text-muted text-xs">--}}
+            {{--<span>Navigation</span>--}}
+        {{--</li>--}}
+        {{--<li>--}}
+            {{--<a href="{{ url('console') }}">--}}
+                  {{--<span class="pull-right text-muted">--}}
+                    {{--<i class="fa fa-fw fa-angle-right text"></i>--}}
+                    {{--<i class="fa fa-fw fa-angle-down text-active"></i>--}}
+                  {{--</span>--}}
                 {{--<b class="badge bg-info pull-right">9</b>--}}
-                <i class="glyphicon glyphicon-stats icon text-primary-dker"></i>
-                <span class="font-bold">Dashboard</span>
-            </a>
-        </li>
-        <li>
-            <a href="{{ url('console/oauth') }}">
-                  <span class="pull-right text-muted">
-                    <i class="fa fa-fw fa-angle-right text"></i>
-                    <i class="fa fa-fw fa-angle-down text-active"></i>
-                  </span>
+                {{--<i class="glyphicon glyphicon-stats icon text-primary-dker"></i>--}}
+                {{--<span class="font-bold">Dashboard</span>--}}
+            {{--</a>--}}
+        {{--</li>--}}
+        {{--<li>--}}
+            {{--<a href="{{ url('console/oauth') }}">--}}
+                  {{--<span class="pull-right text-muted">--}}
+                    {{--<i class="fa fa-fw fa-angle-right text"></i>--}}
+                    {{--<i class="fa fa-fw fa-angle-down text-active"></i>--}}
+                  {{--</span>--}}
                 {{--<b class="badge bg-info pull-right">9</b>--}}
-                <i class="glyphicon glyphicon-lock icon text-info-lter"></i>
-                <span class="font-bold">OAuth</span>
-            </a>
-        </li>
-        <li class="line dk"></li>
+                {{--<i class="glyphicon glyphicon-lock icon text-info-lter"></i>--}}
+                {{--<span class="font-bold">OAuth</span>--}}
+            {{--</a>--}}
+        {{--</li>--}}
+        {{--<li class="line dk"></li>--}}
 
-        <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
-            <span>Components</span>
-        </li>
+        {{--<li class="hidden-folded padder m-t m-b-sm text-muted text-xs">--}}
+            {{--<span>Components</span>--}}
+        {{--</li>--}}
         {{--<li>--}}
             {{--<a href class="auto">--}}
                   {{--<span class="pull-right text-muted">--}}
@@ -65,6 +65,55 @@
             {{--</ul>--}}
         {{--</li>--}}
         {{--<li>--}}
+        <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
+            <span>专辑管理</span>
+        </li>
+        <li>
+            <a href="{{ url('console/albums') }}">
+                <span class="pull-right text-muted">
+                    <i class="fa fa-fw fa-angle-right text"></i>
+                    <i class="fa fa-fw fa-angle-down text-active"></i>
+                </span>
+                <i class="fa fa-star"></i>
+                <span>专辑列表</span>
+            </a>
+        </li>
+        <li>
+            <a href="{{ url('console/albums/new') }}">
+                <span class="pull-right text-muted">
+                    <i class="fa fa-fw fa-angle-right text"></i>
+                    <i class="fa fa-fw fa-angle-down text-active"></i>
+                </span>
+                <i class="fa fa-star"></i>
+                <span>添加专辑</span>
+            </a>
+        </li>
+
+        <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
+            <span>声音管理</span>
+        </li>
+
+        <li>
+            <a href="{{ url('console/audios') }}">
+                <span class="pull-right text-muted">
+                    <i class="fa fa-fw fa-angle-right text"></i>
+                    <i class="fa fa-fw fa-angle-down text-active"></i>
+                </span>
+                <i class="fa fa-star"></i>
+                <span>声音列表</span>
+            </a>
+        </li>
+        <li>
+            <a href="{{ url('console/audios/new') }}">
+                <span class="pull-right text-muted">
+                    <i class="fa fa-fw fa-angle-right text"></i>
+                    <i class="fa fa-fw fa-angle-down text-active"></i>
+                </span>
+                <i class="fa fa-star"></i>
+                <span>添加声音</span>
+            </a>
+        </li>
+
             {{--<a href class="auto">--}}
                   {{--<span class="pull-right text-muted">--}}
                     {{--<i class="fa fa-fw fa-angle-right text"></i>--}}
@@ -178,16 +227,16 @@
                 {{--</li>--}}
             {{--</ul>--}}
         {{--</li>--}}
-        <li>
-            <a href="#">
-                <span class="pull-right text-muted">
-                    <i class="fa fa-fw fa-angle-right text"></i>
-                    <i class="fa fa-fw fa-angle-down text-active"></i>
-                </span>
-                <i class="glyphicon glyphicon-signal"></i>
-                <span>Chart</span>
-            </a>
-        </li>
+        {{--<li>--}}
+            {{--<a href="#">--}}
+                {{--<span class="pull-right text-muted">--}}
+                    {{--<i class="fa fa-fw fa-angle-right text"></i>--}}
+                    {{--<i class="fa fa-fw fa-angle-down text-active"></i>--}}
+                {{--</span>--}}
+                {{--<i class="glyphicon glyphicon-signal"></i>--}}
+                {{--<span>Chart</span>--}}
+            {{--</a>--}}
+        {{--</li>--}}
         {{--<li>--}}
             {{--<a href class="auto">--}}
                   {{--<span class="pull-right text-muted">--}}

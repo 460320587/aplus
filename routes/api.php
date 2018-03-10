@@ -41,6 +41,8 @@ $api->version('v1', [
                 $api->get('/','AlbumsController@index');
                 //增
                 $api->post('/','AlbumsController@store');
+                //查 专辑详情页
+                $api->get('/{id}','AlbumsController@show');
                 //改
                 $api->put('/{id}','AlbumsController@update')->where('id','[0-9]+');
                 //删
