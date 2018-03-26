@@ -16,6 +16,7 @@
     "tests"
   ],
   "dependencies": {
-    "toastr": "^2.1.2"
+    "toastr": "^2.1.2",
+    "wangEditor": "^2.1.23"
   }
 }

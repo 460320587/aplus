@@ -8,10 +8,10 @@
                 操作
             </div>
             <div class="panel-body">
-                <button @click="doSwitchPinStatus" class="btn btn-default btn-addon">
-                    <i class="fa fa-thumb-tack"></i>
-                    {{ pinned_text }}
-                </button>
+                <!--<button @click="doSwitchPinStatus" class="btn btn-default btn-addon">-->
+                    <!--<i class="fa fa-thumb-tack"></i>-->
+                    <!--{{ pinned_text }}-->
+                <!--</button>-->
                 &nbsp;
                 <a :href="editUrl" class="btn btn-default btn-addon">
                     <i class="fa fa-pencil"></i>
@@ -39,19 +39,59 @@
                     <tbody>
                     <tr>
                         <td class="text-right" style="min-width: 120px">专辑ID</td>
-                        <td style="min-width: 300px" v-text="item.someline_album_id"></td>
+                        <td style="min-width: 300px" v-text="item.album_id"></td>
                     </tr>
                     <tr>
-                        <td class="text-right">标题</td>
-                        <td>{{ item.title }}</td>
+                        <td class="text-right">书号</td>
+                        <td>{{ item.book_id }}</td>
                     </tr>
                     <tr>
-                        <td class="text-right">内容</td>
-                        <td v-html="item.body_html"></td>
+                        <td class="text-right">书籍名称</td>
+                        <td>{{ item.name }}</td>
                     </tr>
                     <tr>
-                        <td class="text-right">是否置顶</td>
-                        <td>{{ pinned_text }}</td>
+                        <td class="text-right">作者</td>
+                        <td>{{ item.author }}</td>
+                    </tr>
+                    <tr>
+                        <td class="text-right">演播</td>
+                        <td>{{ item.broadcaster }}</td>
+                    </tr>
+                    <tr>
+                        <td class="text-right">演绎形式</td>
+                        <td>{{ item.broadcaster_type }}</td>
+                    </tr>
+                    <tr>
+                        <td class="text-right">封面</td>
+                        <td>
+                            <a :href="item.someline_image_url" target="_blank" class="thumbnail thumb-md">
+                                <img :src="item.someline_image_url" class="img" alt="">
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-right">内容简介</td>
+                        <td>{{ item.brief }}</td>
+                    </tr>
+                    <tr>
+                        <td class="text-right">付费方式</td>
+                        <td>{{ item.payment_type }}</td>
+                    </tr>
+                    <tr>
+                        <td class="text-right">付费价格</td>
+                        <td>{{ item.payment_amount }}</td>
+                    </tr>
+                    <tr>
+                        <td class="text-right">关键字</td>
+                        <td>{{ item.keywords }}</td>
+                    </tr>
+                    <tr>
+                        <td class="text-right">版权方</td>
+                        <td>{{ item.copyright }}</td>
+                    </tr>
+                    <tr>
+                        <td class="text-right">状态</td>
+                        <td>{{ item.status_text }}</td>
                     </tr>
                     <tr>
                         <td class="text-right">创建时间</td>
@@ -91,7 +131,7 @@
                 return this.item.is_pinned ? '已置顶' : '未置顶';
             },
             editUrl() {
-                return this.url(`/console/albums/${this.item.someline_album_id}/edit`);
+                return this.url(`/console/albums/${this.item.album_id}/edit`);
             }
         },
         components: {},
@@ -144,7 +184,7 @@
             doSwitchPinStatus() {
                 console.log('切换状态');
                 this.$api
-                    .put(`albums/${this.item.someline_album_id}/pinned`)
+                    .put(`albums/${this.item.album_id}/pinned`)
                     .then((response) => {
 
                         this.$message.success('操作成功');
@@ -166,7 +206,7 @@
             doDelete(){
 
                 this.isDeleting = true;
-                this.$api.delete(`/albums/${this.item.someline_album_id}`, {})
+                this.$api.delete(`/albums/${this.item.album_id}`, {})
                     .then((response) => {
 
                         this.$message.success('删除成功');

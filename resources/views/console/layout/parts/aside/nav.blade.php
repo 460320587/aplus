@@ -69,16 +69,6 @@
             <span>专辑管理</span>
         </li>
         <li>
-            <a href="{{ url('console/albums') }}">
-                <span class="pull-right text-muted">
-                    <i class="fa fa-fw fa-angle-right text"></i>
-                    <i class="fa fa-fw fa-angle-down text-active"></i>
-                </span>
-                <i class="fa fa-star"></i>
-                <span>专辑列表</span>
-            </a>
-        </li>
-        <li>
             <a href="{{ url('console/albums/new') }}">
                 <span class="pull-right text-muted">
                     <i class="fa fa-fw fa-angle-right text"></i>
@@ -88,20 +78,30 @@
                 <span>添加专辑</span>
             </a>
         </li>
-
-        <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
-            <span>声音管理</span>
-        </li>
-
         <li>
-            <a href="{{ url('console/audios') }}">
+            <a href="{{ url('console/albums/categories') }}">
                 <span class="pull-right text-muted">
                     <i class="fa fa-fw fa-angle-right text"></i>
                     <i class="fa fa-fw fa-angle-down text-active"></i>
                 </span>
                 <i class="fa fa-star"></i>
-                <span>声音列表</span>
+                <span>专辑分类</span>
             </a>
+        </li>
+        <li>
+            <a href="{{ url('console/albums') }}">
+                <span class="pull-right text-muted">
+                    <i class="fa fa-fw fa-angle-right text"></i>
+                    <i class="fa fa-fw fa-angle-down text-active"></i>
+                </span>
+                <i class="fa fa-star"></i>
+                <span>专辑列表</span>
+            </a>
+        </li>
+        <li class="line dk"></li>
+
+        <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
+            <span>声音管理</span>
         </li>
         <li>
             <a href="{{ url('console/audios/new') }}">
@@ -111,6 +111,16 @@
                 </span>
                 <i class="fa fa-star"></i>
                 <span>添加声音</span>
+            </a>
+        </li>
+        <li>
+            <a href="{{ url('console/audios') }}">
+                <span class="pull-right text-muted">
+                    <i class="fa fa-fw fa-angle-right text"></i>
+                    <i class="fa fa-fw fa-angle-down text-active"></i>
+                </span>
+                <i class="fa fa-star"></i>
+                <span>声音列表</span>
             </a>
         </li>
 
@@ -227,16 +237,16 @@
                 {{--</li>--}}
             {{--</ul>--}}
         {{--</li>--}}
-        {{--<li>--}}
-            {{--<a href="#">--}}
-                {{--<span class="pull-right text-muted">--}}
-                    {{--<i class="fa fa-fw fa-angle-right text"></i>--}}
-                    {{--<i class="fa fa-fw fa-angle-down text-active"></i>--}}
-                {{--</span>--}}
-                {{--<i class="glyphicon glyphicon-signal"></i>--}}
-                {{--<span>Chart</span>--}}
-            {{--</a>--}}
-        {{--</li>--}}
+        <li>
+            <a href="#">
+                <span class="pull-right text-muted">
+                    <i class="fa fa-fw fa-angle-right text"></i>
+                    <i class="fa fa-fw fa-angle-down text-active"></i>
+                </span>
+                <i class="glyphicon glyphicon-signal"></i>
+                <span>Chart</span>
+            </a>
+        </li>
         {{--<li>--}}
             {{--<a href class="auto">--}}
                   {{--<span class="pull-right text-muted">--}}

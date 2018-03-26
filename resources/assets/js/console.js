@@ -39,6 +39,7 @@ Vue.component('sl-someline-form-example', require('./components/someline/Somelin
 Vue.component('sl-album-list', require('./components/console/albums/AlbumList.vue'));
 Vue.component('sl-album-editor', require('./components/console/albums/AlbumEditor.vue'));
 Vue.component('sl-album-detail', require('./components/console/albums/AlbumDetail.vue'));
+Vue.component('sl-album-category', require('./components/console/albums/AlbumCategory.vue'));
 
 // Vuex
 // const vuexStore = new Vuex.Store({
