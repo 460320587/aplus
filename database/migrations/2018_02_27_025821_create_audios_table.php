@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateAudioTable extends Migration
+class CreateAudiosTable extends Migration
 {
 
 	/**
@@ -13,7 +13,7 @@ class CreateAudioTable extends Migration
 	 */
 	public function up()
 	{
-		Schema::create('audio', function(Blueprint $table) {
+		Schema::create('audios', function(Blueprint $table) {
             $table->increments('audio_id');
             $table->unsignedInteger('user_id')->index();
 
@@ -43,7 +43,7 @@ class CreateAudioTable extends Migration
 	 */
 	public function down()
 	{
-		Schema::drop('audio');
+		Schema::drop('audios');
 	}
 
 }

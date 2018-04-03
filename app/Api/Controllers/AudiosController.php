@@ -12,7 +12,7 @@ use Someline\Http\Requests\AudioUpdateRequest;
 use Someline\Repositories\Interfaces\AudioRepository;
 use Someline\Validators\AudioValidator;
 
-class AudioController extends BaseController
+class AudiosController extends BaseController
 {
 
     /**

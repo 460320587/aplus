@@ -34,8 +34,9 @@ $api->version('v1', [
                 $api->put('/{id}', 'UsersController@update');
                 $api->delete('/{id}', 'UsersController@destroy');
             });
+        });
 
-            // /albums
+        // /albums
             $api->group(['prefix'=>'albums'],function (Router $api){
                 //查
                 $api->get('/','AlbumsController@index');
@@ -48,6 +49,19 @@ $api->version('v1', [
                 //删
                 $api->delete('/{id}','AlbumsController@destroy')->where('id','[0,9]+');
             });
+            
+            //audios
+        $api->group(['prefix'=>'audios'],function (Router $api){
+            //查
+            $api->get('/','AudiosController@index');
+            //增
+            $api->post('/','AudiosController@store');
+            //查 专辑详情页
+            $api->get('/{id}','AudiosController@show');
+            //改
+            $api->put('/{id}','AudiosController@update')->where('id','[0-9]+');
+            //删
+            $api->delete('/{id}','AudiosController@destroy')->where('id','[0,9]+');
         });
         \Someline\Component\File\SomelineFileServiceProvider::api_routes($api);
         \Someline\Component\Category\SomelineCategoryServiceProvider::api_routes($api);
