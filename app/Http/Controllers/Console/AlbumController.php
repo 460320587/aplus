@@ -38,4 +38,15 @@ class AlbumController extends BaseController
         return view('console.albums.edit', compact('album_id'));
     }
 
+    public function getAlbumAudios($album_id)
+    {
+        return view('console.albums.audios', compact('album_id'));
+    }
+
+    public function getAlbumAudiosUpload($album_id)
+    {
+        return view('console.albums.audios_upload', compact('album_id'));
+    }
+
+
 }

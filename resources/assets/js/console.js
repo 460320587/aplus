@@ -42,7 +42,9 @@ Vue.component('sl-album-detail', require('./components/console/albums/AlbumDetai
 Vue.component('sl-album-category', require('./components/console/albums/AlbumCategory.vue'));
 
 Vue.component('sl-audio-list', require('./components/console/audios/AudioList.vue'));
+Vue.component('sl-audio-new', require('./components/console/audios/AudioNew.vue'));
 Vue.component('sl-audio-editor', require('./components/console/audios/AudioEditor.vue'));
+Vue.component('sl-audio-upload', require('./components/console/audios/AudioUpload.vue'));
 Vue.component('sl-audio-detail', require('./components/console/audios/AudioDetail.vue'));
 Vue.component('sl-audio-category', require('./components/console/audios/AudioCategory.vue'));
 

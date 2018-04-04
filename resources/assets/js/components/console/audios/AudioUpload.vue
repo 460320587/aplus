@@ -8,7 +8,7 @@
             v-loading.body="isLoading"
     >
         <template slot="PanelHeading">
-            声音信息
+            上传声音
         </template>
 
         <someline-form-group>
@@ -17,11 +17,11 @@
                 <div class="h4 m-t-xs">{{ album.name }}</div>
             </template>
 
-            <div class="well m-t">
-                <p>已上传音频条数：3条</p>
-                <p>审核未过：1条</p>
-                <p class="m-b-none">最近上传时间： 2017-06-14</p>
-            </div>
+            <!--<div class="well m-t">-->
+            <!--<p>已上传音频条数：3条</p>-->
+            <!--<p>审核未过：1条</p>-->
+            <!--<p class="m-b-none">最近上传时间： 2017-06-14</p>-->
+            <!--</div>-->
 
         </someline-form-group>
         <someline-form-group-line/>
@@ -29,13 +29,27 @@
         <someline-form-group>
             <template slot="Label">声音文件</template>
             <template slot="ControlArea">
-                <template v-if="selected_audio">
-                    <audio class="w-full m-b" :src="selected_audio.someline_file_url" controls autoplay>
-                        Sorry, your browser doesn't support HTML5 audio
-                    </audio>
-                </template>
+                <el-upload
+                        name="file"
+                        accept=".mp3"
+                        :data="fileUploadData"
+                        :with-credentials="true"
+                        :on-success="onFileUploadSuccess"
+                        :on-error="onFileUploadError"
+                        drag
+                        action="/file"
+                        multiple>
+                    <i class="el-icon-upload"></i>
+                    <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+                    <div class="el-upload__tip" slot="tip">支持文件类型：mp3</div>
+                </el-upload>
             </template>
-            <table class="table table-responsive table-bordered">
+            <template v-if="selected_audio">
+                <audio class="w-full m-t" :src="selected_audio.someline_file_url" controls autoplay>
+                    Sorry, your browser doesn't support HTML5 audio
+                </audio>
+            </template>
+            <table class="table table-responsive table-bordered m-t">
                 <thead>
                 <tr>
                     <th>文件名称</th>
@@ -64,12 +78,12 @@
         </someline-form-group>
         <someline-form-group-line/>
 
-        <!--<someline-form-group>-->
-        <!--<template slot="ControlArea">-->
-        <!--<button type="submit" class="btn btn-primary">保存</button>-->
-        <!--</template>-->
-        <!--&lt;!&ndash;<pre class="m-t-sm m-b-none">{{ form_data }}</pre>&ndash;&gt;-->
-        <!--</someline-form-group>-->
+        <someline-form-group>
+            <template slot="ControlArea">
+                <button type="submit" class="btn btn-primary">保存</button>
+            </template>
+            <!--<pre class="m-t-sm m-b-none">{{ form_data }}</pre>-->
+        </someline-form-group>
 
     </someline-form-panel>
 

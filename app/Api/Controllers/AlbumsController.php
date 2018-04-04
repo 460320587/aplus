@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Prettus\Validator\Contracts\ValidatorInterface;
 use Someline\Http\Requests\AlbumCreateRequest;
 use Someline\Http\Requests\AlbumUpdateRequest;
+use Someline\Models\Foundation\Album;
 use Someline\Repositories\Interfaces\AlbumRepository;
 use Someline\Validators\AlbumValidator;
 
@@ -37,9 +38,14 @@ class AlbumsController extends BaseController
      * @param Request $request
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
         return $this->repository->paginate();
+    }
+
+    public function auth_user()
+    {
+        return $this->repository->all();
     }
 
     /**
@@ -76,6 +82,30 @@ class AlbumsController extends BaseController
 
     }
 
+    public function storeAudios(Request $request, $id)
+    {
+        $data = $request->all();
+
+        $audio_files = $request->get('audio_files');
+
+        if(!is_array($audio_files) || empty($audio_files)) {
+            throw new StoreResourceFailedException('Empty audio files.');
+        }
+
+        return $audio_files;
+
+        $album = Album::findOrFail($id);
+
+        // throw exception if store failed
+//        throw new StoreResourceFailedException('Failed to store.');
+
+        // A. return 201 created
+//        return $this->response->created(null);
+
+        // B. return data
+        return $album;
+    }
+
 
     /**
      * Display the specified resource.
@@ -103,9 +133,9 @@ class AlbumsController extends BaseController
 
         $data = $request->all();
 
-        if(!empty($data['keywords_data'])) {
-            $data['keywords'] = implode(',',$data['keywords_data']);
-        }else{
+        if (!empty($data['keywords_data'])) {
+            $data['keywords'] = implode(',', $data['keywords_data']);
+        } else {
             $data['keywords'] = null;
         }
         unset($data['someline_image_url']);

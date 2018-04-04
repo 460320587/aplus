@@ -20,7 +20,6 @@ Auth::routes();
 // Protected Routes
 Route::group(['middleware' => 'auth'], function () {
 
-    //首页路由
     Route::get('/', function () {
         return redirect('console');
     });
@@ -63,17 +62,16 @@ Route::group(['prefix' => 'console', 'middleware' => 'auth', 'namespace' => 'Con
         Route::get('/', 'UserController@getUserList');
     });
 
-    //albums 专辑
-    Route::group(['prefix' => 'albums'], function (){
-        Route::get('/','AlbumController@getAlbumList');
-        Route::get('/new','AlbumController@getAlbumNew');
-        Route::get('/categories','AlbumController@getAlbumCategory');
-        Route::get('/{id}','AlbumController@getAlbumDetail');
-        Route::get('/{id}/edit','AlbumController@getAlbumEdit');
+    Route::group(['prefix' => 'albums'], function () {
+        Route::get('/', 'AlbumController@getAlbumList');
+        Route::get('/new', 'AlbumController@getAlbumNew');
+        Route::get('/categories', 'AlbumController@getAlbumCategory');
+        Route::get('/{id}', 'AlbumController@getAlbumDetail');
+        Route::get('/{id}/edit', 'AlbumController@getAlbumEdit');
+        Route::get('/{id}/audios', 'AlbumController@getAlbumAudios');
+        Route::get('/{id}/audios/upload', 'AlbumController@getAlbumAudiosUpload');
     });
 
-
-//声音
     Route::group(['prefix' => 'audios'], function () {
         Route::get('/', 'AudioController@getAudioList');
         Route::get('/new', 'AudioController@getAudioNew');
@@ -81,7 +79,6 @@ Route::group(['prefix' => 'console', 'middleware' => 'auth', 'namespace' => 'Con
         Route::get('/{id}', 'AudioController@getAudioDetail');
         Route::get('/{id}/edit', 'AudioController@getAudioEdit');
     });
-
 
     Route::group(['prefix' => 'someline'], function () {
         Route::get('/form', function () {
@@ -97,6 +94,7 @@ Route::group(['prefix' => 'image'], function () {
 
     Route::group(['middleware' => 'auth'], function () {
         Route::post('/', 'ImageController@postImage');
+        Route::post('/wang_image', 'ImageController@postWangEditorImage');
     });
 
     Route::get('{type}/{name}', 'ImageController@showTypeImage');

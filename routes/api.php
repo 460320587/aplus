@@ -37,31 +37,35 @@ $api->version('v1', [
         });
 
         // /albums
-            $api->group(['prefix'=>'albums'],function (Router $api){
-                //查
-                $api->get('/','AlbumsController@index');
-                //增
-                $api->post('/','AlbumsController@store');
-                //查 专辑详情页
-                $api->get('/{id}','AlbumsController@show');
-                //改
-                $api->put('/{id}','AlbumsController@update')->where('id','[0-9]+');
-                //删
-                $api->delete('/{id}','AlbumsController@destroy')->where('id','[0,9]+');
-            });
-            
-            //audios
-        $api->group(['prefix'=>'audios'],function (Router $api){
+        $api->group(['prefix' => 'albums'], function (Router $api) {
             //查
-            $api->get('/','AudiosController@index');
+            $api->get('/', 'AlbumsController@index');
+
+            $api->get('/auth_user', 'AlbumsController@auth_user');
             //增
-            $api->post('/','AudiosController@store');
+            $api->post('/', 'AlbumsController@store');
             //查 专辑详情页
-            $api->get('/{id}','AudiosController@show');
+            $api->get('/{id}', 'AlbumsController@show');
+
+            $api->post('/{id}/audios', 'AlbumsController@storeAudios');
             //改
-            $api->put('/{id}','AudiosController@update')->where('id','[0-9]+');
+            $api->put('/{id}', 'AlbumsController@update')->where('id', '[0-9]+');
             //删
-            $api->delete('/{id}','AudiosController@destroy')->where('id','[0,9]+');
+            $api->delete('/{id}', 'AlbumsController@destroy')->where('id', '[0,9]+');
+        });
+
+        //audios
+        $api->group(['prefix' => 'audios'], function (Router $api) {
+            //查
+            $api->get('/', 'AudiosController@index');
+            //增
+            $api->post('/', 'AudiosController@store');
+            //查 专辑详情页
+            $api->get('/{id}', 'AudiosController@show');
+            //改
+            $api->put('/{id}', 'AudiosController@update')->where('id', '[0-9]+');
+            //删
+            $api->delete('/{id}', 'AudiosController@destroy')->where('id', '[0,9]+');
         });
         \Someline\Component\File\SomelineFileServiceProvider::api_routes($api);
         \Someline\Component\Category\SomelineCategoryServiceProvider::api_routes($api);

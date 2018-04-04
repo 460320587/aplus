@@ -3,11 +3,12 @@
 @section('content')
 
     <div class="bg-light lter b-b wrapper-md">
-        <a href="{{ url('console/audios') }}" class="btn btn-sm btn-default pull-right">返回</a>
-        <h1 class="m-n font-thin h3">管理声音</h1>
+        <a href="{{ url('console/albums/'.$album_id) }}" class="btn btn-sm btn-default pull-right">返回</a>
+        <a href="{{ url('console/albums/'.$album_id.'/audios/upload') }}" class="btn btn-sm btn-success pull-right m-r"><i class="fa fa-cloud-upload"></i> &nbsp;上传声音</a>
+        <h1 class="m-n font-thin h3">专辑声音</h1>
     </div>
     <div class="wrapper-md">
-        <sl-audio-new></sl-audio-new>
+        <sl-audio-editor item-id="{{ $album_id }}"></sl-audio-editor>
     </div>
 
 @endsection
