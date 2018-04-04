@@ -5783,9 +5783,9 @@ sockjs@0.3.18:
     faye-websocket "^0.10.0"
     uuid "^2.0.2"
 
-"someline-ui@git+ssh://git@gitee.com/someline/someline-ui-vue-components.git#v0.2.7":
-  version "0.2.7"
-  resolved "git+ssh://git@gitee.com/someline/someline-ui-vue-components.git#ed55638dd722d93918d292c13eddf796673218a7"
+"someline-ui@git+ssh://git@gitee.com/someline/someline-ui-vue-components.git#v0.2.8":
+  version "0.2.8"
+  resolved "git+ssh://git@gitee.com/someline/someline-ui-vue-components.git#aa3a2477350446b0e88852a863dc0f0fd386810f"
   dependencies:
     element-ui "1.3.*"
     lodash "^4.17.4"
