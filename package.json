@@ -35,7 +35,7 @@
     "less-loader": "^4.0.5",
     "moment": "^2.18.1",
     "promise.prototype.finally": "^2.0.1",
-    "someline-ui": "git+ssh://git@bitbucket.org/someline/someline-ui-vue-components.git#v0.3.12",
+    "someline-ui": "git+ssh://git@gitee.com/someline/someline-ui-vue-components.git#v0.2.7",
     "vue-i18n": "^5.0.3",
     "vue-router": "^2.3.0",
     "vuex": "^2.2.1"

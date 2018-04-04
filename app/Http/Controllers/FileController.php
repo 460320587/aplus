@@ -4,6 +4,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Someline\Component\File\SomelineFileService;
 use Someline\Models\File\SomelineFile;
+use Someline\MP3File;
 
 class FileController extends BaseController
 {
@@ -25,10 +26,18 @@ class FileController extends BaseController
             return response('Failed to save uploaded file.', 422);
         }
 
+        $data = [
+            'client_original_name' => $file->getClientOriginalName(),
+        ];
+
+        if('mp3' == $file->getClientOriginalExtension()) {
+            $path = $somelineFile->getFileStoragePath();
+            $mp3file = new MP3File($path);
+            $data['duration'] = $mp3file->getDurationInFormatTime();
+        }
+
         return response([
-            'data' => array_merge($somelineFile->toSimpleArray(), [
-                'client_original_name' => $file->getClientOriginalName(),
-            ])
+            'data' => array_merge($somelineFile->toSimpleArray(), $data)
         ]);
     }
 

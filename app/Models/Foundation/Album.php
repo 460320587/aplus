@@ -2,6 +2,8 @@
 
 namespace Someline\Models\Foundation;
 
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Someline\Image\Models\Traits\SomelineHasOneImageTrait;
 use Someline\Models\BaseModel;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
@@ -9,6 +11,8 @@ use Prettus\Repository\Traits\TransformableTrait;
 class Album extends BaseModel implements Transformable
 {
     use TransformableTrait;
+    use SoftDeletes;
+    use SomelineHasOneImageTrait;
 
     protected $table = 'albums';
 

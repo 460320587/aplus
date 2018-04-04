@@ -334,7 +334,7 @@
                 let data = response.data.data;
 
                 this.form_data = Object.assign({}, this.form_data, data);
-                this.form_data.someline_image = data.someline_image_url;
+                // this.form_data.someline_image = data.someline_image_url;
                 this.form_data.someline_category_id = data.someline_category_id;
 
             },

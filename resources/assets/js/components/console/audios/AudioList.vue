@@ -30,10 +30,10 @@
                 @selection-change="handleSelectionChange"
         >
             <template slot="SomelineTableColumns">
-                <el-table-column
-                        type="selection"
-                        width="55">
-                </el-table-column>
+                <!--<el-table-column-->
+                <!--type="selection"-->
+                <!--width="55">-->
+                <!--</el-table-column>-->
                 <el-table-column
                         width="60"
                         label="#">

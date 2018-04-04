@@ -12,105 +12,10 @@
         </template>
 
         <someline-form-group>
-            <template slot="Label">书号</template>
-            <template slot="ControlArea">
-                <div class="row">
-                    <div class="col-xs-8">
-                        <someline-form-control-input
-                                placeholder="书号"
-                                v-model="form_data.book_id"
-                        />
-                    </div>
-                    <div class="col-xs-4">
-                        <button type="button" class="btn btn-default padder-lg">搜索</button>
-                    </div>
-                </div>
-            </template>
-        </someline-form-group>
-        <someline-form-group-line/>
-
-        <someline-form-group-input
-                placeholder="书籍名称"
-                :rounded="true"
-                v-model="form_data.name"
-                :required="true"
-        >
-            <template slot="Label">书籍名称</template>
-        </someline-form-group-input>
-        <someline-form-group-line/>
-
-        <someline-form-group-input
-                placeholder="作者"
-                v-model="form_data.author"
-                :required="true"
-        >
-            <template slot="Label">作者</template>
-        </someline-form-group-input>
-        <someline-form-group-line/>
-
-        <someline-form-group-input
-                placeholder="演播"
-                v-model="form_data.broadcaster"
-                :required="true"
-        >
-            <template slot="Label">演播</template>
-        </someline-form-group-input>
-        <someline-form-group-line/>
-
-        <someline-form-group-radio-list
-                name="broadcaster_radio"
-                :items="broadcaster_items"
-                v-model="form_data.broadcaster_type">
-            <template slot="Label">演绎形式</template>
-        </someline-form-group-radio-list>
-        <someline-form-group-line/>
-
-        <someline-form-group-image-upload v-model="form_data.someline_image_id"
-                                          :model-image-url="form_data.someline_image_url"
-                                          :is-model-use-id="true"
-                                          :limit-size="10000"
-                                          :max-image="1"
-        >
-            <template slot="Label">封面</template>
-        </someline-form-group-image-upload>
-        <someline-form-group-line/>
-
-        <someline-form-group-text-area
-                height="200px"
-                v-model="form_data.brief"
-        >
-            <template slot="Label">内容简介</template>
-        </someline-form-group-text-area>
-        <someline-form-group-line/>
-
-        <someline-form-group-radio-list
-                name="payment_radio"
-                :inline="true"
-                :items="payment_items"
-                v-model="form_data.payment_type">
-            <template slot="Label">付费方式</template>
-        </someline-form-group-radio-list>
-        <someline-form-group-line/>
-
-        <someline-form-group>
-            <template slot="Label">付费价格</template>
-            <template slot="ControlArea">
-                <div class="input-group">
-                    <input type="number" class="form-control" placeholder="付费价格"
-                           v-model="form_data.payment_amount">
-                    <span class="input-group-addon">
-                        {{ form_data.payment_type == '1' ? '%' : '元／小时' }}
-                    </span>
-                </div>
-            </template>
-        </someline-form-group>
-        <someline-form-group-line/>
-
-        <someline-form-group>
-            <template slot="Label">分类</template>
+            <template slot="Label">专辑名</template>
             <template slot="ControlArea">
                 <select name="account" v-model="form_data.someline_category_id" class="form-control m-b">
-                    <option value="" disabled>请选择分类</option>
+                    <option value="" disabled>请选择专辑</option>
                     <template v-for="someline_category in someline_categories">
                         <optgroup :label="someline_category.category_name">
                             <template v-for="child_category in someline_category.children">
@@ -122,40 +27,64 @@
                     </template>
                 </select>
             </template>
+            <div class="well m-t">
+                <p>已上传音频条数：3条</p>
+                <p>审核未过：1条</p>
+                <p class="m-b-none">最近上传时间： 2017-06-14</p>
+            </div>
         </someline-form-group>
         <someline-form-group-line/>
 
         <someline-form-group>
-            <template slot="Label">关键字</template>
+            <template slot="Label">声音文件</template>
             <template slot="ControlArea">
-                <el-select
-                        v-model="form_data.keywords_data"
-                        multiple
-                        filterable
-                        allow-create
-                        placeholder="请输入关键词"
-                        style="width: 100%">
-                </el-select>
+                <el-upload
+                        name="file"
+                        accept=".mp3"
+                        :data="fileUploadData"
+                        :with-credentials="true"
+                        :on-success="onFileUploadSuccess"
+                        :on-error="onFileUploadError"
+                        drag
+                        action="/file"
+                        multiple>
+                    <i class="el-icon-upload"></i>
+                    <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+                    <div class="el-upload__tip" slot="tip">支持文件类型：mp3</div>
+                </el-upload>
             </template>
-            <template slot="HelpText">输入关键字，按下选中回车即可添加</template>
+            <template v-if="selected_audio">
+                <audio class="w-full m-t" :src="selected_audio.someline_file_url" controls autoplay>
+                    Sorry, your browser doesn't support HTML5 audio
+                </audio>
+            </template>
+            <table class="table table-responsive table-bordered m-t">
+                <thead>
+                <tr>
+                    <th>文件名称</th>
+                    <th>时长</th>
+                    <th>状态</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <template v-for="audio in audio_files">
+                    <tr>
+                        <td>{{ audio.original_name }} <a href="#" @click.prevent="doPlayAudio(audio)"><i
+                                class="fa fa-play"></i></a></td>
+                        <td>{{ audio.duration }}</td>
+                        <td>未审核</td>
+                        <td>
+                            <button class="btn btn-default btn-sm">文件替换</button>
+                            <button class="btn btn-default btn-sm">修改</button>
+                            <button class="btn btn-default btn-sm">删除</button>
+                        </td>
+                    </tr>
+                </template>
+                </tbody>
+            </table>
+            <pre class="m-t-sm m-b-none">{{ form_data.example_files }}</pre>
         </someline-form-group>
-        <someline-form-group-line/>
-
-        <someline-form-group-radio-list
-                name="copyright_radio"
-                :items="copyright_items"
-                v-model="form_data.copyright">
-            <template slot="Label">版权方</template>
-        </someline-form-group-radio-list>
-        <someline-form-group-line/>
-
-        <someline-form-group-radio-list
-                name="status_radio"
-                :inline="true"
-                :items="status_items"
-                v-model="form_data.status">
-            <template slot="Label">状态</template>
-        </someline-form-group-radio-list>
         <someline-form-group-line/>
 
         <someline-form-group>
@@ -182,67 +111,6 @@
 
                 isLoading: false,
 
-                broadcaster_items: [
-                    {
-                        text: '男单播',
-                    },
-                    {
-                        text: '女单播',
-                    },
-                    {
-                        text: '男女双人',
-                    },
-                    {
-                        text: '多人小说剧',
-                    },
-                    {
-                        text: '广播剧',
-                    },
-                ],
-
-                copyright_items: [
-                    {
-                        text: '米赢',
-                        checked: true,
-                    },
-                    {
-                        text: '掌阅',
-                    },
-                ],
-
-                status_items: [
-                    {
-                        text: '连载中',
-                        value: '0',
-                        checked: true,
-                    },
-                    {
-                        text: '已完结',
-                        value: '1',
-                    },
-                ],
-
-                payment_items: [
-                    {
-                        text: '保底分成',
-                        value: '1',
-                        checked: true,
-                    },
-                    {
-                        text: '录制单价',
-                        value: '2',
-                    },
-                ],
-
-                single_checkbox_items: [
-                    {
-                        text: '置顶',
-                        value: 'yes',
-                    }
-                ],
-
-                editor: null,
-
                 form_data: {
                     book_id: null,
                     name: null,
@@ -258,6 +126,13 @@
                     keywords_data: [],
                     copyright: '米赢',
                     status: '0',
+                },
+
+                audio_files: [],
+                selected_audio: null,
+
+                fileUploadData: {
+                    _token: window.Laravel.csrfToken
                 },
 
                 data: null,
@@ -320,7 +195,7 @@
                 this.$api
                     .get('categories', {
                         params: {
-                            type: 'Audio',
+                            type: 'audio',
                             all_children: true
                         }
                     })
@@ -399,6 +274,23 @@
                 this.isLoading = false;
 
             },
+            onFileUploadSuccess(response, file, fileList){
+                console.log('response', response);
+                if (response.data) {
+                    this.audio_files.push(response.data)
+                }
+            },
+            onFileUploadError(err, file, fileList){
+                console.log('error', err);
+                this.$message({
+                    message: '上传失败',
+                    type: 'error'
+                });
+            },
+            doPlayAudio(audio){
+                console.log('doPlayAudio', audio);
+                this.selected_audio = audio;
+            }
         },
     }
 </script>

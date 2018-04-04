@@ -41,6 +41,11 @@ Vue.component('sl-album-editor', require('./components/console/albums/AlbumEdito
 Vue.component('sl-album-detail', require('./components/console/albums/AlbumDetail.vue'));
 Vue.component('sl-album-category', require('./components/console/albums/AlbumCategory.vue'));
 
+Vue.component('sl-audio-list', require('./components/console/audios/AudioList.vue'));
+Vue.component('sl-audio-editor', require('./components/console/audios/AudioEditor.vue'));
+Vue.component('sl-audio-detail', require('./components/console/audios/AudioDetail.vue'));
+Vue.component('sl-audio-category', require('./components/console/audios/AudioCategory.vue'));
+
 // Vuex
 // const vuexStore = new Vuex.Store({
 //     state: {

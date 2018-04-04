@@ -5,7 +5,6 @@ namespace Someline\Api\Controllers;
 use Dingo\Api\Exception\DeleteResourceFailedException;
 use Dingo\Api\Exception\StoreResourceFailedException;
 use Dingo\Api\Exception\UpdateResourceFailedException;
-use Illuminate\Http\Request;
 use Prettus\Validator\Contracts\ValidatorInterface;
 use Someline\Http\Requests\AudioCreateRequest;
 use Someline\Http\Requests\AudioUpdateRequest;
@@ -31,26 +30,15 @@ class AudiosController extends BaseController
         $this->validator = $validator;
     }
 
+
     /**
      * Display a listing of the resource.
      *
-     * @param Request $request
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
         return $this->repository->paginate();
-    }
-
-    /**
-     * Display all resources.
-     *
-     * @param Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function all(Request $request)
-    {
-        return $this->repository->all();
     }
 
     /**
@@ -59,7 +47,6 @@ class AudiosController extends BaseController
      * @param  AudioCreateRequest $request
      *
      * @return \Illuminate\Http\Response
-     * @throws \Prettus\Validator\Exceptions\ValidatorException
      */
     public function store(AudioCreateRequest $request)
     {
@@ -98,10 +85,9 @@ class AudiosController extends BaseController
      * Update the specified resource in storage.
      *
      * @param  AudioUpdateRequest $request
-     * @param  string $id
+     * @param  string            $id
      *
-     * @return \Dingo\Api\Http\Response
-     * @throws \Prettus\Validator\Exceptions\ValidatorException
+     * @return Response
      */
     public function update(AudioUpdateRequest $request, $id)
     {

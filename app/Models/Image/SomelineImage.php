@@ -26,4 +26,5 @@ class SomelineImage extends SomelineImageBase
         return $this->getTypeImageUrl('cover');
     }
 
+
 }

@@ -27,14 +27,37 @@ class ImageController extends BaseController
             return response('Failed to save uploaded image.', 422);
         }
 
-        $somelineImageId = $somelineImage->getSomelineImageId();
         return response([
-            'data' => [
-                'someline_image_id' => $somelineImage->getSomelineImageId(),
-                'someline_image_url' => $somelineImage->getImageUrl(),
-                'thumbnail_image_url' => $somelineImage->getTypeImageUrl('thumbnail'),
-            ]
+            'data' => $somelineImage->toSimpleArray()
         ]);
+    }
+
+    public function postWangEditorImage(Request $request)
+    {
+        $somelineImageService = new SomelineImageService();
+        $file = $request->file('image');
+
+        $err_msg = '{"jsonrpc" : "2.0", "error" : {"code": 102, "message": "Failed to store image."}, "id" : "id"}';
+        if (empty($file)) {
+            return $err_msg;
+        }
+
+        $somelineImage = null;
+        try {
+            /** @var SomelineImage $somelineImage */
+            $somelineImage = $somelineImageService->handleUploadedFile($file);
+        } catch (Exception $e) {
+            return $err_msg;
+//            return 'Failed to save: ' . $e->getMessage();
+        }
+
+        if (!$somelineImage) {
+            return $err_msg;
+//            return 'Failed to save uploaded image.';
+        }
+
+        $somelineImageId = $somelineImage->getSomelineImageId();
+        return $somelineImage->getImageUrl();
     }
 
     public function showOriginalImage($image_name)

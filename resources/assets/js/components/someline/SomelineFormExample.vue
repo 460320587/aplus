@@ -79,6 +79,7 @@
                 placeholder="数字"
                 v-model="form_data.example_input_text3"
                 type="number"
+                step="0.1"
                 min="1"
                 max="100"
                 :required="true"
@@ -396,18 +397,20 @@
         </someline-form-group-full>
         <someline-form-group-line/>
 
-        <someline-form-group-image-upload v-model="form_data.example_image"
-                                          :limit-size="1000"
+        <someline-form-group-image-upload v-model="form_data.example_image_id"
+                                          :model-image-url="form_data.example_image_url"
+                                          :is-model-use-id="true"
+                                          :limit-size="3500"
                                           :max-image="1"
         >
             <template slot="Label">单张图片上传</template>
-            <pre class="m-t-sm m-b-none">{{ form_data.example_image }}</pre>
+            <pre class="m-t-sm m-b-none">{{ form_data.example_image_id }}</pre>
         </someline-form-group-image-upload>
         <someline-form-group-line/>
 
         <someline-form-group-image-upload v-model="form_data.example_images"
                                           :multiple="true"
-                                          :limit-size="500"
+                                          :limit-size="3500"
                                           :max-image="2"
         >
             <template slot="Label">多张图片上传</template>
@@ -415,6 +418,38 @@
         </someline-form-group-image-upload>
         <someline-form-group-line/>
         <!--endregion / Upload -->
+
+        <!--region ================== Upload ================== -->
+
+        <someline-form-group-full class="text-center">
+            <div class="h3">文件上传</div>
+        </someline-form-group-full>
+        <someline-form-group-line/>
+
+        <someline-form-group>
+            <template slot="Label">文件上传</template>
+            <template slot="ControlArea">
+                <el-upload
+                        name="file"
+                        accept=".txt,.pdf"
+                        :data="fileUploadData"
+                        :with-credentials="true"
+                        :on-success="onFileUploadSuccess"
+                        :on-error="onFileUploadError"
+                        drag
+                        action="/file"
+                        multiple>
+                    <i class="el-icon-upload"></i>
+                    <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+                    <div class="el-upload__tip" slot="tip">支持文件类型：txt, pdf</div>
+                </el-upload>
+            </template>
+            <pre class="m-t-sm m-b-none">{{ form_data.example_files }}</pre>
+        </someline-form-group>
+        <someline-form-group-line/>
+
+        <!--endregion / Upload -->
+
 
         <!--region ================== Modal ================== -->
 
@@ -441,16 +476,36 @@
 
         <someline-form-group-editor
                 height="500px"
+                :wang-image-upload="true"
+                :format-text.sync="form_data.example_editor_format_text3"
+                v-model="form_data.example_editor_html"
+        >
+            <template slot="Label">编辑器</template>
+            <template slot="HelpText">这是一个富文本编辑器</template>
+            <hr>
+            <p class="text-muted">富文本的内容: </p>
+            <pre class="m-t-sm m-b-none">{{ form_data.example_editor_html }}</pre>
+            <div class="m-t-sm text-muted">格式化的纯文本内容:</div>
+            <pre class="m-t-sm m-b-none">{{ form_data.example_editor_format_text3 }}</pre>
+        </someline-form-group-editor>
+        <someline-form-group-line/>
+
+        <someline-form-group-editor
+                height="500px"
                 map-ak="F300593dbf91cd7f8890e52370fa0006"
                 :log="true"
                 :exclude-menus="editorExcludeMenus"
                 :wang-image-upload="true"
+                :text.sync="form_data.example_editor_text2"
+                :format-text.sync="form_data.example_editor_format_text2"
                 v-model="form_data.example_editor"
                 @editor-config="onEditorConfig"
                 @editor-ready="onEditorReady"
                 @editor-change="onEditorChange"
+                @editor-change-text="onBodyEditorChangeText"
+                @editor-change-format-text="onBodyEditorChangeFormatText"
         >
-            <template slot="Label">编辑器</template>
+            <template slot="Label">高级编辑器</template>
             <template slot="HelpText">这是一个富文本编辑器</template>
             <hr>
             <p class="text-muted">富文本的内容: </p>
@@ -932,13 +987,32 @@
                     example_select2: 'custom_b',
 
                     example_textarea: 'Go ahead..',
-                    example_image: "https://www.someline.com/en/user/profilephoto/origin/f4ccc4de78c03fe2c321490cf6f8157f825e4c4f.jpg",
-                    example_images: ["https://www.someline.com/en/user/profilephoto/origin/f4ccc4de78c03fe2c321490cf6f8157f825e4c4f.jpg"],
+                    example_image_id: 29,
+                    example_image_url: "https://www.someline.com/en/user/profilephoto/origin/f4ccc4de78c03fe2c321490cf6f8157f825e4c4f.jpg",
+                    example_images: [
+                        {
+                            "someline_image_id": 1,
+                            "someline_image_url": "https://www.someline.com/en/user/profilephoto/origin/f4ccc4de78c03fe2c321490cf6f8157f825e4c4f.jpg",
+                            "thumbnail_image_url": "https://www.someline.com/en/user/profilephoto/origin/f4ccc4de78c03fe2c321490cf6f8157f825e4c4f.jpg"
+                        }
+                    ],
+
+                    example_files: [],
 
                     example_editor: '<p>A</p><p>B</p><p>C</p>',
                     example_editor_text: null,
                     example_editor_format_text: null,
+                    example_editor_text2: null,
+                    example_editor_format_text2: null,
+
+                    example_editor_html: '<p>A</p><p>B</p>',
+                    example_editor_text3: null,
+                    example_editor_format_text3: null,
                 },
+
+                fileUploadData: {
+                    _token: window.Laravel.csrfToken
+                }
 
             }
         },
@@ -1027,23 +1101,17 @@
             onEditorReady(editor){
                 console.log('onEditorReady');
 
-                this.handleEditorText(editor);
             },
             onEditorChange(editor){
                 console.log('onEditorChange');
 
-                this.handleEditorText(editor);
             },
-            handleEditorText(editor){
-
-                var text = editor.$txt.text();
+            onBodyEditorChangeText(text){
                 console.log('text: ', text);
                 this.form_data.example_editor_text = text;
-
-                var formatText = editor.$txt.formatText();
-                console.log('format text: ', formatText);
+            },
+            onBodyEditorChangeFormatText(formatText){
                 this.form_data.example_editor_format_text = formatText;
-
             },
             handleTagCloseSimple(tag){
                 console.log('handleClose', tag);
@@ -1065,6 +1133,19 @@
 
                 this.tag_items.push({
                     tag: val
+                });
+            },
+            onFileUploadSuccess(response, file, fileList){
+                console.log('response', response);
+                if (response.data) {
+                    this.form_data.example_files.push(response.data)
+                }
+            },
+            onFileUploadError(err, file, fileList){
+                console.log('error', err);
+                this.$message({
+                    message: '上传失败',
+                    type: 'error'
                 });
             },
         },
