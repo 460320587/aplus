@@ -42,6 +42,11 @@ class UsersController extends BaseController
         return $this->repository->paginate();
     }
 
+    public function all()
+    {
+        return $this->repository->all();
+    }
+
     /**
      * Store a newly created resource in storage.
      *

@@ -44,6 +44,7 @@ Vue.component('sl-album-list', require('./components/console/albums/AlbumList.vu
 Vue.component('sl-album-editor', require('./components/console/albums/AlbumEditor.vue'));
 Vue.component('sl-album-detail', require('./components/console/albums/AlbumDetail.vue'));
 Vue.component('sl-album-category', require('./components/console/albums/AlbumCategory.vue'));
+Vue.component('sl-album-assign', require('./components/console/albums/AlbumAssign.vue'));
 
 Vue.component('sl-audio-list', require('./components/console/audios/AudioList.vue'));
 Vue.component('sl-audio-new', require('./components/console/audios/AudioNew.vue'));

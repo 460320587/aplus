@@ -25,6 +25,12 @@ class AlbumController extends BaseController
         return view('console.albums.category');
     }
 
+    //分配专辑页
+    public function getAlbumAssign()
+    {
+        return view('console.albums.assign');
+    }
+
     //专辑详情页
     public function getAlbumDetail($album_id)
     {

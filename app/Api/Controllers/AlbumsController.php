@@ -48,6 +48,14 @@ class AlbumsController extends BaseController
         return $this->repository->all();
     }
 
+    public function unassigned()
+    {
+        return $this->repository->useModel(function ($model) {
+            $model = $model->whereNull('related_user_id');
+            return $model;
+        })->all();
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -152,6 +160,21 @@ class AlbumsController extends BaseController
 
     }
 
+    public function updateSimple(Request $request, $id)
+    {
+
+        $data = $request->all();
+
+        $album = Album::findOrFail($id);
+        $album->update($data);
+
+        // throw exception if update failed
+//        throw new UpdateResourceFailedException('Failed to update.');
+
+        // Updated, return 204 No Content
+        return $this->response->noContent();
+
+    }
 
     /**
      * Remove the specified resource from storage.

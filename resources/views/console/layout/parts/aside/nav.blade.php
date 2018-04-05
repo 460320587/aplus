@@ -123,6 +123,16 @@
                 <span>专辑列表</span>
             </a>
         </li>
+        <li>
+            <a href="{{ url('console/albums/assign') }}">
+                <span class="pull-right text-muted">
+                    <i class="fa fa-fw fa-angle-right text"></i>
+                    <i class="fa fa-fw fa-angle-down text-active"></i>
+                </span>
+                <i class="fa fa-star"></i>
+                <span>分配专辑</span>
+            </a>
+        </li>
         <li class="line dk"></li>
 
         <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">

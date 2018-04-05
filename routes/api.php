@@ -28,6 +28,7 @@ $api->version('v1', [
             // /users
             $api->group(['prefix' => 'users'], function (Router $api) {
                 $api->get('/', 'UsersController@index');
+                $api->get('/all', 'UsersController@all');
                 $api->post('/', 'UsersController@store');
                 $api->get('/me', 'UsersController@me');
                 $api->get('/{id}', 'UsersController@show');
@@ -40,8 +41,10 @@ $api->version('v1', [
         $api->group(['prefix' => 'albums'], function (Router $api) {
             //查
             $api->get('/', 'AlbumsController@index');
-
+            //当前登陆用户
             $api->get('/auth_user', 'AlbumsController@auth_user');
+            //专辑分配
+            $api->get('/unassigned', 'AlbumsController@unassigned');
             //增
             $api->post('/', 'AlbumsController@store');
             //查 专辑详情页
@@ -50,6 +53,8 @@ $api->version('v1', [
             $api->post('/{id}/audios', 'AlbumsController@storeAudios');
             //改
             $api->put('/{id}', 'AlbumsController@update')->where('id', '[0-9]+');
+            //修改分配专辑
+            $api->put('/{id}/simple', 'AlbumsController@updateSimple')->where('id', '[0-9]+');
             //删
             $api->delete('/{id}', 'AlbumsController@destroy')->where('id', '[0,9]+');
         });
