@@ -3,7 +3,7 @@
 @section('content')
 
     <div class="bg-light lter b-b wrapper-md">
-        <a href="{{ url('console/albums/'.$album_id.'/audios') }}" class="btn btn-sm btn-default pull-right">返回</a>
+        <a href="{{ url('console/albums/'.$album_id.'/audios') }}" class="btn btn-sm btn-primary pull-right">管理专辑声音</a>
         <h1 class="m-n font-thin h3">上传专辑声音</h1>
     </div>
     <div class="wrapper-md">
