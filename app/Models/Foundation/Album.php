@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 use Someline\Component\Category\Models\Traits\SomelineMorphToManyCategoryTrait;
+use Someline\Component\File\Models\Traits\SomelineHasFileablesTrait;
 use Someline\Image\Models\Traits\SomelineHasImageablesTrait;
 use Someline\Models\BaseModel;
 use Someline\Models\Traits\RelationRelatedUserTrait;
@@ -51,6 +52,12 @@ class Album extends BaseModel implements Transformable
 
     // Fields to be converted to Carbon object automatically
     protected $dates = [];
+
+    public function audios()
+    {
+        return $this->hasMany(Audio::class, 'album_id', 'album_id');
+    }
+
 
     public static function getStatusTexts()
     {

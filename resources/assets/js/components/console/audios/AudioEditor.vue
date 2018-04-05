@@ -18,7 +18,7 @@
             </template>
 
             <div class="well m-t">
-                <p>已上传音频条数：3条</p>
+                <p>已上传音频条数：{{ audio_files.length }}条</p>
                 <p>审核未过：1条</p>
                 <p class="m-b-none">最近上传时间： 2017-06-14</p>
             </div>
@@ -45,24 +45,24 @@
                 </tr>
                 </thead>
                 <tbody>
-                <template v-for="audio in form_data.audio_files">
+                <template v-for="audio in audio_files">
                     <tr>
                         <td>{{ audio.original_name }} <a href="#" @click.prevent="doPlayAudio(audio)"><i
                                 class="fa fa-play"></i></a></td>
-                        <td>{{ audio.duration }}</td>
-                        <td>未审核</td>
+                        <td>{{ audio.audio_length }}</td>
+                        <td>{{ audio.status_text }}</td>
                         <td>
-                            <button type="button" class="btn btn-default btn-xs">文件替换</button>
-                            <button type="button" class="btn btn-default btn-xs">修改</button>
-                            <button type="button" class="btn btn-default btn-xs">删除</button>
+                            <!--<button type="button" class="btn btn-default btn-xs">文件替换</button>-->
+                            <!--<button type="button" class="btn btn-default btn-xs">修改</button>-->
+                            <button type="button" class="btn btn-default btn-xs" @click="doConfirmDelete(audio)">删除</button>
                         </td>
                     </tr>
                 </template>
                 </tbody>
             </table>
-            <pre class="m-t-sm m-b-none">{{ form_data.example_files }}</pre>
+            <!--<pre class="m-t-sm m-b-none">{{ form_data.example_files }}</pre>-->
         </someline-form-group>
-        <someline-form-group-line/>
+        <!--<someline-form-group-line/>-->
 
         <!--<someline-form-group>-->
         <!--<template slot="ControlArea">-->
@@ -126,7 +126,14 @@
             },
             album(){
                 return this.data;
-            }
+            },
+            audio_files(){
+                try {
+                    return this.album.audios.data;
+                } catch (e) {
+                    return [];
+                }
+            },
         },
         components: {},
         mounted(){
@@ -155,7 +162,7 @@
                 this.$api
                     .get(`albums/${this.itemId}`, {
                         params: {
-//                            include: 'tags',
+                            include: 'audios',
 //                            edit: true,
                         }
                     })
@@ -264,6 +271,33 @@
             doPlayAudio(audio){
                 console.log('doPlayAudio', audio);
                 this.selected_audio = audio;
+            },
+            doConfirmDelete(audio) {
+                this.$confirm('此操作将永久删除该声音, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'error'
+                }).then(() => {
+
+                    this.doDelete(audio);
+
+                })
+            },
+            doDelete(audio){
+
+                this.isDeleting = true;
+                this.$api.delete(`/audios/${audio.audio_id}`, {})
+                    .then((response) => {
+
+                        this.$message.success('删除成功');
+                        this.reloadPage();
+//                        this.redirectToUrlFromBaseUrl('/console/audios');
+
+                    }, this.handleResponseError)
+                    .finally(() => {
+                        this.isDeleting = false;
+                    })
+
             }
         },
     }

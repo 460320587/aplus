@@ -60,21 +60,33 @@
                 </thead>
                 <tbody>
                 <template v-for="audio in form_data.audio_files">
-                    <tr>
-                        <td>{{ audio.original_name }} <a href="#" @click.prevent="doPlayAudio(audio)"><i
-                                class="fa fa-play"></i></a></td>
-                        <td>{{ audio.duration }}</td>
-                        <td>未审核</td>
+                    <tr :class="audio.error ? 'danger' : ''">
                         <td>
-                            <button type="button" class="btn btn-default btn-xs">文件替换</button>
-                            <button type="button" class="btn btn-default btn-xs">修改</button>
-                            <button type="button" class="btn btn-default btn-xs">删除</button>
+                            {{ audio.original_name }}
+                            <template v-if="!audio.error">
+                                <a href="#" @click.prevent="doPlayAudio(audio)"><i
+                                        class="fa fa-play"></i></a>
+                            </template>
+                        </td>
+                        <td>{{ audio.duration }}</td>
+                        <td>
+                            <template v-if="!audio.error">
+                                未保存
+                            </template>
+                            <template v-else>
+                                {{ audio.message }}
+                            </template>
+                        </td>
+                        <td>
+                            <!--<button type="button" class="btn btn-default btn-xs">文件替换</button>-->
+                            <!--<button type="button" class="btn btn-default btn-xs">修改</button>-->
+                            <button type="button" @click="doDelete(audio)" class="btn btn-default btn-xs">删除</button>
                         </td>
                     </tr>
                 </template>
                 </tbody>
             </table>
-            <pre class="m-t-sm m-b-none">{{ form_data.example_files }}</pre>
+            <!--<pre class="m-t-sm m-b-none">{{ form_data.example_files }}</pre>-->
         </someline-form-group>
         <someline-form-group-line/>
 
@@ -229,7 +241,7 @@
                     message: '保存成功',
                     type: 'success'
                 });
-                this.redirectToUrlFromBaseUrl(`/console/audios/${response.data.data.audio_id}`);
+                this.redirectToUrlFromBaseUrl(`console/albums/${this.itemId}/audios`);
             },
             handleUpdatedResponseSuccess(response) {
                 this.$message({
@@ -265,20 +277,31 @@
             onFileUploadSuccess(response, file, fileList){
                 console.log('response', response);
                 if (response.data) {
+                    fileList.splice(fileList.indexOf(file), 1)
                     this.form_data.audio_files.push(response.data)
                 }
             },
             onFileUploadError(err, file, fileList){
                 console.log('error', err);
+                console.log('file', file);
                 this.$message({
                     message: '上传失败',
                     type: 'error'
                 });
+                this.form_data.audio_files.push({
+                    error: true,
+                    message: '上传失败',
+                    original_name: file.name,
+                    file: file,
+                })
             },
             doPlayAudio(audio){
                 console.log('doPlayAudio', audio);
                 this.selected_audio = audio;
-            }
+            },
+            doDelete(audio){
+                this.form_data.audio_files.splice(this.form_data.audio_files.indexOf(audio), 1)
+            },
         },
     }
 </script>

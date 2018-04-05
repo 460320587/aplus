@@ -42,44 +42,21 @@
                     </template>
                 </el-table-column>
                 <el-table-column
-                        label="书号">
+                        label="专辑ID">
                     <template scope="scope">
-                        {{ scope.row.book_id }}
+                        {{ scope.row.album_id }}
                     </template>
                 </el-table-column>
                 <el-table-column
-                        label="书籍名称">
+                        label="声音名称">
                     <template scope="scope">
                         {{ scope.row.name }}
                     </template>
                 </el-table-column>
                 <el-table-column
-                        label="作者">
+                        label="时长">
                     <template scope="scope">
-                        {{ scope.row.author }}
-                    </template>
-                </el-table-column>
-                <el-table-column
-                        label="演播">
-                    <template scope="scope">
-                        {{ scope.row.broadcaster }}
-                    </template>
-                </el-table-column>
-                <el-table-column
-                        width="140"
-                        label="封面">
-                    <template scope="scope">
-                        <el-popover
-                                ref="someline_image_popover"
-                                placement="right"
-                                trigger="hover">
-                            <div><img :src="scope.row.someline_image_url" style="max-width: 900px;"></div>
-                            <div class="m-t-sm">
-                                <a class="btn btn-info" :href="scope.row.someline_image_url"
-                                   target="_blank">在新窗口打开此图片</a>
-                            </div>
-                        </el-popover>
-                        <img v-popover:someline_image_popover :src="scope.row.thumbnail_image_url" width="100">
+                        {{ scope.row.audio_length }}
                     </template>
                 </el-table-column>
                 <el-table-column
@@ -107,14 +84,18 @@
                         width="100"
                         label="操作">
                     <template scope="scope">
-                        <a class="btn btn-default btn-sm r-2x"
-                           :href="getDetailUrl(scope.row)">
-                            <i class="fa fa-file-text-o"></i>&nbsp;查看
-                        </a>
-                        <a class="btn btn-default btn-sm r-2x"
-                           :href="getEditUrl(scope.row)">
-                            <i class="fa fa-edit"></i>&nbsp;编辑
-                        </a>
+                        <!--<a class="btn btn-default btn-sm r-2x"-->
+                        <!--:href="getDetailUrl(scope.row)">-->
+                        <!--<i class="fa fa-file-text-o"></i>&nbsp;查看-->
+                        <!--</a>-->
+                        <!--<a class="btn btn-default btn-sm r-2x"-->
+                        <!--:href="getReviewUrl(scope.row)">-->
+                        <!--<i class="fa fa-file-text-o"></i>&nbsp;审核-->
+                        <!--</a>-->
+                        <!--<a class="btn btn-default btn-sm r-2x"-->
+                        <!--:href="getEditUrl(scope.row)">-->
+                        <!--<i class="fa fa-edit"></i>&nbsp;编辑-->
+                        <!--</a>-->
                     </template>
                 </el-table-column>
             </template>
@@ -163,6 +144,9 @@
         methods: {
             getEditUrl(audio) {
                 return this.url(`/console/audios/${audio.audio_id}/edit`)
+            },
+            getReviewUrl(audio) {
+                return this.url(`/console/audios/${audio.audio_id}/review`)
             },
             getDetailUrl(audio) {
                 return this.url(`/console/audios/${audio.audio_id}`);

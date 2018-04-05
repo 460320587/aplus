@@ -11,6 +11,9 @@ use Someline\Models\Image\SomelineImage;
  */
 class AlbumTransformer extends BaseTransformer
 {
+    protected $availableIncludes = [
+        'audios',
+    ];
 
     /**
      * Transform the Album entity
@@ -52,4 +55,14 @@ class AlbumTransformer extends BaseTransformer
         }
         return $data;
     }
+
+    public function includeAudios(Album $model)
+    {
+        $audios = $model->audios;
+        if (count($audios) > 0) {
+            return $this->collection($audios, new AudioTransformer());
+        }
+        return null;
+    }
+
 }

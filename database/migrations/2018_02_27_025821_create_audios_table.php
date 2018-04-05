@@ -18,6 +18,7 @@ class CreateAudiosTable extends Migration
             $table->unsignedInteger('user_id')->index();
 
             // Adding more table related fields here...
+            $table->unsignedInteger('album_id')->index();
             $table->string('name')->nullable();
             $table->string('original_name')->nullable();
             $table->unsignedInteger('someline_file_id')->index()->nullable();
