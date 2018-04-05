@@ -65,9 +65,11 @@
                         <td class="text-right">封面</td>
                         <td>
                             <template v-for="someline_image_url in item.someline_image_urls">
-                                <a :href="someline_image_url" target="_blank" class="thumbnail thumb-md">
-                                    <img :src="someline_image_url" class="img" alt="">
-                                </a>
+                                <p>
+                                    <a :href="someline_image_url" target="_blank" class="thumbnail thumb-md">
+                                        <img :src="someline_image_url" class="img" alt="">
+                                    </a>
+                                </p>
                             </template>
                         </td>
                     </tr>
