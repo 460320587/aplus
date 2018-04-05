@@ -24,6 +24,7 @@ class UserTransformer extends BaseTransformer
 
             /* place your other model properties here */
             'name' => $model->name,
+            'username' => $model->username,
             'email' => $model->email,
 
             'created_at' => (string)$model->created_at,

@@ -62,6 +62,13 @@ Route::group(['prefix' => 'console', 'middleware' => 'auth', 'namespace' => 'Con
         Route::get('/', 'UserController@getUserList');
     });
 
+    Route::group(['prefix' => 'users'], function () {
+        Route::get('/', 'UserController@getUserList');
+        Route::get('/new', 'UserController@getUserNew');
+        Route::get('/{id}', 'UserController@getUserDetail');
+        Route::get('/{id}/edit', 'UserController@getUserEdit');
+    });
+
     Route::group(['prefix' => 'albums'], function () {
         Route::get('/', 'AlbumController@getAlbumList');
         Route::get('/new', 'AlbumController@getAlbumNew');

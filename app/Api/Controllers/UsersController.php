@@ -39,7 +39,7 @@ class UsersController extends BaseController
      */
     public function index()
     {
-        return $this->repository->all();
+        return $this->repository->paginate();
     }
 
     /**

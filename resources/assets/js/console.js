@@ -36,6 +36,10 @@ Vue.component('example', require('./components/Example.vue'));
 Vue.component('sl-oauth', require('./components/console/OAuth.vue'));
 Vue.component('sl-someline-form-example', require('./components/someline/SomelineFormExample.vue'));
 
+Vue.component('sl-user-list', require('./components/console/users/UserList.vue'));
+Vue.component('sl-user-editor', require('./components/console/users/UserEditor.vue'));
+Vue.component('sl-user-detail', require('./components/console/users/UserDetail.vue'));
+
 Vue.component('sl-album-list', require('./components/console/albums/AlbumList.vue'));
 Vue.component('sl-album-editor', require('./components/console/albums/AlbumEditor.vue'));
 Vue.component('sl-album-detail', require('./components/console/albums/AlbumDetail.vue'));
