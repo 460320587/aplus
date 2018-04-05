@@ -9,8 +9,8 @@
             </div>
             <div class="panel-body">
                 <!--<button @click="doSwitchPinStatus" class="btn btn-default btn-addon">-->
-                    <!--<i class="fa fa-thumb-tack"></i>-->
-                    <!--{{ pinned_text }}-->
+                <!--<i class="fa fa-thumb-tack"></i>-->
+                <!--{{ pinned_text }}-->
                 <!--</button>-->
                 &nbsp;
                 <a :href="editUrl" class="btn btn-default btn-addon">
@@ -64,9 +64,11 @@
                     <tr>
                         <td class="text-right">封面</td>
                         <td>
-                            <a :href="item.someline_image_url" target="_blank" class="thumbnail thumb-md">
-                                <img :src="item.someline_image_url" class="img" alt="">
-                            </a>
+                            <template v-for="someline_image_url in item.someline_image_urls">
+                                <a :href="someline_image_url" target="_blank" class="thumbnail thumb-md">
+                                    <img :src="someline_image_url" class="img" alt="">
+                                </a>
+                            </template>
                         </td>
                     </tr>
                     <tr>
@@ -78,8 +80,12 @@
                         <td>{{ item.payment_type }}</td>
                     </tr>
                     <tr>
-                        <td class="text-right">付费价格</td>
-                        <td>{{ item.payment_amount }}</td>
+                        <td class="text-right" v-if="item.payment_type != 2">付费价格</td>
+                        <td>{{ item.payment_amount }}元/小时</td>
+                    </tr>
+                    <tr>
+                        <td class="text-right" v-if="item.payment_type != 1">付费比例</td>
+                        <td>{{ item.payment_percentage }}%</td>
                     </tr>
                     <tr>
                         <td class="text-right">关键字</td>

@@ -27,4 +27,16 @@ class SomelineImage extends SomelineImageBase
     }
 
 
+    public static function toImagesData($images)
+    {
+        $data = [];
+        /** @var SomelineImage $image */
+        foreach ($images as $image)
+        {
+            $data[] = $image->toSimpleArray();
+        }
+        return $data;
+    }
+
+
 }

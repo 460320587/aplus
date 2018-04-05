@@ -65,16 +65,6 @@
         </someline-form-group-radio-list>
         <someline-form-group-line/>
 
-        <someline-form-group-image-upload v-model="form_data.someline_image_id"
-                                          :model-image-url="form_data.someline_image_url"
-                                          :is-model-use-id="true"
-                                          :limit-size="10000"
-                                          :max-image="1"
-        >
-            <template slot="Label">封面</template>
-        </someline-form-group-image-upload>
-        <someline-form-group-line/>
-
         <someline-form-group-text-area
                 height="200px"
                 v-model="form_data.brief"
@@ -89,44 +79,41 @@
                 :items="payment_items"
                 v-model="form_data.payment_type">
             <template slot="Label">付费方式</template>
+            <div class="row m-t">
+                <div class="col-sm-6" v-if="form_data.payment_type != 2">
+                    <div class="input-group">
+                        <input type="number" class="form-control" placeholder="价格"
+                               v-model="form_data.payment_amount">
+                        <span class="input-group-addon">元／小时</span>
+                    </div>
+                </div>
+                <div class="col-sm-6" v-if="form_data.payment_type != 1">
+                    <div class="input-group">
+                        <input type="number" class="form-control" placeholder="比例"
+                               v-model="form_data.payment_percentage">
+                        <span class="input-group-addon">%</span>
+                    </div>
+                </div>
+            </div>
         </someline-form-group-radio-list>
         <someline-form-group-line/>
 
         <someline-form-group>
-            <template slot="Label">付费价格</template>
+            <template slot="Label">书籍分类</template>
             <template slot="ControlArea">
-                <div class="input-group">
-                    <input type="number" class="form-control" placeholder="付费价格"
-                           v-model="form_data.payment_amount">
-                    <span class="input-group-addon">
-                        {{ form_data.payment_type == '1' ? '%' : '元／小时' }}
-                    </span>
-                </div>
+                <el-cascader
+                        style="width: 100%"
+                        :options="someline_categories"
+                        :props="categories_props"
+                        change-on-select
+                        v-model="form_data.someline_category_ids"
+                ></el-cascader>
             </template>
         </someline-form-group>
         <someline-form-group-line/>
 
         <someline-form-group>
-            <template slot="Label">分类</template>
-            <template slot="ControlArea">
-                <select name="account" v-model="form_data.someline_category_id" class="form-control m-b">
-                    <option value="" disabled>请选择分类</option>
-                    <template v-for="someline_category in someline_categories">
-                        <optgroup :label="someline_category.category_name">
-                            <template v-for="child_category in someline_category.children">
-                                <option :value="child_category.someline_category_id">
-                                    {{ child_category.category_name }}
-                                </option>
-                            </template>
-                        </optgroup>
-                    </template>
-                </select>
-            </template>
-        </someline-form-group>
-        <someline-form-group-line/>
-
-        <someline-form-group>
-            <template slot="Label">关键字</template>
+            <template slot="Label">关键词</template>
             <template slot="ControlArea">
                 <el-select
                         v-model="form_data.keywords_data"
@@ -137,7 +124,7 @@
                         style="width: 100%">
                 </el-select>
             </template>
-            <template slot="HelpText">输入关键字，按下选中回车即可添加</template>
+            <template slot="HelpText">输入关键词，按下选中回车即可添加</template>
         </someline-form-group>
         <someline-form-group-line/>
 
@@ -162,7 +149,7 @@
             <template slot="ControlArea">
                 <button type="submit" class="btn btn-primary">保存</button>
             </template>
-            <!--<pre class="m-t-sm m-b-none">{{ form_data }}</pre>-->
+            <pre class="m-t-sm m-b-none">{{ form_data }}</pre>
         </someline-form-group>
 
     </someline-form-panel>
@@ -190,7 +177,7 @@
                         text: '女单播',
                     },
                     {
-                        text: '男女双人',
+                        text: '男女双播',
                     },
                     {
                         text: '多人小说剧',
@@ -203,7 +190,6 @@
                 copyright_items: [
                     {
                         text: '米赢',
-                        checked: true,
                     },
                     {
                         text: '掌阅',
@@ -214,7 +200,6 @@
                     {
                         text: '连载中',
                         value: '0',
-                        checked: true,
                     },
                     {
                         text: '已完结',
@@ -224,13 +209,16 @@
 
                 payment_items: [
                     {
-                        text: '保底分成',
+                        text: '买断',
                         value: '1',
-                        checked: true,
                     },
                     {
-                        text: '录制单价',
+                        text: '分成',
                         value: '2',
+                    },
+                    {
+                        text: '保底分成',
+                        value: '3',
                     },
                 ],
 
@@ -249,12 +237,12 @@
                     author: null,
                     broadcaster: null,
                     broadcaster_type: "男单播",
-                    someline_image_id: null,
-                    someline_image_url: null,
-                    someline_category_id: "",
+                    someline_category_ids: [],
+                    images_data: [],
                     brief: null,
                     payment_type: '1',
                     payment_amount: null,
+                    payment_percentage: null,
                     keywords_data: [],
                     copyright: '米赢',
                     status: '0',
@@ -262,8 +250,14 @@
 
                 data: null,
                 data_loaded: 0,
-                someline_categories: [],
                 remoteTagsLoading: false,
+
+                someline_categories: [],
+                categories_props: {
+                    value: 'someline_category_id',
+                    label: 'category_name',
+                    children: 'children'
+                }
 
             }
         },
@@ -334,8 +328,8 @@
                 let data = response.data.data;
 
                 this.form_data = Object.assign({}, this.form_data, data);
-                // this.form_data.someline_image = data.someline_image_url;
-                this.form_data.someline_category_id = data.someline_category_id;
+//                this.form_data.someline_image = data.someline_image_url;
+//                this.form_data.someline_category_id = data.someline_category_id;
 
             },
             arrayColumn(array = [], column) {

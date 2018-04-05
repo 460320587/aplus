@@ -28,7 +28,6 @@ class AlbumsTableSeeder extends Seeder
             'keywords' => "武侠,天神",
             'payment_type' => 1,
             'payment_amount' => "1.00",
-            'someline_category_id' => 2,
             'someline_image_id' => 1,
             'status' => 0,
         ]);

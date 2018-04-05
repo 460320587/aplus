@@ -66,23 +66,6 @@
                     </template>
                 </el-table-column>
                 <el-table-column
-                        width="140"
-                        label="封面">
-                    <template scope="scope">
-                        <el-popover
-                                ref="someline_image_popover"
-                                placement="right"
-                                trigger="hover">
-                            <div><img :src="scope.row.someline_image_url" style="max-width: 900px;"></div>
-                            <div class="m-t-sm">
-                                <a class="btn btn-info" :href="scope.row.someline_image_url"
-                                   target="_blank">在新窗口打开此图片</a>
-                            </div>
-                        </el-popover>
-                        <img v-popover:someline_image_popover :src="scope.row.thumbnail_image_url" width="100">
-                    </template>
-                </el-table-column>
-                <el-table-column
                         width="100"
                         label="状态">
                     <template scope="scope">

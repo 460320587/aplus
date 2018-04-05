@@ -3,6 +3,7 @@
 namespace Someline\Transformers;
 
 use Someline\Models\Foundation\Album;
+use Someline\Models\Image\SomelineImage;
 
 /**
  * Class AlbumTransformer
@@ -19,7 +20,7 @@ class AlbumTransformer extends BaseTransformer
      */
     public function transform(Album $model)
     {
-        return [
+        $data = [
             'album_id' => (int)$model->album_id,
 
             /* place your other model properties here */
@@ -29,13 +30,11 @@ class AlbumTransformer extends BaseTransformer
             'author' => $model->author,
             'broadcaster' => $model->broadcaster,
             'broadcaster_type' => $model->broadcaster_type,
-            'someline_image_id' => $model->someline_image_id,
-            'someline_image_url' => $model->getSomelineImageUrl(),
-            'thumbnail_image_url' => $model->getSomelineImageUrlForType('thumbnail'),
+            'someline_image_urls' => $model->getImageUrls(),
             'brief' => $model->brief,
             'payment_type' => $model->payment_type,
             'payment_amount' => $model->payment_amount,
-            'someline_category_id' => $model->someline_category_id,
+            'payment_percentage' => $model->payment_percentage,
             'keywords' => $model->keywords,
             'copyright' => $model->copyright,
             'status' => $model->status,
@@ -45,9 +44,11 @@ class AlbumTransformer extends BaseTransformer
             'updated_at' => (string)$model->updated_at
         ];
 
-        $isEdit = request()->get('edit', false);
-        if($isEdit) {
-            $data['keywords_data'] = explode(',', $data['kaywords']);
+        $isEditMode = request()->get('edit', false);
+        if ($isEditMode) {
+            $data['keywords_data'] = explode(',', $data['keywords']);
+            $data['images_data'] = SomelineImage::toImagesData($model->getImages());
+            $data['someline_category_ids'] = $model->getSomelineCategories()->pluck('someline_category_id');
         }
         return $data;
     }
