@@ -12,7 +12,7 @@ use Someline\Models\Image\SomelineImage;
 class AlbumTransformer extends BaseTransformer
 {
     protected $availableIncludes = [
-        'audios',
+        'audios', 'latest_audio'
     ];
 
     /**
@@ -40,6 +40,8 @@ class AlbumTransformer extends BaseTransformer
             'payment_percentage' => $model->payment_percentage,
             'keywords' => $model->keywords,
             'copyright' => $model->copyright,
+            'audios_count' => $model->audios()->count(),
+            'rejected_audios_count' => $model->rejected_audios()->count(),
             'status' => $model->status,
             'status_text' => $model->status_text,
 
@@ -61,6 +63,15 @@ class AlbumTransformer extends BaseTransformer
         $audios = $model->audios;
         if (count($audios) > 0) {
             return $this->collection($audios, new AudioTransformer());
+        }
+        return null;
+    }
+
+    public function includeLatestAudio(album $model)
+    {
+        $audio = $model->audios()->orderby('updated_at','desc')->first();
+        if($audio) {
+            return $this->item($audio,new AudioTransformer());
         }
         return null;
     }

@@ -8,6 +8,7 @@ use Dingo\Api\Exception\UpdateResourceFailedException;
 use Prettus\Validator\Contracts\ValidatorInterface;
 use Someline\Http\Requests\AudioCreateRequest;
 use Someline\Http\Requests\AudioUpdateRequest;
+use Someline\Models\Foundation\Audio;
 use Someline\Repositories\Interfaces\AudioRepository;
 use Someline\Validators\AudioValidator;
 
@@ -94,7 +95,17 @@ class AudiosController extends BaseController
 
         $data = $request->all();
 
+        if (!empty($data['name'])) {
+            $original_name = $data['name'];
+            preg_match_all('!\d+!', $original_name, $matches);
+            $sequence = isset($matches[0][0]) ? $matches[0][0] : 0;
+            $data['sequence'] = $sequence;
+        }
+
         $this->validator->with($data)->passesOrFail(ValidatorInterface::RULE_UPDATE);
+
+
+        $data['status'] = Audio::STATUS_NOT_REVIEWED;
 
         $audio = $this->repository->update($data, $id);
 

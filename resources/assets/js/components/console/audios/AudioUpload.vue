@@ -65,7 +65,7 @@
                             {{ audio.original_name }}
                             <template v-if="!audio.error">
                                 <a href="#" @click.prevent="doPlayAudio(audio)"><i
-                                        class="fa fa-play"></i></a>
+                                        class="fa fa-play-circle"></i></a>
                             </template>
                         </td>
                         <td>{{ audio.duration }}</td>

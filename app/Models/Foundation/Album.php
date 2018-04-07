@@ -53,10 +53,24 @@ class Album extends BaseModel implements Transformable
     // Fields to be converted to Carbon object automatically
     protected $dates = [];
 
+    //获取声音
     public function audios()
     {
         return $this->hasMany(Audio::class,'album_id','album_id');
     }
+
+    //声音排序
+    public function ordered_audios()
+    {
+        return $this->audios()->orderBy('sequence','asc');
+    }
+
+    //审核未通过音频
+    public function rejected_audios()
+    {
+        return $this->audios()->where('status', Audio::STATUS_REJECTED);
+    }
+
 
     public static function getStatusTexts()
     {
