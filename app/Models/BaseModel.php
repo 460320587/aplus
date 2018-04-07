@@ -11,6 +11,8 @@ use Someline\Models\Foundation\User;
 
 class BaseModel extends Model
 {
+    protected $timestamp_always_save_in_utc = false;
+    protected $timestamp_get_with_user_timezone = false;
 
     /**
      * @return User|null

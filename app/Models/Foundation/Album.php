@@ -21,11 +21,11 @@ class Album extends BaseModel implements Transformable
     use SomelineHasImageablesTrait;
     use SomelineMorphToManyCategoryTrait;
 
+    const MORPH_NAME = 'Album';
+
     const PAYMENT_TYPE_PER_HOUR = 1;
     const PAYMENT_TYPE_PERCENTAGE = 2;
     const PAYMENT_TYPE_BASE_PERCENTAGE = 3;
-
-    const MORPH_NAME = 'Album';
 
     protected $table = 'albums';
 
@@ -55,9 +55,8 @@ class Album extends BaseModel implements Transformable
 
     public function audios()
     {
-        return $this->hasMany(Audio::class, 'album_id', 'album_id');
+        return $this->hasMany(Audio::class,'album_id','album_id');
     }
-
 
     public static function getStatusTexts()
     {

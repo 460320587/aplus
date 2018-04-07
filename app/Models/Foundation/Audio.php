@@ -4,17 +4,25 @@ namespace Someline\Models\Foundation;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Someline\Component\File\Models\Traits\SomelineHasOneFileTrait;
+use Someline\Component\Review\Models\SomelineReviewInterface;
+use Someline\Component\Review\Models\Traits\SomelineMorphManyReviewsTrait;
 use Someline\Models\BaseModel;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
+use Someline\Models\Review\SomelineReview;
 
-class Audio extends BaseModel implements Transformable
+class Audio extends BaseModel implements Transformable, SomelineReviewInterface
 {
     use TransformableTrait;
     use SoftDeletes;
     use SomelineHasOneFileTrait;
+    use SomelineMorphManyReviewsTrait;
 
+    const MORPH_NAME = 'Audio';
+
+    const STATUS_REJECTED = -1;
     const STATUS_NOT_REVIEWED = 0;
+    const STATUS_APPROVED = 1;
 
     protected $table = 'audios';
 
@@ -42,7 +50,9 @@ class Audio extends BaseModel implements Transformable
     public static function getStatusTexts()
     {
         return [
+            self::STATUS_REJECTED => '审核未过',
             self::STATUS_NOT_REVIEWED => '未审核',
+            self::STATUS_APPROVED => '已审核',
         ];
     }
 
@@ -52,4 +62,9 @@ class Audio extends BaseModel implements Transformable
         return $statusTexts[$this->status];
     }
 
+    public function onReviewed(SomelineReview $somelineReview)
+    {
+        $this->status = $somelineReview->getReviewResult();
+        $this->save();
+    }
 }

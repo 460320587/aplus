@@ -32,6 +32,12 @@ class AudioController extends BaseController
         return view('console.audios.detail', compact('audio_id'));
     }
 
+    //审核声音页
+    public function getAudioReview($audio_id)
+    {
+        return view('console.audios.review', compact('audio_id'));
+    }
+
     //专辑编辑页
     public function getAudioEdit($audio_id)
     {

@@ -49,7 +49,7 @@ $api->version('v1', [
             $api->post('/', 'AlbumsController@store');
             //查 专辑详情页
             $api->get('/{id}', 'AlbumsController@show');
-
+            //修改声音
             $api->post('/{id}/audios', 'AlbumsController@storeAudios');
             //改
             $api->put('/{id}', 'AlbumsController@update')->where('id', '[0-9]+');
@@ -72,7 +72,9 @@ $api->version('v1', [
             //删
             $api->delete('/{id}', 'AudiosController@destroy')->where('id', '[0,9]+');
         });
+
         \Someline\Component\File\SomelineFileServiceProvider::api_routes($api);
+        \Someline\Component\Review\SomelineReviewServiceProvider::api_routes($api);
         \Someline\Component\Category\SomelineCategoryServiceProvider::api_routes($api);
     });
 

@@ -84,14 +84,14 @@
                         width="100"
                         label="操作">
                     <template scope="scope">
-                        <!--<a class="btn btn-default btn-sm r-2x"-->
-                        <!--:href="getDetailUrl(scope.row)">-->
-                        <!--<i class="fa fa-file-text-o"></i>&nbsp;查看-->
-                        <!--</a>-->
-                        <!--<a class="btn btn-default btn-sm r-2x"-->
-                        <!--:href="getReviewUrl(scope.row)">-->
-                        <!--<i class="fa fa-file-text-o"></i>&nbsp;审核-->
-                        <!--</a>-->
+                        <a class="btn btn-default btn-sm r-2x"
+                        :href="getDetailUrl(scope.row)">
+                        <i class="fa fa-file-text-o"></i>&nbsp;查看
+                        </a>
+                        <a class="btn btn-default btn-sm r-2x"
+                        :href="getReviewUrl(scope.row)">
+                        <i class="fa fa-file-text-o"></i>&nbsp;审核
+                        </a>
                         <!--<a class="btn btn-default btn-sm r-2x"-->
                         <!--:href="getEditUrl(scope.row)">-->
                         <!--<i class="fa fa-edit"></i>&nbsp;编辑-->
@@ -149,7 +149,7 @@
                 return this.url(`/console/audios/${audio.audio_id}/review`)
             },
             getDetailUrl(audio) {
-                return this.url(`/console/audios/${audio.audio_id}`);
+                return this.url(`/console/albums/${audio.album_id}/audios`);
             },
             getPinStatusText(item) {
                 return item.is_pinned ? '已置顶' : '未置顶';

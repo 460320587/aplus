@@ -86,6 +86,7 @@ Route::group(['prefix' => 'console', 'middleware' => 'auth', 'namespace' => 'Con
         Route::get('/categories', 'AudioController@getAudioCategory');
         Route::get('/{id}', 'AudioController@getAudioDetail');
         Route::get('/{id}/edit', 'AudioController@getAudioEdit');
+        Route::get('/{id}/review', 'AudioController@getAudioReview');
     });
 
     Route::group(['prefix' => 'someline'], function () {

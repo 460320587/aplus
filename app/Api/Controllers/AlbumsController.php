@@ -7,14 +7,17 @@ use Dingo\Api\Exception\StoreResourceFailedException;
 use Dingo\Api\Exception\UpdateResourceFailedException;
 use Illuminate\Http\Request;
 use Prettus\Validator\Contracts\ValidatorInterface;
+use Someline\Component\Category\Api\Controllers\Traits\SomelineCategoriesControllerTrait;
 use Someline\Http\Requests\AlbumCreateRequest;
 use Someline\Http\Requests\AlbumUpdateRequest;
 use Someline\Models\Foundation\Album;
+use Someline\Models\Foundation\Audio;
 use Someline\Repositories\Interfaces\AlbumRepository;
 use Someline\Validators\AlbumValidator;
 
 class AlbumsController extends BaseController
 {
+    use SomelineCategoriesControllerTrait;
 
     /**
      * @var AlbumRepository
@@ -32,10 +35,10 @@ class AlbumsController extends BaseController
         $this->validator = $validator;
     }
 
+
     /**
      * Display a listing of the resource.
      *
-     * @param Request $request
      * @return \Illuminate\Http\Response
      */
     public function index()
@@ -62,7 +65,6 @@ class AlbumsController extends BaseController
      * @param  AlbumCreateRequest $request
      *
      * @return \Illuminate\Http\Response
-     * @throws \Prettus\Validator\Exceptions\ValidatorException
      */
     public function store(AlbumCreateRequest $request)
     {
@@ -75,9 +77,17 @@ class AlbumsController extends BaseController
             $data['keywords'] = null;
         }
 
+        $this->validateSomelineCategories($data);
+
         $this->validator->with($data)->passesOrFail(ValidatorInterface::RULE_CREATE);
 
-        $album = $this->repository->create($data);
+        $album = $this->repository->skipPresenter(true)->create($data);
+
+        $someline_image_ids = collect($data['images_data'])->pluck('someline_image_id')->toArray();
+        $album->images()->detach();
+        $album->images()->sync($someline_image_ids);
+
+        $album = $this->updateSomelineCategories($album, $data);
 
         // throw exception if store failed
 //        throw new StoreResourceFailedException('Failed to store.');
@@ -86,32 +96,63 @@ class AlbumsController extends BaseController
 //        return $this->response->created(null);
 
         // B. return data
-        return $album;
+        return $this->repository->skipPresenter(false)->present($album);
 
     }
 
-    public function storeAudios(Request $request, $id)
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  Request $request
+     *
+     * @param $albumId
+     * @return \Illuminate\Http\Response
+     */
+    public function storeAudios(Request $request, $albumId)
     {
+
         $data = $request->all();
 
         $audio_files = $request->get('audio_files');
 
-        if(!is_array($audio_files) || empty($audio_files)) {
+        if (!is_array($audio_files) || empty($audio_files)) {
             throw new StoreResourceFailedException('Empty audio files.');
         }
 
-        return $audio_files;
+        $album = Album::findOrFail($albumId);
 
-        $album = Album::findOrFail($id);
+        foreach ($audio_files as $audio_file) {
+            if (!empty($audio_file['someline_file_id'])) {
+                $fileId = $audio_file['someline_file_id'];
+                $data = [
+                    'album_id' => $albumId,
+                    'someline_file_id' => $fileId,
+                ];
+                $audio = Audio::where($data)->first();
+                if (!$audio) {
+                    $original_name = $audio_file['original_name'];
+                    preg_match_all('!\d+!', $original_name, $matches);
+                    $sequence = isset($matches[0][0]) ? $matches[0][0] : 0;
+                    $audio = Audio::create(array_merge($data, [
+                        'name' => $original_name,
+                        'original_name' => $original_name,
+                        'audio_length' => $audio_file['duration'],
+                        'sequence' => $sequence,
+                        'status' => Audio::STATUS_NOT_REVIEWED,
+                    ]));
+                }
+            }
+        }
 
         // throw exception if store failed
 //        throw new StoreResourceFailedException('Failed to store.');
 
         // A. return 201 created
-//        return $this->response->created(null);
+        return $this->response->created(null);
 
         // B. return data
-        return $album;
+//        return $album;
+
     }
 
 
@@ -133,8 +174,7 @@ class AlbumsController extends BaseController
      * @param  AlbumUpdateRequest $request
      * @param  string $id
      *
-     * @return \Dingo\Api\Http\Response
-     * @throws \Prettus\Validator\Exceptions\ValidatorException
+     * @return Response
      */
     public function update(AlbumUpdateRequest $request, $id)
     {
@@ -146,11 +186,18 @@ class AlbumsController extends BaseController
         } else {
             $data['keywords'] = null;
         }
-        unset($data['someline_image_url']);
+
+        $this->validateSomelineCategories($data);
 
         $this->validator->with($data)->passesOrFail(ValidatorInterface::RULE_UPDATE);
 
-        $album = $this->repository->update($data, $id);
+        $album = $this->repository->skipPresenter(true)->update($data, $id);
+
+        $someline_image_ids = collect($data['images_data'])->pluck('someline_image_id')->toArray();
+        $album->images()->detach();
+        $album->images()->sync($someline_image_ids);
+
+        $album = $this->updateSomelineCategories($album, $data);
 
         // throw exception if update failed
 //        throw new UpdateResourceFailedException('Failed to update.');
@@ -175,6 +222,7 @@ class AlbumsController extends BaseController
         return $this->response->noContent();
 
     }
+
 
     /**
      * Remove the specified resource from storage.
