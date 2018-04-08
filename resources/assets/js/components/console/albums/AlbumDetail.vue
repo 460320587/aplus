@@ -62,6 +62,16 @@
                         <td>{{ item.broadcaster_type }}</td>
                     </tr>
                     <tr>
+                        <td class="text-right">集数</td>
+                        <td>{{ item.audios_count }}</td>
+                    </tr>
+                    <tr>
+                        <td class="text-right">书籍分类</td>
+                        <td>
+                            {{ category.category_text }}
+                        </td>
+                    </tr>
+                    <tr>
                         <td class="text-right">封面</td>
                         <td>
                             <template v-for="someline_image_url in item.someline_image_urls">
@@ -81,12 +91,12 @@
                         <td class="text-right">付费方式</td>
                         <td>{{ item.payment_type }}</td>
                     </tr>
-                    <tr>
-                        <td class="text-right" v-if="item.payment_type != 2">付费价格</td>
+                    <tr v-if="item.payment_type != 2">
+                        <td class="text-right">付费价格</td>
                         <td>{{ item.payment_amount }}元/小时</td>
                     </tr>
-                    <tr>
-                        <td class="text-right" v-if="item.payment_type != 1">付费比例</td>
+                    <tr v-if="item.payment_type != 1">
+                        <td class="text-right">付费比例</td>
                         <td>{{ item.payment_percentage }}%</td>
                     </tr>
                     <tr>
@@ -161,7 +171,7 @@
                 this.$api
                     .get(`albums/${this.itemId}`, {
                         params: {
-                            include: 'category,tags'
+//                            include: 'categories,tags'
                         }
                     })
                     .then((response) => {

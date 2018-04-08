@@ -11,6 +11,7 @@ Vue.use(ElementUI);
 
 import SomelineUI from 'someline-ui';
 Vue.use(SomelineUI);
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -54,8 +55,7 @@ Vue.component('sl-audio-detail', require('./components/console/audios/AudioDetai
 Vue.component('sl-audio-category', require('./components/console/audios/AudioCategory.vue'));
 Vue.component('sl-audio-review', require('./components/console/audios/AudioReview.vue'));
 
-
-// Vuex
+// // Vuex
 // const vuexStore = new Vuex.Store({
 //     state: {
 //         platform: 'console',

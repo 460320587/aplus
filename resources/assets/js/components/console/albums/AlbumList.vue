@@ -66,6 +66,12 @@
                     </template>
                 </el-table-column>
                 <el-table-column
+                        label="集数">
+                    <template scope="scope">
+                        {{ scope.row.audios_count }}
+                    </template>
+                </el-table-column>
+                <el-table-column
                         width="100"
                         label="状态">
                     <template scope="scope">

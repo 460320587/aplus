@@ -2,6 +2,7 @@
 
 namespace Someline\Transformers;
 
+use Someline\Component\Category\Transformers\Traits\SomelineIncludeManyCategories;
 use Someline\Models\Foundation\Album;
 use Someline\Models\Image\SomelineImage;
 
@@ -11,8 +12,11 @@ use Someline\Models\Image\SomelineImage;
  */
 class AlbumTransformer extends BaseTransformer
 {
+
+    use SomelineIncludeManyCategories;
+
     protected $availableIncludes = [
-        'audios', 'latest_audio'
+        'audios', 'latest_audio', 'categories'
     ];
 
     /**
@@ -31,6 +35,7 @@ class AlbumTransformer extends BaseTransformer
             'book_id' => $model->book_id,
             'name' => $model->name,
             'author' => $model->author,
+            'category_text' => $model->getCategoryText(),
             'broadcaster' => $model->broadcaster,
             'broadcaster_type' => $model->broadcaster_type,
             'someline_image_urls' => $model->getImageUrls(),
@@ -60,18 +65,18 @@ class AlbumTransformer extends BaseTransformer
 
     public function includeAudios(Album $model)
     {
-        $audios = $model->audios;
+        $audios = $model->ordered_audios;
         if (count($audios) > 0) {
             return $this->collection($audios, new AudioTransformer());
         }
         return null;
     }
 
-    public function includeLatestAudio(album $model)
+    public function includeLatestAudio(Album $model)
     {
-        $audio = $model->audios()->orderby('updated_at','desc')->first();
-        if($audio) {
-            return $this->item($audio,new AudioTransformer());
+        $audio = $model->audios()->orderBy('updated_at', 'desc')->first();
+        if ($audio) {
+            return $this->item($audio, new AudioTransformer());
         }
         return null;
     }
