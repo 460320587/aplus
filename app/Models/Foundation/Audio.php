@@ -37,6 +37,11 @@ class Audio extends BaseModel implements Transformable, SomelineReviewInterface
         'audio_length',
         'audio_bitrate',
         'sequence',
+        'pool',
+        'failed_times',
+        'review_user_id',
+        'reviewed_at',
+        'zy_sync_at',
         'status',
     ];
 

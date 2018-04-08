@@ -25,6 +25,11 @@ class CreateAudiosTable extends Migration
             $table->string('audio_length', 20)->nullable();
             $table->string('audio_bitrate')->nullable();
             $table->smallInteger('sequence')->nullable();
+            $table->string('pool')->nullable();
+            $table->smallInteger('failed_times')->nullable();
+            $table->unsignedInteger('review_user_id')->index()->nullable();
+            $table->timestamp('reviewed_at')->nullable();
+            $table->timestamp('zy_sync_at')->nullable();
             $table->smallInteger('status')->default(0);
 
             $table->softDeletes();

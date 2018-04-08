@@ -48,6 +48,7 @@ class Album extends BaseModel implements Transformable
         'keywords',
         'copyright',
         'audio_bitrate',
+        'weight',
         'status',
     ];
 

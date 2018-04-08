@@ -32,6 +32,7 @@ class CreateAlbumsTable extends Migration
             $table->string('keywords', 150)->nullable();
             $table->string('copyright', 150)->nullable();
             $table->string('audio_bitrate')->nullable();
+            $table->mediumInteger('weight')->nullable();
             $table->smallInteger('status')->default(0);
 
             $table->softDeletes();
