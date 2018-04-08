@@ -68,7 +68,7 @@
                     <tr>
                         <td class="text-right">书籍分类</td>
                         <td>
-                            {{ category.category_text }}
+                            {{ item.category_text }}
                         </td>
                     </tr>
                     <tr>
