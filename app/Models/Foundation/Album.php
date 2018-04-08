@@ -60,9 +60,9 @@ class Album extends BaseModel implements Transformable
         return $this->hasMany(Audio::class, 'album_id', 'album_id');
     }
 
-    public function ordered_audios()
+    public function ordered_audios($order = 'asc')
     {
-        return $this->audios()->orderBy('sequence', 'asc');
+        return $this->audios()->orderBy('sequence', $order);
     }
 
     public function rejected_audios()

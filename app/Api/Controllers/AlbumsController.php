@@ -119,6 +119,7 @@ class AlbumsController extends BaseController
             throw new StoreResourceFailedException('Empty audio files.');
         }
 
+        /** @var Album $album */
         $album = Album::findOrFail($albumId);
 
         foreach ($audio_files as $key => $audio_file) {
@@ -142,7 +143,7 @@ class AlbumsController extends BaseController
                         'status' => Audio::STATUS_NOT_REVIEWED,
                     ]));
 
-                    // update album bitrate
+                    // update album bit rate
                     if (empty($album->audio_bitrate) && !empty($audio_file['bitrate'])) {
                         $album->audio_bitrate = $audio_file['bitrate'];
                         $album->save();
@@ -150,6 +151,36 @@ class AlbumsController extends BaseController
                 }
             }
         }
+
+        // update undetermined audio
+        $album->audios()->where('pool', Audio::POOL_UNDETERMINED)->update([
+            'pool' => Audio::POOL_LARGE,
+        ]);
+
+        /** @var Audio $lastAudio */
+        $lastAudio = $album->ordered_audios('desc')->first();
+        if ($lastAudio) {
+            if ($lastAudio->isPool(Audio::POOL_LARGE)) {
+                $lastAudio->updatePool(Audio::POOL_UNDETERMINED);
+            }
+        }
+
+        // auto selected 30% for review
+        $totalAudiosCount = $album->audios()->count();
+        $reviewAudiosCount = $album->audios()->where('pool', Audio::POOL_REVIEW)->count();
+        if ($totalAudiosCount > 0) {
+            $atLeastReviewCount = round($totalAudiosCount * 0.3);
+            $needReviewCount = $atLeastReviewCount - $reviewAudiosCount;
+            if ($needReviewCount > 0) {
+                $album->audios()->where('pool', Audio::POOL_LARGE)
+                    ->inRandomOrder()
+                    ->take($needReviewCount)
+                    ->update([
+                        'pool' => Audio::POOL_REVIEW,
+                    ]);
+            }
+        }
+
 
         // throw exception if store failed
 //        throw new StoreResourceFailedException('Failed to store.');

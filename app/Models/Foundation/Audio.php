@@ -20,6 +20,11 @@ class Audio extends BaseModel implements Transformable, SomelineReviewInterface
 
     const MORPH_NAME = 'Audio';
 
+    const POOL_LARGE = 'large'; //大
+    const POOL_UNDETERMINED = 'undetermined';//未确定的
+    const POOL_REVIEW = 'review';//审核
+    const POOL_APPROVED = 'approved';//批准
+
     const STATUS_REJECTED = -1;
     const STATUS_NOT_REVIEWED = 0;
     const STATUS_APPROVED = 1;
@@ -59,6 +64,20 @@ class Audio extends BaseModel implements Transformable, SomelineReviewInterface
         return $this->someline_reviews()->orderBy('created_at', 'desc')->first();
     }
 
+    public function onCreated()
+    {
+        parent::onCreated();
+
+        $sequence = $this->sequence;
+        if ($sequence == 1 || $sequence == 2) {
+            $this->updatePool(self::POOL_REVIEW);
+        } else {
+            $this->updatePool(self::POOL_LARGE);
+        }
+
+    }
+
+
     public static function getStatusTexts()
     {
         return [
@@ -76,7 +95,30 @@ class Audio extends BaseModel implements Transformable, SomelineReviewInterface
 
     public function onReviewed(SomelineReview $somelineReview)
     {
+        if ($somelineReview->isApproved()) {
+            $this->updatePool(self::POOL_APPROVED);
+        } else {
+            $this->failed_times += 1;
+        }
+        $this->review_user_id = $somelineReview->getUserId();
+        $this->reviewed_at = $somelineReview->created_at;
         $this->status = $somelineReview->getReviewResult();
+        $this->save();
+    }
+
+    public function isPool($pool)
+    {
+        return $this->pool == $pool;
+    }
+
+    public function isStatus($status)
+    {
+        return $this->status == $status;
+    }
+
+    public function updatePool($pool)
+    {
+        $this->pool = $pool;
         $this->save();
     }
 }
