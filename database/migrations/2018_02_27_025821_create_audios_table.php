@@ -23,6 +23,7 @@ class CreateAudiosTable extends Migration
             $table->string('original_name')->nullable();
             $table->unsignedInteger('someline_file_id')->index()->nullable();
             $table->string('audio_length', 20)->nullable();
+            $table->string('audio_bitrate')->nullable();
             $table->smallInteger('sequence')->nullable();
             $table->smallInteger('status')->default(0);
 

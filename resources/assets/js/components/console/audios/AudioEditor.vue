@@ -74,7 +74,8 @@
                             </button>
                             <button type="button" class="btn btn-default btn-xs"
                                     v-if="audio.status != 1"
-                                    @click="doEditAudio(audio)">修改</button>
+                                    @click="doEditAudio(audio)">修改
+                            </button>
                             <button type="button" class="btn btn-default btn-xs"
                                     v-if="audio.status == 0 && !audio.latest_review"
                                     @click="doConfirmDelete(audio)">删除
@@ -163,14 +164,14 @@
 </template>
 
 <script>
-    export default{
+    export default {
         props: {
             itemId: {
                 type: String,
                 required: false
             }
         },
-        data(){
+        data() {
             return {
 
                 isLoading: false,
@@ -217,20 +218,20 @@
             }
         },
         computed: {
-            inEditMode(){
+            inEditMode() {
                 return !!this.itemId;
             },
-            album(){
+            album() {
                 return this.data;
             },
-            audio_files(){
+            audio_files() {
                 try {
                     return this.album.audios.data;
                 } catch (e) {
                     return [];
                 }
             },
-            latest_audio(){
+            latest_audio() {
                 try {
                     return this.album.latest_audio.data;
                 } catch (e) {
@@ -239,7 +240,7 @@
             },
         },
         components: {},
-        mounted(){
+        mounted() {
             console.log('Component Ready.');
 
             if (this.inEditMode) {
@@ -310,7 +311,7 @@
                 });
                 return result;
             },
-            onFormSubmit(){
+            onFormSubmit() {
                 console.log('onFormSubmit');
 
                 this.isLoading = true;
@@ -336,7 +337,7 @@
                 this.fetchData();
 //                this.redirectToUrlFromBaseUrl(`/console/audios/${this.itemId}`);
             },
-            handleResponseError(error){
+            handleResponseError(error) {
 
                 var error_message = '请求失败';
 //                try {
@@ -355,15 +356,15 @@
                 });
 
             },
-            handleFormResponseComplete(){
+            handleFormResponseComplete() {
 
                 this.isLoading = false;
 
             },
-            onFileUploadSuccess(response, file, fileList){
+            onFileUploadSuccess(response, file, fileList) {
                 console.log('response', response);
+                fileList.splice(fileList.indexOf(file), 1);
                 if (response.data) {
-                    fileList.splice(fileList.indexOf(file), 1);
 
                     var audio_file = response.data;
 //                    this.form_data.audio_files.push(response.data)
@@ -372,11 +373,20 @@
                         return;
                     }
 
+                    if (audio_file.bitrate < 128) {
+                        this.$message({
+                            message: '上传失败，码率必须至少128kbps，请重新上传',
+                            type: 'error'
+                        });
+                        return;
+                    }
+
                     this.isReplaceLoading = true;
 
                     this.$api.put(`audios/${this.edit_audio.audio_id}`, {
                         'someline_file_id': audio_file.someline_file_id,
                         'audio_length': audio_file.duration,
+                        'audio_bitrate': audio_file.bitrate,
                         'original_name': audio_file.original_name,
                     })
                         .then((response) => {
@@ -390,14 +400,14 @@
 
                 }
             },
-            onFileUploadError(err, file, fileList){
+            onFileUploadError(err, file, fileList) {
                 console.log('error', err);
                 this.$message({
                     message: '上传失败',
                     type: 'error'
                 });
             },
-            doPlayAudio(audio){
+            doPlayAudio(audio) {
                 console.log('doPlayAudio', audio);
                 this.selected_audio = audio;
             },
@@ -412,7 +422,7 @@
 
                 })
             },
-            doDelete(audio){
+            doDelete(audio) {
 
                 this.isDeleting = true;
                 this.$api.delete(`/audios/${audio.audio_id}`, {})
@@ -433,18 +443,18 @@
                     confirmButtonText: '确定'
                 });
             },
-            doEditAudio(audio){
+            doEditAudio(audio) {
                 this.edit_audio = audio;
                 this.edit_form.name = audio.name;
                 this.isDialogEditVisible = true;
                 this.isDialogReplaceVisible = false;
             },
-            doReplaceAudio(audio){
+            doReplaceAudio(audio) {
                 this.edit_audio = audio;
                 this.isDialogReplaceVisible = true;
                 this.isDialogEditVisible = false;
             },
-            onSubmitEditForm(){
+            onSubmitEditForm() {
 
                 if (!this.edit_audio) {
                     return;

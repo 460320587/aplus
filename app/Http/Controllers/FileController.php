@@ -33,6 +33,8 @@ class FileController extends BaseController
         if('mp3' == $file->getClientOriginalExtension()) {
             $path = $somelineFile->getFileStoragePath();
             $mp3file = new MP3File($path);
+            $info = $mp3file->getInfo();
+            $data['bitrate'] = !empty($info['Bitrate']) ? $info['Bitrate'] : null;
             $data['duration'] = $mp3file->getDurationInFormatTime();
         }
 

@@ -121,7 +121,7 @@ class AlbumsController extends BaseController
 
         $album = Album::findOrFail($albumId);
 
-        foreach ($audio_files as $audio_file) {
+        foreach ($audio_files as $key => $audio_file) {
             if (!empty($audio_file['someline_file_id'])) {
                 $fileId = $audio_file['someline_file_id'];
                 $data = [
@@ -137,9 +137,16 @@ class AlbumsController extends BaseController
                         'name' => $original_name,
                         'original_name' => $original_name,
                         'audio_length' => $audio_file['duration'],
+                        'audio_bitrate' => $audio_file['bitrate'],
                         'sequence' => $sequence,
                         'status' => Audio::STATUS_NOT_REVIEWED,
                     ]));
+
+                    // update album bitrate
+                    if (empty($album->audio_bitrate) && !empty($audio_file['bitrate'])) {
+                        $album->audio_bitrate = $audio_file['bitrate'];
+                        $album->save();
+                    }
                 }
             }
         }

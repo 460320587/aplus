@@ -66,6 +66,35 @@ class MP3File
         return round($duration);
     }
 
+    public function getInfo()
+    {
+        $fd = fopen($this->filename,"rb");
+
+        $info = null;
+        $block = fread($fd,100);
+        $offset = $this->skipID3v2Tag($block);
+        fseek($fd,$offset,SEEK_SET);
+        while(!feof($fd)) {
+            $block = fread($fd,10);
+            if(strlen($block) < 10) {
+                break;
+            } //looking for 1111 1111 111 (frame synchronization bits)
+            else if ($block[0] == "\xff" && (ord($block[1]) & 0xe0 )) {
+                $info = self::parseFrameHeader(substr($block,0,4));
+                if (!empty($info)) {
+                    return $info;
+                } //some corrupt mp3 files
+                fseek($fd,$info['Framesize'] - 10, SEEK_CUR);
+            }else if(substr($block,0,3) == 'TAG') {
+                fseek($fd, 128 - 10, SEEK_CUR);//skip over id3v1 tag size
+            } else {
+                fseek($fd, -9, SEEK_CUR);
+            }
+        }
+        return $info;
+    }
+
+
     private function estimateDuration($bitrate, $offset)
     {
         $kbps = ($bitrate * 1000) / 8;

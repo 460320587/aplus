@@ -102,14 +102,14 @@
 </template>
 
 <script>
-    export default{
+    export default {
         props: {
             itemId: {
                 type: String,
                 required: false
             }
         },
-        data(){
+        data() {
             return {
 
                 isLoading: false,
@@ -147,15 +147,15 @@
             }
         },
         computed: {
-            inEditMode(){
+            inEditMode() {
                 return !!this.itemId;
             },
-            album(){
+            album() {
                 return this.data;
             }
         },
         components: {},
-        mounted(){
+        mounted() {
             console.log('Component Ready.');
 
             if (this.inEditMode) {
@@ -226,7 +226,7 @@
                 });
                 return result;
             },
-            onFormSubmit(){
+            onFormSubmit() {
                 console.log('onFormSubmit');
 
                 this.isLoading = true;
@@ -250,7 +250,7 @@
                 });
                 this.redirectToUrlFromBaseUrl(`/console/audios/${this.itemId}`);
             },
-            handleResponseError(error){
+            handleResponseError(error) {
 
                 var error_message = '请求失败';
                 try {
@@ -269,19 +269,35 @@
                 });
 
             },
-            handleFormResponseComplete(){
+            handleFormResponseComplete() {
 
                 this.isLoading = false;
 
             },
-            onFileUploadSuccess(response, file, fileList){
+            onFileUploadSuccess(response, file, fileList) {
                 console.log('response', response);
                 if (response.data) {
                     fileList.splice(fileList.indexOf(file), 1)
-                    this.form_data.audio_files.push(response.data)
+                    var audio_file = response.data;
+
+                    if (audio_file.bitrate < 128) {
+                        this.$message({
+                            message: '上传失败，码率必须至少128kbps，请重新上传',
+                            type: 'error'
+                        });
+                        this.form_data.audio_files.push({
+                            error: true,
+                            message: '上传失败，码率必须至少128kbps，请重新上传',
+                            original_name: file.name,
+                            file: audio_file,
+                        })
+                        return;
+                    }
+
+                    this.form_data.audio_files.push(audio_file)
                 }
             },
-            onFileUploadError(err, file, fileList){
+            onFileUploadError(err, file, fileList) {
                 console.log('error', err);
                 console.log('file', file);
                 this.$message({
@@ -295,11 +311,11 @@
                     file: file,
                 })
             },
-            doPlayAudio(audio){
+            doPlayAudio(audio) {
                 console.log('doPlayAudio', audio);
                 this.selected_audio = audio;
             },
-            doDelete(audio){
+            doDelete(audio) {
                 this.form_data.audio_files.splice(this.form_data.audio_files.indexOf(audio), 1)
             },
         },
