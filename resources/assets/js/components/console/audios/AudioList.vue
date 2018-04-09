@@ -25,6 +25,7 @@
                 :sorted-by="sortedBy"
                 :orderable-fields="orderableFields"
                 :resource-path="resourcePath"
+                :resource-params="resourceParams"
                 :get-search-value="getSearchValue"
                 @resource-response="onResourceResponse"
                 @selection-change="handleSelectionChange"
@@ -54,9 +55,21 @@
                     </template>
                 </el-table-column>
                 <el-table-column
+                        label="专辑名">
+                    <template scope="scope">
+                        {{ scope.row.album.data.name }}
+                    </template>
+                </el-table-column>
+                <el-table-column
                         label="时长">
                     <template scope="scope">
                         {{ scope.row.audio_length }}
+                    </template>
+                </el-table-column>
+                <el-table-column
+                        label="审核人员">
+                    <template scope="scope">
+                        {{ scope.row.reviewer ? scope.row.reviewer.data.name : '-' }}
                     </template>
                 </el-table-column>
                 <el-table-column
@@ -120,6 +133,10 @@
                         display: '序号',
                     },
                     {
+                        name: 'status',
+                        display: '状态',
+                    },
+                    {
                         name: 'created_at',
                         display: '创建时间',
                     },
@@ -131,7 +148,13 @@
                 multipleSelection: [],
             }
         },
-        computed: {},
+        computed: {
+            resourceParams(){
+                return {
+                    include: 'album,reviewer'
+                }
+            },
+        },
         components: {
         },
         mounted(){

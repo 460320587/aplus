@@ -12,7 +12,7 @@ class AudioTransformer extends BaseTransformer
 {
 
     protected $availableIncludes = [
-        'album', 'reviews', 'latest_review',
+        'album', 'reviews', 'latest_review', 'reviewer',
     ];
 
     /**
@@ -56,6 +56,15 @@ class AudioTransformer extends BaseTransformer
         $review = $model->getLatestSomelineReview();
         if($review) {
             return $this->item($review, new SomelineReviewTransformer());
+        }
+        return null;
+    }
+
+    public function includeReviewer(Audio $model)
+    {
+        $reviewer = $model->reviewer;
+        if ($reviewer) {
+            return $this->item($reviewer, new UserTransformer());
         }
         return null;
     }

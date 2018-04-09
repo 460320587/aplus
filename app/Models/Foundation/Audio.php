@@ -58,6 +58,11 @@ class Audio extends BaseModel implements Transformable, SomelineReviewInterface
         return $this->belongsTo(Album::class, 'album_id', 'album_id');
     }
 
+    public function reviewer()
+    {
+        return $this->hasOne(User::class, 'user_id', 'review_user_id');
+    }
+
     //获取最新的审核
     public function getLatestSomelineReview()
     {
