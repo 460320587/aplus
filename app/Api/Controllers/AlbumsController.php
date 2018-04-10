@@ -43,12 +43,28 @@ class AlbumsController extends BaseController
      */
     public function index()
     {
-        return $this->repository->paginate();
+        $user = $this->getAuthUser();
+        if ($user->hasRole('publisher')) {
+            return $this->repository->useModel(function ($model) use ($user) {
+                $model = $model->where('related_user_id', $user->getUserId());
+                return $model;
+            })->paginate();
+        } else {
+            return $this->repository->paginate();
+        }
     }
 
     public function auth_user()
     {
-        return $this->repository->all();
+        $user = $this->getAuthUser();
+        if ($user->hasRole('publisher')) {
+            return $this->repository->useModel(function ($model) use ($user) {
+                $model = $model->where('related_user_id', $user->getUserId());
+                return $model;
+            })->all();
+        } else {
+            return $this->repository->all();
+        }
     }
 
     public function unassigned()

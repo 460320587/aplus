@@ -13,6 +13,7 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(UsersTableSeeder::class);
         \Auth::loginUsingId(1);
+        $this->call(SomelineRolesTableSeeder::class);
         $this->call(SomelineCategoriesTableSeeder::class);
         $this->call(AlbumsTableSeeder::class);
     }

@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Someline Starter'),
+    'name' => env('APP_NAME', 'A+ 声音管理'),
 
     /*
     |--------------------------------------------------------------------------
@@ -22,7 +22,7 @@ return [
     |
     */
 
-    'title' => 'Someline Starter',
+    'title' => 'A+ 声音管理',
 
     'keywords' => 'someline,starter,laravel,restful,api,vue.js,vuejs',
 

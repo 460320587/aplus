@@ -54,7 +54,11 @@ Route::group(['prefix' => 'm', 'namespace' => 'Mobile'], function () {
 // Console Routes
 Route::group(['prefix' => 'console', 'middleware' => 'auth', 'namespace' => 'Console'], function () {
 
-    Route::get('/', 'ConsoleController@getConsoleHome');
+    Route::get('/', function () {
+        return redirect('console/albums');
+    });
+
+//    Route::get('/', 'ConsoleController@getConsoleHome');
     Route::get('oauth', 'ConsoleController@getOauth');
     Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
 

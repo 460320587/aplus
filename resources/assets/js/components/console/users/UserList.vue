@@ -53,6 +53,12 @@
                         {{ scope.row.username ? scope.row.username : '-' }}
                     </template>
                 </el-table-column>
+                <el-table-column
+                        label="角色">
+                    <template scope="scope">
+                        {{ scope.row.role_text }}
+                    </template>
+                </el-table-column>
                 <!--<el-table-column-->
                 <!--width="100"-->
                 <!--label="状态">-->
@@ -82,10 +88,10 @@
                            :href="getDetailUrl(scope.row)">
                             <i class="fa fa-file-text-o"></i>&nbsp;查看
                         </a>
-                        <!--<a class="btn btn-default btn-sm r-2x"-->
-                        <!--:href="getEditUrl(scope.row)">-->
-                        <!--<i class="fa fa-edit"></i>&nbsp;编辑-->
-                        <!--</a>-->
+                        <a class="btn btn-default btn-sm r-2x"
+                           :href="getEditUrl(scope.row)">
+                            <i class="fa fa-edit"></i>&nbsp;编辑
+                        </a>
                     </template>
                 </el-table-column>
             </template>
@@ -99,7 +105,7 @@
         props: [],
         data(){
             return {
-                resourcePath: 'users?include=tags,comments',
+                resourcePath: 'users',
 
                 orderBy: 'user_id',
                 sortedBy: 'asc',

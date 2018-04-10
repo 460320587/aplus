@@ -16,6 +16,7 @@
             $user->setVisible([
                     'user_id',
                     'name',
+                    'role',
             ]);
             $user = $user->toArray();
         } else {

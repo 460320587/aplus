@@ -21,24 +21,34 @@
         </someline-form-group-input>
         <someline-form-group-line/>
 
-        <someline-form-group-input
-                placeholder="登录账号"
-                minlength="3"
-                v-model="form_data.username"
-                :disabled="inEditMode"
+        <someline-form-group-radio-list
+                name="role_radio"
                 :required="true"
-        >
-            <template slot="Label">登录账号</template>
-            <template slot="HelpText">仅能使用英文或数字组成，最少3位</template>
-        </someline-form-group-input>
+                :items="role_items"
+                v-model="form_data.role">
+            <template slot="Label">角色</template>
+        </someline-form-group-radio-list>
         <someline-form-group-line/>
+
+        <template v-if="!inEditMode">
+            <someline-form-group-input
+                    placeholder="登录账号"
+                    minlength="3"
+                    v-model="form_data.username"
+                    :required="true"
+            >
+                <template slot="Label">登录账号</template>
+                <template slot="HelpText">仅能使用英文或数字组成，最少3位</template>
+            </someline-form-group-input>
+            <someline-form-group-line/>
+        </template>
 
         <someline-form-group-input
                 placeholder="密码"
                 type="password"
                 minlength="8"
                 v-model="form_data.password"
-                :required="true"
+                :required="!inEditMode"
         >
             <template slot="Label">密码</template>
             <template slot="HelpText">最少8位</template>
@@ -71,7 +81,23 @@
 
                 editor: null,
 
+                role_items: [
+                    {
+                        text: '管理员',
+                        value: 'admin',
+                    },
+                    {
+                        text: '审核员',
+                        value: 'reviewer',
+                    },
+                    {
+                        text: '发布员',
+                        value: 'publisher',
+                    },
+                ],
+
                 form_data: {
+                    role: 'publisher',
                     name: null,
                     username: null,
                     password: null,
@@ -93,7 +119,9 @@
         mounted(){
             console.log('Component Ready.');
 
-//            this.fetchCategoryData();
+            if (this.inEditMode) {
+                this.fetchData();
+            }
 
         },
         watch: {
@@ -112,9 +140,9 @@
             fetchData() {
                 console.log('fetchData');
 
-//                if (this.isLoading) {
-//                    return;
-//                }
+                if (this.isLoading) {
+                    return;
+                }
                 this.isLoading = true;
 
                 this.$api
@@ -151,8 +179,8 @@
                 let data = response.data.data;
 
                 this.form_data = Object.assign({}, this.form_data, data);
-                this.form_data.someline_image = data.someline_image_url;
-                this.form_data.someline_category_id = data.someline_category_id;
+//                this.form_data.someline_image = data.someline_image_url;
+//                this.form_data.someline_category_id = data.someline_category_id;
 
             },
             arrayColumn(array = [], column) {

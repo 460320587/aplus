@@ -14,8 +14,15 @@ class SomelineRolesTableSeeder extends Seeder
     public function run()
     {
         // permissions
+        $publisherPermissions = [
+            SomelineRoleService::addPermission('manage-audios', '声音管理'),
+        ];
+        $reviewerPermissions = array_merge($publisherPermissions, [
+            SomelineRoleService::addPermission('review-audios', '声音审核'),
+        ]);
         $adminPermissions = [
             SomelineRoleService::addPermission('manage-users', '用户管理'),
+            SomelineRoleService::addPermission('manage-albums', '专辑管理'),
         ];
         $rootOnlyPermissions = [
             SomelineRoleService::addPermission('manage-roles', '角色管理'),
@@ -29,8 +36,15 @@ class SomelineRolesTableSeeder extends Seeder
         $adminRole = SomelineRoleService::addRole('admin', '管理员');
         $adminRole->syncPermissions($adminPermissions);
 
+        $reviewerRole = SomelineRoleService::addRole('reviewer', '审核员');
+        $reviewerRole->syncPermissions($reviewerPermissions);
+
+        $publisherRole = SomelineRoleService::addRole('publisher', '发布员');
+        $publisherRole->syncPermissions($publisherPermissions);
+
         // sync user roles
-        $user = User::find(1);
-        SomelineRoleService::syncUserRoles($user, [$rootRole, $adminRole]);
+        SomelineRoleService::syncUserRoles(1, [$adminRole]);
+        SomelineRoleService::syncUserRoles(2, [$reviewerRole]);
+        SomelineRoleService::syncUserRoles(3, [$publisherRole]);
     }
 }

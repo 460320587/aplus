@@ -6,6 +6,7 @@ use Dingo\Api\Exception\DeleteResourceFailedException;
 use Dingo\Api\Exception\StoreResourceFailedException;
 use Dingo\Api\Exception\UpdateResourceFailedException;
 use Prettus\Validator\Contracts\ValidatorInterface;
+use Someline\Component\Role\SomelineRoleService;
 use Someline\Http\Requests\UserCreateRequest;
 use Someline\Http\Requests\UserUpdateRequest;
 use Someline\Repositories\Interfaces\UserRepository;
@@ -64,7 +65,11 @@ class UsersController extends BaseController
         // encrypt password
         $data['password'] = bcrypt($data['password']);
 
-        $user = $this->repository->create($data);
+        $user = $this->repository->skipPresenter(true)->create($data);
+
+        if (!empty($data['role'])) {
+            SomelineRoleService::syncUserRoles($user, [$data['role']]);
+        }
 
         // throw exception if store failed
 //        throw new StoreResourceFailedException('Failed to store.');
@@ -73,7 +78,7 @@ class UsersController extends BaseController
 //            return $this->response->created(null);
 
         // B. return data
-        return $user;
+        return $this->repository->skipPresenter(false)->present($user);
 
     }
 
@@ -112,9 +117,20 @@ class UsersController extends BaseController
     public function update(UserUpdateRequest $request, $id)
     {
 
-        $this->validator->with($request->all())->passesOrFail(ValidatorInterface::RULE_UPDATE);
+        $data = $request->all();
 
-        $user = $this->repository->update($request->all(), $id);
+        $this->validator->with($data)->passesOrFail(ValidatorInterface::RULE_UPDATE);
+
+        // encrypt password
+        if (!empty($data['password'])) {
+            $data['password'] = bcrypt($data['password']);
+        }
+
+        $user = $this->repository->skipPresenter(true)->update($data, $id);
+
+        if (!empty($data['role'])) {
+            SomelineRoleService::syncUserRoles($user, [$data['role']]);
+        }
 
         // throw exception if update failed
 //        throw new UpdateResourceFailedException('Failed to update.');

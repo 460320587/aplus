@@ -18,9 +18,8 @@ class UsersTableSeeder extends Seeder
         Schema::enableForeignKeyConstraints();
 
         User::create([
-//            'slid' => '1',
-            'name' => "Libern Lin",
-            'email' => 'libern@someline.com',
+            'name' => "管理员",
+            'email' => 'admin@someline.com',
             'password' => bcrypt('Abc12345'),
             'remember_token' => str_random(10),
             'gender' => 'M',
@@ -28,7 +27,37 @@ class UsersTableSeeder extends Seeder
             'country' => 'CN',
             'timezone' => 'Asia/Shanghai',
             'locale' => 'en',
-            'username' => 'libern',
+            'username' => 'admin',
+            'phone_number' => '+1234567890',
+            'status' => 1,
+        ]);
+
+        User::create([
+            'name' => "审核员",
+            'email' => 'reviewer@someline.com',
+            'password' => bcrypt('Abc12345'),
+            'remember_token' => str_random(10),
+            'gender' => 'M',
+            'birthday' => '1994-07-08',
+            'country' => 'CN',
+            'timezone' => 'Asia/Shanghai',
+            'locale' => 'en',
+            'username' => 'reviewer',
+            'phone_number' => '+1234567890',
+            'status' => 1,
+        ]);
+
+        User::create([
+            'name' => "发布员",
+            'email' => 'publisher@someline.com',
+            'password' => bcrypt('Abc12345'),
+            'remember_token' => str_random(10),
+            'gender' => 'M',
+            'birthday' => '1994-07-08',
+            'country' => 'CN',
+            'timezone' => 'Asia/Shanghai',
+            'locale' => 'en',
+            'username' => 'publisher',
             'phone_number' => '+1234567890',
             'status' => 1,
         ]);

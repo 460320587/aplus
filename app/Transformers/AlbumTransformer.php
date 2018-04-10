@@ -16,7 +16,7 @@ class AlbumTransformer extends BaseTransformer
     use SomelineIncludeManyCategories;
 
     protected $availableIncludes = [
-        'audios', 'latest_audio', 'categories'
+        'audios', 'latest_audio', 'categories', 'related_user'
     ];
 
     /**
@@ -32,6 +32,7 @@ class AlbumTransformer extends BaseTransformer
 
             /* place your other model properties here */
             'user_id' => $model->user_id,
+            'related_user_id' => $model->related_user_id,
             'book_id' => $model->book_id,
             'name' => $model->name,
             'author' => $model->author,
@@ -77,6 +78,15 @@ class AlbumTransformer extends BaseTransformer
         $audio = $model->audios()->orderBy('updated_at', 'desc')->first();
         if ($audio) {
             return $this->item($audio, new AudioTransformer());
+        }
+        return null;
+    }
+
+    public function includeRelatedUser(Album $model)
+    {
+        $audio = $model->getRelatedUser();
+        if ($audio) {
+            return $this->item($audio, new UserTransformer());
         }
         return null;
     }

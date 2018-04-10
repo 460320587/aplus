@@ -149,7 +149,7 @@
             <template slot="ControlArea">
                 <button type="submit" class="btn btn-primary">保存</button>
             </template>
-            <pre class="m-t-sm m-b-none">{{ form_data }}</pre>
+            <!--<pre class="m-t-sm m-b-none">{{ form_data }}</pre>-->
         </someline-form-group>
 
     </someline-form-panel>

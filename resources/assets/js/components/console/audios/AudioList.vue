@@ -67,6 +67,7 @@
                     </template>
                 </el-table-column>
                 <el-table-column
+                        v-if="!isRole('publisher')"
                         label="审核人员">
                     <template scope="scope">
                         {{ scope.row.reviewer ? scope.row.reviewer.data.name : '-' }}
@@ -98,12 +99,13 @@
                         label="操作">
                     <template scope="scope">
                         <a class="btn btn-default btn-sm r-2x"
-                        :href="getDetailUrl(scope.row)">
-                        <i class="fa fa-file-text-o"></i>&nbsp;查看
+                           :href="getDetailUrl(scope.row)">
+                            <i class="fa fa-file-text-o"></i>&nbsp;查看
                         </a>
                         <a class="btn btn-default btn-sm r-2x"
-                        :href="getReviewUrl(scope.row)">
-                        <i class="fa fa-file-text-o"></i>&nbsp;审核
+                           v-if="isRole('reviewer')"
+                           :href="getReviewUrl(scope.row)">
+                            <i class="fa fa-legal"></i>&nbsp;审核
                         </a>
                         <!--<a class="btn btn-default btn-sm r-2x"-->
                         <!--:href="getEditUrl(scope.row)">-->
@@ -122,9 +124,9 @@
         props: [],
         data(){
             return {
-                resourcePath: 'audios?include=tags,comments',
+                resourcePath: 'audios',
 
-                orderBy: 'audio_id',
+                orderBy: 'status',
                 sortedBy: 'asc',
 
                 orderableFields: [

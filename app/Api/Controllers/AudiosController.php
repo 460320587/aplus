@@ -39,7 +39,20 @@ class AudiosController extends BaseController
      */
     public function index()
     {
-        return $this->repository->paginate();
+        $user = $this->getAuthUser();
+        if ($user->hasRole('admin')) {
+            return $this->repository->paginate();
+        } else {
+            return $this->repository->useModel(function ($model) use ($user) {
+                if ($user->hasRole('publisher')) {
+                    $model = $model->where('user_id', $user->getUserId());
+                } else if ($user->hasRole('reviewer')) {
+                    $model = $model->where('pool', Audio::POOL_REVIEW);
+                }
+                return $model;
+            })->paginate();
+
+        }
     }
 
     /**

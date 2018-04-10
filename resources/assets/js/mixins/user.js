@@ -12,6 +12,9 @@ export default{
         currentUserId(){
             return window.Someline.state.user.user_id;
         },
+        currentUserRole(){
+            return window.Someline.state.user.role;
+        },
         currentUserName(){
             return window.Someline.state.user.name;
         },
@@ -32,5 +35,8 @@ export default{
         isCurrentUser(user_id){
             return this.currentUserId == user_id;
         },
+        isRole(role){
+            return this.currentUserRole == role;
+        }
     },
 }

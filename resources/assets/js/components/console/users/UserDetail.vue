@@ -3,7 +3,7 @@
 
 <template>
     <div v-loading.body="isLoading">
-        <div class="panel panel-default" v-if="false">
+        <div class="panel panel-default">
             <div class="panel-heading">
                 操作
             </div>
@@ -48,6 +48,10 @@
                     <tr>
                         <td class="text-right">登录账号</td>
                         <td>{{ item.username }}</td>
+                    </tr>
+                    <tr>
+                        <td class="text-right">角色</td>
+                        <td>{{ item.role_text }}</td>
                     </tr>
                     <tr>
                         <td class="text-right">创建时间</td>

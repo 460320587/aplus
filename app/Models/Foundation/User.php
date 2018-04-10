@@ -6,9 +6,11 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
 use Someline\Image\Models\Traits\SomelineHasImageablesTrait;
 use Someline\Model\Foundation\User as BaseUser;
+use Zizaco\Entrust\Traits\EntrustUserTrait;
 
 class User extends BaseUser
 {
+    use EntrustUserTrait;
     use SomelineHasImageablesTrait;
 
     /**
@@ -19,6 +21,10 @@ class User extends BaseUser
     protected $fillable = [
         'name', 'email', 'password',
         'gender', 'birthday', 'country', 'timezone', 'locale', 'username', 'phone_number', 'status',
+    ];
+
+    protected $appends = [
+        'role',
     ];
 
     /**
@@ -38,6 +44,16 @@ class User extends BaseUser
     {
         parent::onCreated();
 
+    }
+
+    public function getRoleAttribute()
+    {
+        $role = $this->roles()->first();
+        if ($role) {
+            return $role->name;
+        } else {
+            return null;
+        }
     }
 
 }

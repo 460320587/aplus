@@ -3,7 +3,7 @@
 
 <template>
     <div v-loading.body="isLoading">
-        <div class="panel panel-default">
+        <div class="panel panel-default" v-if="isRole('admin')">
             <div class="panel-heading">
                 操作
             </div>

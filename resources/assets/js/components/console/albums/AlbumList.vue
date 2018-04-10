@@ -72,6 +72,13 @@
                     </template>
                 </el-table-column>
                 <el-table-column
+                        v-if="!isRole('publisher')"
+                        label="分配人">
+                    <template scope="scope">
+                        {{ scope.row.related_user ? scope.row.related_user.data.name : '-' }}
+                    </template>
+                </el-table-column>
+                <el-table-column
                         width="100"
                         label="状态">
                     <template scope="scope">
@@ -101,8 +108,14 @@
                             <i class="fa fa-file-text-o"></i>&nbsp;查看
                         </a>
                         <a class="btn btn-default btn-sm r-2x"
+                           v-if="isRole('admin')"
                            :href="getEditUrl(scope.row)">
                             <i class="fa fa-edit"></i>&nbsp;编辑
+                        </a>
+                        <a class="btn btn-default btn-sm r-2x"
+                           v-if="isRole('publisher')"
+                           :href="getManageUrl(scope.row)">
+                            <i class="fa fa-edit"></i>&nbsp;声音
                         </a>
                     </template>
                 </el-table-column>
@@ -117,7 +130,7 @@
         props: [],
         data(){
             return {
-                resourcePath: 'albums?include=tags,comments',
+                resourcePath: 'albums?include=related_user',
 
                 orderBy: 'album_id',
                 sortedBy: 'asc',
@@ -152,6 +165,9 @@
         methods: {
             getEditUrl(album) {
                 return this.url(`/console/albums/${album.album_id}/edit`)
+            },
+            getManageUrl(album) {
+                return this.url(`/console/albums/${album.album_id}/audios`)
             },
             getDetailUrl(album) {
                 return this.url(`/console/albums/${album.album_id}`);

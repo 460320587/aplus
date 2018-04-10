@@ -11,7 +11,7 @@ trait RelationRelatedUserTrait
      */
     public function related_user()
     {
-        return $this->belongsTo(User::class, 'user_id', 'related_user_id');
+        return $this->belongsTo(User::class, 'related_user_id', 'user_id');
     }
 
 }
