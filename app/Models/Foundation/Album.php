@@ -27,6 +27,9 @@ class Album extends BaseModel implements Transformable
     const PAYMENT_TYPE_PERCENTAGE = 2;
     const PAYMENT_TYPE_BASE_PERCENTAGE = 3;
 
+    const STATUS_PUBLISHING = 0;
+    const STATUS_ENDED = 1;
+
     protected $table = 'albums';
 
     protected $primaryKey = 'album_id';
@@ -69,6 +72,29 @@ class Album extends BaseModel implements Transformable
     {
         return $this->audios()->where('status', Audio::STATUS_REJECTED);
     }
+
+    public function onUpdated()
+    {
+        if ($this->isStatus(self::STATUS_ENDED)) {
+            $this->updateUndeterminedAudios();
+        }
+    }
+
+    protected function updateUndeterminedAudios()
+    {
+        $this->audios()->where('pool', Audio::POOL_UNDETERMINED)
+            ->update([
+                'pool' => Audio::POOL_REVIEW,
+            ]);
+    }
+
+    public function isStatus($status)
+    {
+        return $this->status == $status;
+    }
+
+
+
 
     public static function getStatusTexts()
     {

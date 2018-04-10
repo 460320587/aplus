@@ -122,6 +122,11 @@ class AlbumsController extends BaseController
         /** @var Album $album */
         $album = Album::findOrFail($albumId);
 
+        if ($album->isStatus(Album::STATUS_ENDED)) {
+            throw new StoreResourceFailedException('该专辑已完结，不能再上传新声音。');
+        }
+
+
         foreach ($audio_files as $key => $audio_file) {
             if (!empty($audio_file['someline_file_id'])) {
                 $fileId = $audio_file['someline_file_id'];
