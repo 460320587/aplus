@@ -12,13 +12,16 @@
         </template>
 
         <someline-form-group>
-            <template slot="Label">未分配专辑</template>
+            <template slot="Label">专辑</template>
             <template slot="ControlArea">
                 <select name="account" v-model="album_id" class="form-control m-b">
                     <option value="" disabled>请选择专辑</option>
                     <template v-for="album in albums">
                         <option :value="album.album_id">
                             {{ album.name }}
+                            <template v-if="album.related_user">
+                                (已分配：{{ album.related_user.data.name }})
+                            </template>
                         </option>
                     </template>
                 </select>
@@ -109,8 +112,9 @@
                 this.isLoading = true;
 
                 this.$api
-                    .get('albums/unassigned', {
+                    .get('albums/all', {
                         params: {
+                            include: 'related_user',
 //                            type: 'audio',
 //                            all_children: true
                         }

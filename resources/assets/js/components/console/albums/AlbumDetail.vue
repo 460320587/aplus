@@ -18,6 +18,11 @@
                     编辑
                 </a>
                 &nbsp;
+                <a :href="manageUrl" class="btn btn-default btn-addon">
+                    <i class="fa fa-pencil"></i>
+                    管理声音
+                </a>
+                &nbsp;
                 <span class="pull-right">
                     <button class="btn btn-danger btn-addon"
                             @click="doConfirmDelete"
@@ -66,6 +71,10 @@
                         <td>{{ item.audios_count }}</td>
                     </tr>
                     <tr>
+                        <td class="text-right">专辑码率</td>
+                        <td>{{ item.audio_bitrate }}</td>
+                    </tr>
+                    <tr>
                         <td class="text-right">书籍分类</td>
                         <td>
                             {{ item.category_text }}
@@ -89,7 +98,7 @@
                     </tr>
                     <tr>
                         <td class="text-right">付费方式</td>
-                        <td>{{ item.payment_type }}</td>
+                        <td>{{ item.payment_type_text }}</td>
                     </tr>
                     <tr v-if="item.payment_type != 2">
                         <td class="text-right">付费价格</td>
@@ -150,7 +159,10 @@
             },
             editUrl() {
                 return this.url(`/console/albums/${this.item.album_id}/edit`);
-            }
+            },
+            manageUrl() {
+                return this.url(`/console/albums/${this.item.album_id}/audios`);
+            },
         },
         components: {},
         mounted(){

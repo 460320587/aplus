@@ -89,12 +89,10 @@
                 <span>用户列表</span>
             </a>
         </li>
-        @endrole
 
         <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
             <span>专辑管理</span>
         </li>
-        @role('admin')
         <li>
             <a href="{{ url('console/albums/new') }}">
                 <span class="pull-right text-muted">
@@ -116,17 +114,6 @@
             </a>
         </li>
         <li>
-            <a href="{{ url('console/albums/assign') }}">
-                <span class="pull-right text-muted">
-                    <i class="fa fa-fw fa-angle-right text"></i>
-                    <i class="fa fa-fw fa-angle-down text-active"></i>
-                </span>
-                <i class="fa fa-star"></i>
-                <span>分配专辑</span>
-            </a>
-        </li>
-        @endrole
-        <li>
             <a href="{{ url('console/albums') }}">
                 <span class="pull-right text-muted">
                     <i class="fa fa-fw fa-angle-right text"></i>
@@ -136,12 +123,23 @@
                 <span>专辑列表</span>
             </a>
         </li>
+        <li>
+            <a href="{{ url('console/albums/assign') }}">
+                <span class="pull-right text-muted">
+                    <i class="fa fa-fw fa-angle-right text"></i>
+                    <i class="fa fa-fw fa-angle-down text-active"></i>
+                </span>
+                <i class="fa fa-star"></i>
+                <span>分配专辑</span>
+            </a>
+        </li>
         <li class="line dk"></li>
+        @endrole
 
         <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
             <span>声音管理</span>
         </li>
-        @role('publisher')
+        @role(['admin','publisher'])
         <li>
             <a href="{{ url('console/audios/new') }}">
                 <span class="pull-right text-muted">
@@ -153,7 +151,7 @@
             </a>
         </li>
         @endrole
-        @role('reviewer')
+        @role(['admin','reviewer'])
         <li>
             <a href="{{ url('console/audios/review') }}">
                 <span class="pull-right text-muted">

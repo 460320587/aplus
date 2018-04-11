@@ -57,14 +57,18 @@ class AlbumsController extends BaseController
     public function auth_user()
     {
         $user = $this->getAuthUser();
-        if ($user->hasRole('publisher')) {
-            return $this->repository->useModel(function ($model) use ($user) {
+        return $this->repository->useModel(function ($model) use ($user) {
+            if ($user->hasRole('publisher')) {
                 $model = $model->where('related_user_id', $user->getUserId());
-                return $model;
-            })->all();
-        } else {
-            return $this->repository->all();
-        }
+            }
+            $model = $model->where('status', Album::STATUS_PUBLISHING);
+            return $model;
+        })->all();
+    }
+
+    public function all()
+    {
+        return $this->repository->all();
     }
 
     public function unassigned()
@@ -141,7 +145,6 @@ class AlbumsController extends BaseController
         if ($album->isStatus(Album::STATUS_ENDED)) {
             throw new StoreResourceFailedException('该专辑已完结，不能再上传新声音。');
         }
-
 
         foreach ($audio_files as $key => $audio_file) {
             if (!empty($audio_file['someline_file_id'])) {

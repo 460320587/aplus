@@ -110,6 +110,22 @@ class Album extends BaseModel implements Transformable
         return $statusTexts[$this->status];
     }
 
+    public static function getPaymentTypeTexts()
+    {
+        return [
+            self::PAYMENT_TYPE_PER_HOUR => '买断',
+            self::PAYMENT_TYPE_PERCENTAGE => '分成',
+            self::PAYMENT_TYPE_BASE_PERCENTAGE => '保底分成',
+        ];
+    }
+
+    public function getPaymentTypeTextAttribute()
+    {
+        $paymentTypeTexts = self::getPaymentTypeTexts();
+        return $paymentTypeTexts[$this->payment_type];
+    }
+
+
     public function getCategoryText()
     {
         $categories_name = $this->someline_categories->pluck('category_name')->toArray();

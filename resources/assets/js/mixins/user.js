@@ -36,7 +36,7 @@ export default{
             return this.currentUserId == user_id;
         },
         isRole(role){
-            return this.currentUserRole == role;
+            return this.currentUserRole == role || this.currentUserRole == 'admin';
         }
     },
 }

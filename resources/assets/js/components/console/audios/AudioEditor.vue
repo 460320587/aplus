@@ -439,7 +439,7 @@
 
             },
             showReviewText(review) {
-                this.$alert(review.review_text, '失败原因', {
+                this.$alert(review.created_at + "：\n" + review.review_text, '失败原因', {
                     confirmButtonText: '确定'
                 });
             },

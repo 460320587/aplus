@@ -18,15 +18,15 @@
                     编辑
                 </a>
                 &nbsp;
-                <!--<span class="pull-right">-->
-                <!--<button class="btn btn-danger btn-addon"-->
-                <!--@click="doConfirmDelete"-->
-                <!--:disabled="isDeleting"-->
-                <!--&gt;-->
-                <!--<i class="fa fa-trash-o"></i>-->
-                <!--删除-->
-                <!--</button>-->
-                <!--</span>-->
+                <span class="pull-right">
+                <button class="btn btn-danger btn-addon"
+                @click="doConfirmDelete"
+                :disabled="isDeleting"
+                >
+                <i class="fa fa-trash-o"></i>
+                删除
+                </button>
+                </span>
             </div>
         </div>
 
