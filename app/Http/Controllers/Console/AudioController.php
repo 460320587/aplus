@@ -3,6 +3,7 @@
 namespace Someline\Http\Controllers\Console;
 
 use Someline\Http\Controllers\BaseController;
+use Someline\Models\Foundation\Audio;
 
 class AudioController extends BaseController
 {
@@ -30,6 +31,19 @@ class AudioController extends BaseController
     {
         //compact 创建一个包含变量名和它们的值的数组：
         return view('console.audios.detail', compact('audio_id'));
+    }
+
+    public function getAudioRandomReview()
+    {
+        $user = $this->getAuthUser();
+        $audio = Audio::where('pool', Audio::POOL_REVIEW)
+            ->inRandomOrder()
+            ->first();
+        if ($audio) {
+            return redirect('console/audios/' . $audio->audio_id . '/review');
+        } else {
+            return redirect('console/audios');
+        }
     }
 
     //审核声音页

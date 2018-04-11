@@ -340,7 +340,7 @@
                     message: '保存成功',
                     type: 'success'
                 });
-                this.redirectToUrlFromBaseUrl(`/console/audios`);
+                this.redirectToUrlFromBaseUrl(`/console/audios/review`);
             },
         },
     }
