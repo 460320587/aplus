@@ -7,7 +7,9 @@
         <h1 class="m-n font-thin h3">分配专辑</h1>
     </div>
     <div class="wrapper-md">
-        <sl-album-assign></sl-album-assign>
+        <sl-album-assign
+                @if(isset($album_id)) item-id="{{ $album_id }}" @endif
+        ></sl-album-assign>
     </div>
 
 @endsection

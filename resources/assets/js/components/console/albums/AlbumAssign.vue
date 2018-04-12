@@ -11,22 +11,35 @@
             分配专辑
         </template>
 
-        <someline-form-group>
-            <template slot="Label">专辑</template>
-            <template slot="ControlArea">
-                <select name="account" v-model="album_id" class="form-control m-b">
-                    <option value="" disabled>请选择专辑</option>
-                    <template v-for="album in albums">
-                        <option :value="album.album_id">
-                            {{ album.name }}
-                            <template v-if="album.related_user">
-                                (已分配：{{ album.related_user.data.name }})
-                            </template>
-                        </option>
-                    </template>
-                </select>
-            </template>
-        </someline-form-group>
+        <template v-if="inEditMode">
+            <someline-form-group>
+                <template slot="Label">专辑名</template>
+                <template slot="ControlArea">
+                    <div class="h4 m-t-xs">{{ album.name }}</div>
+                </template>
+            </someline-form-group>
+            <someline-form-group-line/>
+        </template>
+
+        <template v-else>
+            <someline-form-group>
+                <template slot="Label">专辑</template>
+                <template slot="ControlArea">
+                    <select name="account" v-model="album_id" class="form-control">
+                        <option value="" disabled>请选择专辑</option>
+                        <template v-for="album in albums">
+                            <option :value="album.album_id">
+                                {{ album.name }}
+                                <template v-if="album.related_user">
+                                    (已分配：{{ album.related_user.data.name }})
+                                </template>
+                            </option>
+                        </template>
+                    </select>
+                </template>
+            </someline-form-group>
+            <someline-form-group-line/>
+        </template>
 
         <someline-form-group>
             <template slot="Label">分配用户</template>
@@ -41,6 +54,7 @@
                 </select>
             </template>
         </someline-form-group>
+        <someline-form-group-line/>
 
         <someline-form-group>
             <template slot="ControlArea">
@@ -59,7 +73,7 @@
             itemId: {
                 type: String,
                 required: false
-            }
+            },
         },
         data(){
             return {
@@ -68,6 +82,7 @@
 
                 album_id: "",
 
+                album: {},
                 form_data: {
                     related_user_id: "",
                 },
@@ -89,7 +104,13 @@
         mounted(){
             console.log('Component Ready.');
 
-            this.fetchAlbumData();
+            if (this.inEditMode) {
+                this.album_id = this.itemId;
+                this.fetchData();
+            } else {
+                this.fetchAlbumData();
+            }
+
             this.fetchUserData();
 
         },
@@ -104,6 +125,27 @@
         },
         events: {},
         methods: {
+            fetchData() {
+                console.log('fetchData');
+
+//                if (this.isLoading) {
+//                    return;
+//                }
+                this.isLoading = true;
+
+                this.$api
+                    .get(`albums/${this.itemId}`, {
+                        params: {
+                            include: 'audios.latest_review,latest_audio',
+//                            edit: true,
+                        }
+                    })
+                    .then((response) => {
+                        this.album = response.data.data;
+                        this.data_loaded += 1;
+
+                    }, this.handleResponseError)
+            },
             fetchAlbumData() {
 
 //                if (this.isLoading) {

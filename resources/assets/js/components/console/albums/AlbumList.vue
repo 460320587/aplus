@@ -113,6 +113,11 @@
                             <i class="fa fa-edit"></i>&nbsp;编辑
                         </a>
                         <a class="btn btn-default btn-sm r-2x"
+                           v-if="isRole('admin')"
+                           :href="getAssignUrl(scope.row)">
+                            <i class="fa fa-user"></i>&nbsp;分配
+                        </a>
+                        <a class="btn btn-default btn-sm r-2x"
                            v-if="isRole('publisher')"
                            :href="getManageUrl(scope.row)">
                             <i class="fa fa-edit"></i>&nbsp;声音
@@ -168,6 +173,9 @@
             },
             getManageUrl(album) {
                 return this.url(`/console/albums/${album.album_id}/audios`)
+            },
+            getAssignUrl(album) {
+                return this.url(`/console/albums/${album.album_id}/assign`)
             },
             getDetailUrl(album) {
                 return this.url(`/console/albums/${album.album_id}`);

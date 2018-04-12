@@ -18,6 +18,13 @@
                     编辑
                 </a>
                 &nbsp;
+                <a :href="assignUrl" class="btn btn-default btn-addon">
+                    <i class="fa fa-user"></i>
+                    分配
+                </a>
+
+
+                &nbsp;
                 <a :href="manageUrl" class="btn btn-default btn-addon">
                     <i class="fa fa-pencil"></i>
                     管理声音
@@ -162,6 +169,9 @@
             },
             manageUrl() {
                 return this.url(`/console/albums/${this.item.album_id}/audios`);
+            },
+            assignUrl() {
+                return this.url(`/console/albums/${this.item.album_id}/assign`);
             },
         },
         components: {},

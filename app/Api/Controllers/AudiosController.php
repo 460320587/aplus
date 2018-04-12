@@ -5,6 +5,7 @@ namespace Someline\Api\Controllers;
 use Dingo\Api\Exception\DeleteResourceFailedException;
 use Dingo\Api\Exception\StoreResourceFailedException;
 use Dingo\Api\Exception\UpdateResourceFailedException;
+use Illuminate\Http\Request;
 use Prettus\Validator\Contracts\ValidatorInterface;
 use Someline\Http\Requests\AudioCreateRequest;
 use Someline\Http\Requests\AudioUpdateRequest;
@@ -35,24 +36,26 @@ class AudiosController extends BaseController
     /**
      * Display a listing of the resource.
      *
+     * @param Request $request
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        $data = $request->all();
         $user = $this->getAuthUser();
-        if ($user->hasRole('admin')) {
-            return $this->repository->paginate();
-        } else {
-            return $this->repository->useModel(function ($model) use ($user) {
-                if ($user->hasRole('publisher')) {
-                    $model = $model->where('user_id', $user->getUserId());
-                } else if ($user->hasRole('reviewer')) {
-                    $model = $model->where('pool', Audio::POOL_REVIEW);
-                }
-                return $model;
-            })->paginate();
+        return $this->repository->useModel(function ($model) use ($user, $data) {
+            if ($user->hasRole('publisher')) {
+                $model = $model->where('user_id', $user->getUserId());
+            } else if ($user->hasRole('reviewer')) {
+                $model = $model->where('pool', Audio::POOL_REVIEW);
+            }
 
-        }
+            if (isset($data['status']) && $data['status'] !== "") {
+                $model = $model->where('status', $data['status']);
+            }
+
+            return $model;
+        })->paginate();
     }
 
     /**
@@ -99,7 +102,7 @@ class AudiosController extends BaseController
      * Update the specified resource in storage.
      *
      * @param  AudioUpdateRequest $request
-     * @param  string            $id
+     * @param  string $id
      *
      * @return Response
      */
@@ -116,7 +119,6 @@ class AudiosController extends BaseController
         }
 
         $this->validator->with($data)->passesOrFail(ValidatorInterface::RULE_UPDATE);
-
 
         $data['status'] = Audio::STATUS_NOT_REVIEWED;
 

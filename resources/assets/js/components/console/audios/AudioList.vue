@@ -20,6 +20,27 @@
             </div>
         </div>
 
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                筛选
+            </div>
+            <div class="panel-body">
+                <div class="col-sm-6">
+                    <p>状态</p>
+                    <select class="form-control" v-model="filter_data.status">
+                        <option value="">全部</option>
+                        <option value="-1">审核未过</option>
+                        <option value="0">待审核</option>
+                        <option value="1">已通过</option>
+                    </select>
+                </div>
+                <div class="col-sm-6">
+                    <p>&nbsp;</p>
+                    <button class="btn btn-default w-sm" @click.prevent="doReloadData">筛选</button>
+                </div>
+            </div>
+        </div>
+
         <someline-table
                 :order-by="orderBy"
                 :sorted-by="sortedBy"
@@ -129,6 +150,10 @@
                 orderBy: 'status',
                 sortedBy: 'asc',
 
+                filter_data: {
+                    status: "",
+                },
+
                 orderableFields: [
                     {
                         name: 'audio_id',
@@ -153,12 +178,12 @@
         computed: {
             resourceParams(){
                 return {
-                    include: 'album,reviewer'
+                    include: 'album,reviewer',
+                    status: this.filter_data.status,
                 }
             },
         },
-        components: {
-        },
+        components: {},
         mounted(){
             console.log('Component Ready.');
 
@@ -284,6 +309,9 @@
                     type: 'error'
                 });
 
+            },
+            doReloadData(){
+                this.eventEmit('SomelineTable.doFetchData');
             },
         },
     }

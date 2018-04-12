@@ -41,6 +41,9 @@ $api->version('v1', [
         $api->group(['prefix' => 'albums'], function (Router $api) {
             //查
             $api->get('/', 'AlbumsController@index');
+
+            $api->get('/all', 'AlbumsController@all');
+
             //当前登陆用户
             $api->get('/auth_user', 'AlbumsController@auth_user');
             //专辑分配
