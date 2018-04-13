@@ -104,6 +104,7 @@ class Audio extends BaseModel implements Transformable, SomelineReviewInterface
             $this->updatePool(self::POOL_APPROVED);
         } else {
             $this->failed_times += 1;
+            $this->updatePool(self::POOL_REVIEW);
         }
         $this->review_user_id = $somelineReview->getUserId();
         $this->reviewed_at = $somelineReview->created_at;

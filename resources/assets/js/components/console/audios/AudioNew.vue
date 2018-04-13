@@ -27,7 +27,7 @@
 
         <someline-form-group>
             <template slot="ControlArea">
-                <button type="submit" class="btn btn-primary">下一步</button>
+                <button type="submit" class="btn btn-primary" :disabled="album_id == ''">下一步</button>
             </template>
             <!--<pre class="m-t-sm m-b-none">{{ form_data }}</pre>-->
         </someline-form-group>

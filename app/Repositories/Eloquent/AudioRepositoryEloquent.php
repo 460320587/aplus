@@ -16,6 +16,7 @@ class AudioRepositoryEloquent extends BaseRepository implements AudioRepository
 {
     protected $filedSearchable = [
         'album_id' => '=',
+        'album.name' => 'like',
         'audio_id' => '=',
         'name' => 'like',
     ];

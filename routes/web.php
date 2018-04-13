@@ -55,7 +55,14 @@ Route::group(['prefix' => 'm', 'namespace' => 'Mobile'], function () {
 Route::group(['prefix' => 'console', 'middleware' => 'auth', 'namespace' => 'Console'], function () {
 
     Route::get('/', function () {
-        return redirect('console/albums');
+        $user = auth_user();
+        if ($user->hasRole('reviewer')) {
+            return redirect('console/audios/review');
+        } else if ($user->hasRole('publisher')) {
+            return redirect('console/audios');
+        } else {
+            return redirect('console/albums');
+        }
     });
 
 //    Route::get('/', 'ConsoleController@getConsoleHome');

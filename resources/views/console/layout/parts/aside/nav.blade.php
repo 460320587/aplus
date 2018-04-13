@@ -163,6 +163,7 @@
             </a>
         </li>
         @endrole
+        @role(['admin','publisher'])
         <li>
             <a href="{{ url('console/audios') }}">
                 <span class="pull-right text-muted">
@@ -173,6 +174,7 @@
                 <span>声音列表</span>
             </a>
         </li>
+        @endrole
 
         {{--<li>--}}
         {{--<a href class="auto">--}}

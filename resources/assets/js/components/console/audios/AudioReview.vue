@@ -50,12 +50,24 @@
                         <td>{{ item.name }}</td>
                     </tr>
                     <tr>
+                        <td class="text-right">声音时长</td>
+                        <td>{{ item.audio_length }}</td>
+                    </tr>
+                    <tr>
                         <td class="text-right">专辑名</td>
                         <td>{{ album.name }}</td>
                     </tr>
                     <tr>
-                        <td class="text-right">声音时长</td>
-                        <td>{{ item.audio_length }}</td>
+                        <td class="text-right">作者</td>
+                        <td>{{ album.author }}</td>
+                    </tr>
+                    <tr>
+                        <td class="text-right">演播</td>
+                        <td>{{ album.broadcaster }}</td>
+                    </tr>
+                    <tr>
+                        <td class="text-right">演绎形式</td>
+                        <td>{{ album.broadcaster_type }}</td>
                     </tr>
                     <tr>
                         <td class="text-right">状态</td>

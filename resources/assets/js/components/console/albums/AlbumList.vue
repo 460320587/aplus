@@ -72,7 +72,7 @@
                     </template>
                 </el-table-column>
                 <el-table-column
-                        v-if="!isRole('publisher')"
+                        v-if="!isRole('admin')"
                         label="分配人">
                     <template scope="scope">
                         {{ scope.row.related_user ? scope.row.related_user.data.name : '-' }}
