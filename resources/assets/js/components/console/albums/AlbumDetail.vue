@@ -77,7 +77,7 @@
                     </tr>
                     <tr>
                         <td class="text-right">专辑码率</td>
-                        <td>{{ item.audio_bitrate }}</td>
+                        <td>{{ item.audio_bitrate }}kkbps</td>
                     </tr>
                     <tr>
                         <td class="text-right">书籍分类</td>
@@ -120,6 +120,10 @@
                     <tr>
                         <td class="text-right">版权方</td>
                         <td>{{ item.copyright }}</td>
+                    </tr>
+                    <tr>
+                        <td class="text-right">所属用户</td>
+                        <td>{{ item.related_user ? item.related_user.data.name : '-' }}</td>
                     </tr>
                     <tr>
                         <td class="text-right">状态</td>
@@ -191,7 +195,7 @@
                 this.$api
                     .get(`albums/${this.itemId}`, {
                         params: {
-//                            include: 'categories,tags'
+                           include: 'related_user'
                         }
                     })
                     .then((response) => {

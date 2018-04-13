@@ -3,6 +3,7 @@
 namespace Someline\Http\Controllers\Console;
 
 use Someline\Http\Controllers\BaseController;
+use Someline\Models\Foundation\Album;
 
 class AlbumController extends BaseController
 {
@@ -51,7 +52,17 @@ class AlbumController extends BaseController
 
     public function getAlbumAudios($album_id)
     {
-        return view('console.albums.audios', compact('album_id'));
+        /** @var Album $album */
+        $album = Album::findOrFail($album_id);
+        $canUpload = $album->isStatus(Album::STATUS_PUBLISHING);
+        if ($canUpload) {
+            $user = $this->getAuthUser();
+            $publisher = $user->hasRole('publisher');
+            if ($publisher) {
+                $canUpload = $album->related_user_id == $user->getUserId();
+            }
+        }
+        return view('console.albums.audios', compact('canUpload', 'album_id'));
     }
 
     public function getAlbumAudiosUpload($album_id)

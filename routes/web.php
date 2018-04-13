@@ -57,7 +57,7 @@ Route::group(['prefix' => 'console', 'middleware' => 'auth', 'namespace' => 'Con
     Route::get('/', function () {
         $user = auth_user();
         if ($user->hasRole('reviewer')) {
-            return redirect('console/audios/review');
+            return redirect('console/audios/review_landing');
         } else if ($user->hasRole('publisher')) {
             return redirect('console/audios');
         } else {
@@ -96,6 +96,7 @@ Route::group(['prefix' => 'console', 'middleware' => 'auth', 'namespace' => 'Con
         Route::get('/', 'AudioController@getAudioList');
         Route::get('/new', 'AudioController@getAudioNew');
         Route::get('/review', 'AudioController@getAudioRandomReview');
+        Route::get('/review_landing', 'AudioController@getAudioReviewLanding');
         Route::get('/categories', 'AudioController@getAudioCategory');
         Route::get('/{id}', 'AudioController@getAudioDetail');
         Route::get('/{id}/edit', 'AudioController@getAudioEdit');

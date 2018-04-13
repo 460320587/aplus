@@ -37,13 +37,20 @@ class AudioController extends BaseController
     {
         $user = $this->getAuthUser();
         $audio = Audio::where('pool', Audio::POOL_REVIEW)
-            ->inRandomOrder()
+            ->where('status', Audio::STATUS_NOT_REVIEWED)
+            ->orderBy('failed_times', 'desc')
+            ->orderBy('created_at', 'asc')
             ->first();
         if ($audio) {
             return redirect('console/audios/' . $audio->audio_id . '/review');
         } else {
-            return redirect('console/audios');
+            return redirect('console/audios/review_landing');
         }
+    }
+
+    public function getAudioReviewLanding()
+    {
+        return view('console.audios.review_landing');
     }
 
     //审核声音页
