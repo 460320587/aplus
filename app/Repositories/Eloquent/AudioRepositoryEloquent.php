@@ -14,6 +14,11 @@ use Someline\Presenters\AudioPresenter;
  */
 class AudioRepositoryEloquent extends BaseRepository implements AudioRepository
 {
+    protected $filedSearchable = [
+        'album_id' => '=',
+        'audio_id' => '=',
+        'name' => 'like',
+    ];
     /**
      * Specify Model class name
      *

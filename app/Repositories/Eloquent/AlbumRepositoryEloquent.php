@@ -14,6 +14,15 @@ use Someline\Presenters\AlbumPresenter;
  */
 class AlbumRepositoryEloquent extends BaseRepository implements AlbumRepository
 {
+    protected $fieldSearchable = [
+        'album_id' => '=',
+        'book_id' => '=',
+        'user_id' => '=',
+        'related_user_id' => '=',
+        'author' => 'like',
+        'keywords' => 'like',
+        'name' => 'like',
+    ];
     /**
      * Specify Model class name
      *
