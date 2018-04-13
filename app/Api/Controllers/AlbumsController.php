@@ -104,8 +104,7 @@ class AlbumsController extends BaseController
         $album = $this->repository->skipPresenter(true)->create($data);
 
         $someline_image_ids = collect($data['images_data'])->pluck('someline_image_id')->toArray();
-        $album->images()->detach();
-        $album->images()->sync($someline_image_ids);
+        $album->syncImages($someline_image_ids);
 
         $album = $this->updateSomelineCategories($album, $data);
 
@@ -253,11 +252,11 @@ class AlbumsController extends BaseController
 
         $this->validator->with($data)->passesOrFail(ValidatorInterface::RULE_UPDATE);
 
+        /** @var Album $album */
         $album = $this->repository->skipPresenter(true)->update($data, $id);
 
         $someline_image_ids = collect($data['images_data'])->pluck('someline_image_id')->toArray();
-        $album->images()->detach();
-        $album->images()->sync($someline_image_ids);
+        $album->syncImages($someline_image_ids);
 
         $album = $this->updateSomelineCategories($album, $data);
 
