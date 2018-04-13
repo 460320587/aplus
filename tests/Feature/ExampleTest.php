@@ -23,7 +23,8 @@ class ExampleTest extends TestCase
     public function testZhangYueApi()
     {
         $zhangYueService = new ZhangYueService();
-        $result = $zhangYueService->fetchBookInfo('10004510');
+        $result = $zhangYueService->fetchBookInfo('11025616');
+        $result = $zhangYueService->fetchBookList();
         print_r($result);
     }
 }

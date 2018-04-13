@@ -70,5 +70,22 @@ class ZhangYueService
         }
     }
 
+    public function fetchBookList()
+    {
+        $response = $this->client->get('/api/v2/book/bookList',[
+            'query' => [
+              'clientId' => $this->clientId,
+              'resType' => 'json',
+              'sign' => $this->getSign(null),
+            ],
+        ]);
+
+        if($response->getStatusCode() >=200 && $response->getStatusCode() < 300) {
+            return json_decode((string)$response->getBody(), true);
+        } else {
+            return false;
+        }
+    }
+
 
 }
