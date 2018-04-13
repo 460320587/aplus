@@ -15,6 +15,6 @@ class DatabaseSeeder extends Seeder
         \Auth::loginUsingId(1);
         $this->call(SomelineRolesTableSeeder::class);
         $this->call(SomelineCategoriesTableSeeder::class);
-        $this->call(AlbumsTableSeeder::class);
+//        $this->call(AlbumsTableSeeder::class);
     }
 }
