@@ -65,6 +65,16 @@
         </someline-form-group-radio-list>
         <someline-form-group-line/>
 
+        <someline-form-group-image-upload v-model="form_data.images_data"
+                                          :is-model-use-id="false"
+                                          :multiple="true"
+                                          :limit-size="10000"
+                                          :max-image="10"
+        >
+            <template slot="Label">封面</template>
+        </someline-form-group-image-upload>
+        <someline-form-group-line/>
+
         <someline-form-group-text-area
                 height="200px"
                 v-model="form_data.brief"

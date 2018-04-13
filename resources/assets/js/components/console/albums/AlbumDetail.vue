@@ -22,8 +22,6 @@
                     <i class="fa fa-user"></i>
                     分配
                 </a>
-
-
                 &nbsp;
                 <a :href="manageUrl" class="btn btn-default btn-addon">
                     <i class="fa fa-pencil"></i>
@@ -91,11 +89,11 @@
                         <td class="text-right">封面</td>
                         <td>
                             <template v-for="someline_image_url in item.someline_image_urls">
-                                <p>
-                                    <a :href="someline_image_url" target="_blank" class="thumbnail thumb-md">
+                                <div>
+                                    <a :href="someline_image_url" target="_blank" class="thumbnail m-b-none thumb-md">
                                         <img :src="someline_image_url" class="img" alt="">
                                     </a>
-                                </p>
+                                </div>
                             </template>
                         </td>
                     </tr>
