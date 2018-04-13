@@ -14,6 +14,11 @@ class AlbumController extends BaseController
         return view('console.albums.list');
     }
 
+    public function getAlbumAudioList()
+    {
+        return view('console.albums.audio_list');
+    }
+
     //新建专辑页
     public function getAlbumNew()
     {

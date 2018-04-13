@@ -54,6 +54,8 @@ Vue.component('sl-audio-upload', require('./components/console/audios/AudioUploa
 Vue.component('sl-audio-detail', require('./components/console/audios/AudioDetail.vue'));
 Vue.component('sl-audio-category', require('./components/console/audios/AudioCategory.vue'));
 Vue.component('sl-audio-review', require('./components/console/audios/AudioReview.vue'));
+Vue.component('sl-album-audio-list', require('./components/console/audios/AlbumAudioList.vue'));
+
 
 // // Vuex
 // const vuexStore = new Vuex.Store({

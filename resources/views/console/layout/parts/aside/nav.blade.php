@@ -164,14 +164,24 @@
         </li>
         @endrole
         @role(['admin','publisher'])
+        {{--<li>--}}
+            {{--<a href="{{ url('console/audios') }}">--}}
+                {{--<span class="pull-right text-muted">--}}
+                    {{--<i class="fa fa-fw fa-angle-right text"></i>--}}
+                    {{--<i class="fa fa-fw fa-angle-down text-active"></i>--}}
+                {{--</span>--}}
+                {{--<i class="fa fa-star"></i>--}}
+                {{--<span>声音列表</span>--}}
+            {{--</a>--}}
+        {{--</li>--}}
         <li>
-            <a href="{{ url('console/audios') }}">
+            <a href="{{ url('console/album/audios') }}">
                 <span class="pull-right text-muted">
                     <i class="fa fa-fw fa-angle-right text"></i>
                     <i class="fa fa-fw fa-angle-down text-active"></i>
                 </span>
                 <i class="fa fa-star"></i>
-                <span>声音列表</span>
+                <span>专辑声音</span>
             </a>
         </li>
         @endrole

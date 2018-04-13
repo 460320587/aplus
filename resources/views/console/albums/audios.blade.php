@@ -3,7 +3,7 @@
 @section('content')
 
     <div class="bg-light lter b-b wrapper-md">
-        <a href="{{ url('console/albums/'.$album_id) }}" class="btn btn-sm btn-default pull-right">返回</a>
+        <a href="{{ url('console/albums/audios') }}" class="btn btn-sm btn-default pull-right">返回</a>
         @if($canUpload)
             <a href="{{ url('console/albums/'.$album_id.'/audios/upload') }}"
                class="btn btn-sm btn-success pull-right m-r"><i class="fa fa-cloud-upload"></i> &nbsp;上传声音</a>

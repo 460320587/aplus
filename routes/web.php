@@ -85,6 +85,7 @@ Route::group(['prefix' => 'console', 'middleware' => 'auth', 'namespace' => 'Con
         Route::get('/new', 'AlbumController@getAlbumNew');
         Route::get('/categories', 'AlbumController@getAlbumCategory');
         Route::get('/assign', 'AlbumController@getAlbumAssign');
+        Route::get('/audios', 'AlbumController@getAlbumAudioList');
         Route::get('/{id}', 'AlbumController@getAlbumDetail');
         Route::get('/{id}/edit', 'AlbumController@getAlbumEdit');
         Route::get('/{id}/assign', 'AlbumController@getAlbumSingleAssign');
