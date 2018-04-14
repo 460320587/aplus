@@ -19,7 +19,7 @@ class CreateAlbumsTable extends Migration
 
             // Adding more table related fields here...
             $table->unsignedInteger('related_user_id')->index()->nullable();
-            $table->string('book_id', 50);
+            $table->string('book_id', 50)->nullable();
             $table->string('name', 150)->nullable();
             $table->string('author', 150)->nullable();
             $table->string('broadcaster', 150)->nullable();
