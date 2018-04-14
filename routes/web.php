@@ -69,11 +69,8 @@ Route::group(['prefix' => 'console', 'middleware' => 'auth', 'namespace' => 'Con
     Route::get('oauth', 'ConsoleController@getOauth');
     Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
 
-    Route::group(['prefix' => 'users'], function () {
-        Route::get('/', 'UserController@getUserList');
-    });
 
-    Route::group(['prefix' => 'users'], function () {
+    Route::group(['prefix' => 'users', 'middleware' => ['role:root|admin']], function () {
         Route::get('/', 'UserController@getUserList');
         Route::get('/new', 'UserController@getUserNew');
         Route::get('/{id}', 'UserController@getUserDetail');
@@ -81,10 +78,14 @@ Route::group(['prefix' => 'console', 'middleware' => 'auth', 'namespace' => 'Con
     });
 
     Route::group(['prefix' => 'albums'], function () {
-        Route::get('/', 'AlbumController@getAlbumList');
-        Route::get('/new', 'AlbumController@getAlbumNew');
-        Route::get('/categories', 'AlbumController@getAlbumCategory');
-        Route::get('/assign', 'AlbumController@getAlbumAssign');
+        Route::group(['middleware' => ['role:root|admin']], function () {
+            Route::get('/new', 'AlbumController@getAlbumNew');
+            Route::get('/categories', 'AlbumController@getAlbumCategory');
+            Route::get('/assign', 'AlbumController@getAlbumAssign');
+        });
+        Route::group(['middleware' => ['role:root|admin|publisher']], function () {
+            Route::get('/', 'AlbumController@getAlbumList');
+        });
         Route::get('/audios', 'AlbumController@getAlbumAudioList');
         Route::get('/{id}', 'AlbumController@getAlbumDetail');
         Route::get('/{id}/edit', 'AlbumController@getAlbumEdit');
@@ -94,9 +95,17 @@ Route::group(['prefix' => 'console', 'middleware' => 'auth', 'namespace' => 'Con
     });
 
     Route::group(['prefix' => 'audios'], function () {
-        Route::get('/', 'AudioController@getAudioList');
-        Route::get('/new', 'AudioController@getAudioNew');
-        Route::get('/review', 'AudioController@getAudioRandomReview');
+        Route::group(['middleware' => ['role:root|admin|publisher']], function () {
+            Route::get('/new', 'AudioController@getAudioNew');
+        });
+        Route::group(['middleware' => ['role:root|admin|review']], function () {
+            Route::get('/review', 'AudioController@getAudioRandomReview');
+        });
+
+        Route::group(['middleware' => ['role:root|admin|review']], function () {
+            Route::get('/', 'AudioController@getAudioList');
+        });
+
         Route::get('/review_landing', 'AudioController@getAudioReviewLanding');
         Route::get('/categories', 'AudioController@getAudioCategory');
         Route::get('/{id}', 'AudioController@getAudioDetail');
