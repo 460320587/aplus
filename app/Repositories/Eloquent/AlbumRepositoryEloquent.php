@@ -23,6 +23,7 @@ class AlbumRepositoryEloquent extends BaseRepository implements AlbumRepository
         'broadcaster' => 'like',
         'broadcaster_type' => 'like',
         'related_user_id' => '=',
+        'related_user.name' => 'like',
         'author' => 'like',
         'keywords' => 'like',
         'name' => 'like',

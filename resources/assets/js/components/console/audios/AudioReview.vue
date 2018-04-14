@@ -158,12 +158,19 @@
 
             <someline-form-group>
                 <template slot="ControlArea">
-                    <button type="submit" class="btn btn-primary" :disabled="isReviewLoading">
-                        保存
-                        <template v-if="disableSeconds > 0 && form_data.review_result != -1">
-                            ({{ disableSeconds }})
-                        </template>
-                    </button>
+                    <template v-if="isRoleOnly('admin')">
+                        <button type="submit" class="btn btn-primary" :disabled="isReviewLoading">
+                            保存
+                        </button>
+                    </template>
+                    <template v-else>
+                        <button type="submit" class="btn btn-primary" :disabled="isReviewLoading || (disableSeconds > 0 && form_data.review_result != -1)">
+                            保存
+                            <template v-if="disableSeconds > 0 && form_data.review_result != -1">
+                                ({{ disableSeconds }})
+                            </template>
+                        </button>
+                    </template>
                 </template>
                 <!--<pre class="m-t-sm m-b-none">{{ form_data }}</pre>-->
             </someline-form-group>
