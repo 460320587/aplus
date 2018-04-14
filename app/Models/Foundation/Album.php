@@ -136,4 +136,10 @@ class Album extends BaseModel implements Transformable
         }
     }
 
+    public function getTotalAudioSeconds()
+    {
+        return $this->audios()->sum('audio_length');
+
+    }
+
 }

@@ -158,7 +158,12 @@
 
             <someline-form-group>
                 <template slot="ControlArea">
-                    <button type="submit" class="btn btn-primary">保存</button>
+                    <button type="submit" class="btn btn-primary" :disabled="disableSeconds > 0 && form_data.review_result != -1">
+                        保存
+                        <template v-if="disableSeconds > 0 && form_data.review_result != -1">
+                            ({{ disableSeconds }})
+                        </template>
+                    </button>
                 </template>
                 <!--<pre class="m-t-sm m-b-none">{{ form_data }}</pre>-->
             </someline-form-group>
@@ -208,6 +213,7 @@
                 },
 
 
+                disableSeconds: 0,
                 isLoading: false,
                 isReviewLoading: false,
                 isDeleting: false,
@@ -235,8 +241,11 @@
                 try {
                     return this.item.reviews.data;
                 } catch (e) {
-                    return {}
+                    return []
                 }
+            },
+            isNewReview(){
+                return this.reviews.length == 0;
             },
         },
         components: {},
@@ -247,7 +256,15 @@
 
             this.fetchData();
         },
-        watch: {},
+        watch: {
+            'disableSeconds': function () {
+                if (this.disableSeconds > 0) {
+                    setTimeout(() => {
+                        this.disableSeconds--;
+                    }, 1000)
+                }
+            }
+        },
         events: {},
         methods: {
             getReviewResultText(review_result){
@@ -275,6 +292,10 @@
 
                         this.isLoading = false;
                         this.item = response.data.data;
+
+                        if (this.isNewReview) {
+                            this.disableSeconds = Math.round(parseInt(this.audio.audio_length) * 0.8)
+                        }
 
                     }, this.handleResponseError);
             },

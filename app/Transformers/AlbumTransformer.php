@@ -53,9 +53,14 @@ class AlbumTransformer extends BaseTransformer
             'status' => $model->status,
             'status_text' => $model->status_text,
 
-            'created_at' => (string)$model->created_at,
-            'updated_at' => (string)$model->updated_at
+            'created_at' => $model->created_at->toDateString(),
+            'updated_at' => $model->updated_at->toDateString()
         ];
+
+        $isDetailMode = request()->get('detail', false);
+        if($isDetailMode) {
+            $data['total_audio_length'] = round($model->getTotalAudioSeconds() / 3600, 2);
+        }
 
         $isEditMode = request()->get('edit', false);
         if ($isEditMode) {

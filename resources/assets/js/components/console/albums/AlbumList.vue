@@ -54,47 +54,58 @@
                     </template>
                 </el-table-column>
                 <el-table-column
+                        width="80"
                         label="作者">
                     <template scope="scope">
                         {{ scope.row.author }}
                     </template>
                 </el-table-column>
                 <el-table-column
+                        width="80"
                         label="演播">
                     <template scope="scope">
                         {{ scope.row.broadcaster }}
                     </template>
                 </el-table-column>
                 <el-table-column
+                        width="80"
                         label="集数">
                     <template scope="scope">
                         {{ scope.row.audios_count }}
                     </template>
                 </el-table-column>
                 <el-table-column
-                        v-if="!isRole('admin')"
-                        label="分配人">
+                        width="80"
+                        label="未通过声音数">
+                    <template scope="scope">
+                        {{ scope.row.rejected_audios_count }}
+                    </template>
+                </el-table-column>
+                <el-table-column
+                        v-if="isRole('admin')"
+                        width="80"
+                        label="用户">
                     <template scope="scope">
                         {{ scope.row.related_user ? scope.row.related_user.data.name : '-' }}
                     </template>
                 </el-table-column>
                 <el-table-column
-                        width="100"
+                        width="80"
                         label="状态">
                     <template scope="scope">
                         {{ scope.row.status_text }}
                     </template>
                 </el-table-column>
                 <el-table-column
-                        width="160"
-                        label="创建于">
+                        width="110"
+                        label="创建时间">
                     <template scope="scope">
                         {{ scope.row.created_at }}
                     </template>
                 </el-table-column>
                 <el-table-column
-                        width="160"
-                        label="更新于">
+                        width="110"
+                        label="最近更新">
                     <template scope="scope">
                         {{ scope.row.updated_at }}
                     </template>
@@ -104,6 +115,7 @@
                         label="操作">
                     <template scope="scope">
                         <a class="btn btn-default btn-sm r-2x"
+                           v-if="isRole('admin')"
                            :href="getDetailUrl(scope.row)">
                             <i class="fa fa-file-text-o"></i>&nbsp;查看
                         </a>
@@ -118,7 +130,6 @@
                             <i class="fa fa-user"></i>&nbsp;分配
                         </a>
                         <a class="btn btn-default btn-sm r-2x"
-                           v-if="isRole('publisher')"
                            :href="getManageUrl(scope.row)">
                             <i class="fa fa-edit"></i>&nbsp;声音
                         </a>

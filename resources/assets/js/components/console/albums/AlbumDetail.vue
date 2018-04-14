@@ -76,8 +76,16 @@
                         <td>{{ item.audios_count }}</td>
                     </tr>
                     <tr>
+                        <td class="text-right">未通过声音数</td>
+                        <td>{{ item.rejected_audios_count }}</td>
+                    </tr>
+                    <tr>
+                        <td class="text-right">专辑时长</td>
+                        <td>{{ item.total_audio_length }}小时</td>
+                    </tr>
+                    <tr>
                         <td class="text-right">专辑码率</td>
-                        <td>{{ item.audio_bitrate }}kkbps</td>
+                        <td>{{ item.audio_bitrate }}kbps</td>
                     </tr>
                     <tr>
                         <td class="text-right">书籍分类</td>
@@ -195,7 +203,8 @@
                 this.$api
                     .get(`albums/${this.itemId}`, {
                         params: {
-                           include: 'related_user'
+                            include: 'related_user',
+                            detail: true,
                         }
                     })
                     .then((response) => {

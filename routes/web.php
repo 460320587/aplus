@@ -59,7 +59,7 @@ Route::group(['prefix' => 'console', 'middleware' => 'auth', 'namespace' => 'Con
         if ($user->hasRole('reviewer')) {
             return redirect('console/audios/review_landing');
         } else if ($user->hasRole('publisher')) {
-            return redirect('console/audios');
+            return redirect('console/albums');
         } else {
             return redirect('console/albums');
         }
