@@ -85,6 +85,11 @@
                            :href="getManageUrl(scope.row)">
                             <i class="fa fa-edit"></i>&nbsp;声音
                         </a>
+                        <a class="btn btn-default btn-sm r-2x"
+                           v-if="isRole('admin')"
+                           :href="getListUrl(scope.row)">
+                            <i class="fa fa-edit"></i>&nbsp;列表
+                        </a>
                     </template>
                 </el-table-column>
             </template>
@@ -121,8 +126,7 @@
             }
         },
         computed: {},
-        components: {
-        },
+        components: {},
         mounted(){
             console.log('Component Ready.');
 
@@ -136,6 +140,9 @@
             },
             getManageUrl(album) {
                 return this.url(`/console/albums/${album.album_id}/audios`)
+            },
+            getListUrl(album) {
+                return this.url(`/console/audios?album_id=${album.album_id}`)
             },
             getAssignUrl(album) {
                 return this.url(`/console/albums/${album.album_id}/assign`)

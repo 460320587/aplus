@@ -154,7 +154,7 @@ class AlbumsController extends BaseController
                 ];
                 $audio = Audio::where($data)->first();
                 if (!$audio) {
-                    $original_name = $audio_file['original_name'];
+                    $original_name = $audio_file['client_original_name'];
                     preg_match_all('!\d+!', $original_name, $matches);
                     $sequence = isset($matches[0][0]) ? $matches[0][0] : 0;
                     $name = str_replace('.mp3', '', $original_name);

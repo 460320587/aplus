@@ -68,7 +68,15 @@ class AlbumTransformer extends BaseTransformer
 
     public function includeAudios(Album $model)
     {
-        $audios = $model->ordered_audios;
+        $user = auth_user();
+        if ($user->hasRole('publisher')) {
+            $audios = $model->audios()
+                ->orderBy('status', 'asc')
+                ->orderBy('sequence', 'asc')
+                ->get();
+        } else {
+            $audios = $model->ordered_audios;
+        }
         if (count($audios) > 0) {
             return $this->collection($audios, new AudioTransformer());
         }

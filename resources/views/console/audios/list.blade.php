@@ -7,7 +7,9 @@
         <h1 class="m-n font-thin h3">声音列表</h1>
     </div>
     <div class="wrapper-md">
-        <sl-audio-list></sl-audio-list>
+        <sl-audio-list
+                @if($album_id) album-id="{{ $album_id }}" @endif
+        ></sl-audio-list>
     </div>
 
 @endsection

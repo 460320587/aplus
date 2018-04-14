@@ -62,7 +62,7 @@
                 <template v-for="audio in form_data.audio_files">
                     <tr :class="audio.error ? 'danger' : ''">
                         <td>
-                            {{ audio.original_name }}
+                            {{ audio.client_original_name }}
                             <template v-if="!audio.error">
                                 <a href="#" @click.prevent="doPlayAudio(audio)"><i
                                         class="fa fa-play-circle"></i></a>

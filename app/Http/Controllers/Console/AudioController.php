@@ -2,6 +2,7 @@
 
 namespace Someline\Http\Controllers\Console;
 
+use Illuminate\Http\Request;
 use Someline\Http\Controllers\BaseController;
 use Someline\Models\Foundation\Audio;
 
@@ -9,10 +10,12 @@ class AudioController extends BaseController
 {
 
     //专辑列表页
-    public function getAudioList()
+    public function getAudioList(Request $request)
     {
-        return view('console.audios.list');
+        $album_id = $request->get('album_id');
+        return view('console.audios.list', compact('album_id'));
     }
+
 
     //新建专辑页
     public function getAudioNew()

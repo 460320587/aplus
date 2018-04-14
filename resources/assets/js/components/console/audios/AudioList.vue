@@ -142,7 +142,7 @@
 
 <script>
     export default{
-        props: [],
+        props: ['albumId'],
         data(){
             return {
                 resourcePath: 'audios',
@@ -180,6 +180,7 @@
                 return {
                     include: 'album,reviewer',
                     status: this.filter_data.status,
+                    album_id: this.albumId,
                 }
             },
         },

@@ -54,6 +54,10 @@ class AudiosController extends BaseController
                 $model = $model->where('status', $data['status']);
             }
 
+            if (!empty($data['album_id'])) {
+                $model = $model->where('album_id', $data['album_id']);
+            }
+
             return $model;
         })->paginate();
     }
