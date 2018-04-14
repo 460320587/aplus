@@ -426,13 +426,19 @@
                     })
                     .then((response) => {
                         let data = response.data.data;
-                        this.form_data.name = data.name;
-                        this.form_data.author = data.author;
+                        if (data.name) {
+                            this.form_data.name = data.name;
+                        }
+                        if (data.author) {
+                            this.form_data.author = data.author;
+                        }
 //                        this.form_data.broadcaster = data.broadcaster;
 //                        this.form_data.broadcaster_type = data.broadcaster_type;
 //                        this.form_data.someline_category_ids = data.someline_category_ids;
 //                        this.form_data.images_data = data.images_data;
-                        this.form_data.brief = data.brief;
+                        if (data.brief) {
+                            this.form_data.brief = data.brief;
+                        }
 //                        this.form_data.payment_type = data.payment_type;
 //                        this.form_data.payment_amount = data.payment_amount;
 //                        this.form_data.payment_percentage = data.payment_percentage;
