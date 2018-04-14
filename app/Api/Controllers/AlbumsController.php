@@ -192,11 +192,12 @@ class AlbumsController extends BaseController
         }
 
         // auto selected 30% for review
-        $totalAudiosCount = $album->audios()->count();
-        $reviewAudiosCount = $album->audios()->where('pool', Audio::POOL_REVIEW)->count();
+        $totalAudiosCount = (int)$album->audios()->count();
+        $reviewAudiosCount = (int)$album->audios()->where('pool', Audio::POOL_REVIEW)->count();
+        $approvedAudiosCount = (int)$album->audios()->where('pool', Audio::POOL_APPROVED)->count();
         if ($totalAudiosCount > 0) {
             $atLeastReviewCount = round($totalAudiosCount * 0.3);
-            $needReviewCount = $atLeastReviewCount - $reviewAudiosCount;
+            $needReviewCount = $atLeastReviewCount - $reviewAudiosCount - $approvedAudiosCount;
             if ($needReviewCount > 0) {
                 $album->audios()->where('pool', Audio::POOL_LARGE)
                     ->inRandomOrder()
