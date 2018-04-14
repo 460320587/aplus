@@ -82,35 +82,35 @@ Route::group(['prefix' => 'console', 'middleware' => 'auth', 'namespace' => 'Con
             Route::get('/new', 'AlbumController@getAlbumNew');
             Route::get('/categories', 'AlbumController@getAlbumCategory');
             Route::get('/assign', 'AlbumController@getAlbumAssign');
+            Route::get('/{id}', 'AlbumController@getAlbumDetail');
+            Route::get('/{id}/edit', 'AlbumController@getAlbumEdit');
+            Route::get('/{id}/assign', 'AlbumController@getAlbumSingleAssign');
         });
         Route::group(['middleware' => ['role:root|admin|publisher']], function () {
             Route::get('/', 'AlbumController@getAlbumList');
+            Route::get('/audios', 'AlbumController@getAlbumAudioList');
+            Route::get('/{id}/audios', 'AlbumController@getAlbumAudios');
+            Route::get('/{id}/audios/upload', 'AlbumController@getAlbumAudiosUpload');
         });
-        Route::get('/audios', 'AlbumController@getAlbumAudioList');
-        Route::get('/{id}', 'AlbumController@getAlbumDetail');
-        Route::get('/{id}/edit', 'AlbumController@getAlbumEdit');
-        Route::get('/{id}/assign', 'AlbumController@getAlbumSingleAssign');
-        Route::get('/{id}/audios', 'AlbumController@getAlbumAudios');
-        Route::get('/{id}/audios/upload', 'AlbumController@getAlbumAudiosUpload');
     });
 
     Route::group(['prefix' => 'audios'], function () {
         Route::group(['middleware' => ['role:root|admin|publisher']], function () {
             Route::get('/new', 'AudioController@getAudioNew');
         });
-        Route::group(['middleware' => ['role:root|admin|review']], function () {
+        Route::group(['middleware' => ['role:root|admin|reviewer']], function () {
             Route::get('/review', 'AudioController@getAudioRandomReview');
         });
 
-        Route::group(['middleware' => ['role:root|admin|review']], function () {
+        Route::group(['middleware' => ['role:root|admin|reviewer']], function () {
             Route::get('/', 'AudioController@getAudioList');
+            Route::get('/{id}/review', 'AudioController@getAudioReview');
+            Route::get('/review_landing', 'AudioController@getAudioReviewLanding');
         });
 
-        Route::get('/review_landing', 'AudioController@getAudioReviewLanding');
         Route::get('/categories', 'AudioController@getAudioCategory');
         Route::get('/{id}', 'AudioController@getAudioDetail');
         Route::get('/{id}/edit', 'AudioController@getAudioEdit');
-        Route::get('/{id}/review', 'AudioController@getAudioReview');
     });
 
     Route::group(['prefix' => 'someline'], function () {
