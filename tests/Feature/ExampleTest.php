@@ -24,7 +24,7 @@ class ExampleTest extends TestCase
     {
         $zhangYueService = new ZhangYueService();
         $result = $zhangYueService->fetchBookInfo('11025616');
-        $result = $zhangYueService->fetchBookList();
+//        $result = $zhangYueService->fetchBookList();
         print_r($result);
     }
 }

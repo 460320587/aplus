@@ -37,6 +37,11 @@ $api->version('v1', [
             });
         });
 
+        // /zhangyue
+        $api->group(['prefix' => 'zhangyue'], function (Router $api) {
+            $api->get('books/{id}', 'AlbumsController@getZhangYueBookInfo');
+        });
+
         // /albums
         $api->group(['prefix' => 'albums'], function (Router $api) {
             //查

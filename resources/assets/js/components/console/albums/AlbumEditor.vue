@@ -22,7 +22,10 @@
                         />
                     </div>
                     <div class="col-xs-4">
-                        <button type="button" class="btn btn-default padder-lg">搜索</button>
+                        <button type="button"
+                                :disabled="!this.form_data.book_id"
+                                @click.prevent="doFetchBookInfo" class="btn btn-default padder-lg">搜索
+                        </button>
                     </div>
                 </div>
             </template>
@@ -125,16 +128,18 @@
         <someline-form-group>
             <template slot="Label">关键词</template>
             <template slot="ControlArea">
-                <el-select
-                        v-model="form_data.keywords_data"
-                        multiple
-                        filterable
-                        allow-create
-                        placeholder="请输入关键词"
-                        style="width: 100%">
-                </el-select>
+                <input type="text" class="form-control"
+                       placeholder="请输入关键词"
+                       @keydown.enter.prevent="doAddKeyword"
+                       v-model="keyword"/>
             </template>
             <template slot="HelpText">输入关键词，按下选中回车即可添加</template>
+            <template v-for="keyword in form_data.keywords_data">
+                <a href="#" @click.prevent="doRemoveKeyword(keyword)" class="m-r-sm m-b-sm">
+                    <span class="label bg-info">{{ keyword }}</span>
+                </a>
+            </template>
+            <!--<pre>{{ form_data.keywords_data }}</pre>-->
         </someline-form-group>
         <someline-form-group-line/>
 
@@ -167,14 +172,14 @@
 </template>
 
 <script>
-    export default{
+    export default {
         props: {
             itemId: {
                 type: String,
                 required: false
             }
         },
-        data(){
+        data() {
             return {
 
                 isLoading: false,
@@ -240,6 +245,7 @@
                 ],
 
                 editor: null,
+                keyword: null,
 
                 form_data: {
                     book_id: null,
@@ -272,12 +278,12 @@
             }
         },
         computed: {
-            inEditMode(){
+            inEditMode() {
                 return !!this.itemId;
             }
         },
         components: {},
-        mounted(){
+        mounted() {
             console.log('Component Ready.');
 
             this.fetchCategoryData();
@@ -334,7 +340,7 @@
                     }, this.handleResponseError)
 
             },
-            updateDataFromResponse(response){
+            updateDataFromResponse(response) {
                 let data = response.data.data;
 
                 this.form_data = Object.assign({}, this.form_data, data);
@@ -349,7 +355,7 @@
                 });
                 return result;
             },
-            onFormSubmit(){
+            onFormSubmit() {
                 console.log('onFormSubmit');
 
                 this.isLoading = true;
@@ -379,7 +385,7 @@
                 });
                 this.redirectToUrlFromBaseUrl(`/console/albums/${this.itemId}`);
             },
-            handleResponseError(error){
+            handleResponseError(error) {
 
                 var error_message = '请求失败';
                 try {
@@ -398,11 +404,68 @@
                 });
 
             },
-            handleFormResponseComplete(){
+            handleFormResponseComplete() {
 
                 this.isLoading = false;
 
             },
+            doFetchBookInfo(){
+
+                this.isLoading = true;
+
+                if (!this.form_data.book_id) {
+                    return;
+                }
+
+                this.$api
+                    .get(`zhangyue/books/${this.form_data.book_id}`, {
+                        params: {
+//                            include: 'tags',
+//                            edit: true,
+                        }
+                    })
+                    .then((response) => {
+                        let data = response.data.data;
+                        this.form_data.name = data.name;
+                        this.form_data.author = data.author;
+//                        this.form_data.broadcaster = data.broadcaster;
+//                        this.form_data.broadcaster_type = data.broadcaster_type;
+//                        this.form_data.someline_category_ids = data.someline_category_ids;
+//                        this.form_data.images_data = data.images_data;
+                        this.form_data.brief = data.brief;
+//                        this.form_data.payment_type = data.payment_type;
+//                        this.form_data.payment_amount = data.payment_amount;
+//                        this.form_data.payment_percentage = data.payment_percentage;
+                        if (data.keywords && data.keywords.length > 0) {
+                            this.form_data.keywords_data = data.keywords.split(',');
+                        }
+                    }, () => {
+                        this.$message({
+                            message: '无法获取该书籍信息',
+                            type: 'error'
+                        });
+                    })
+                    .finally(this.handleFormResponseComplete);
+
+            },
+            doAddKeyword(){
+//                console.log('doAddKeyword');
+
+                var keyword = this.keyword;
+                if (!keyword || keyword.length == 0) {
+                    return;
+                }
+//                console.log('this.keyword', keyword);
+//                console.log('this.form_data.keywords_data.indexOf(this.keyword)', this.form_data.keywords_data.indexOf(keyword));
+                if (this.form_data.keywords_data.indexOf(keyword) == -1) {
+                    this.form_data.keywords_data.push(keyword);
+                }
+                this.keyword = null;
+
+            },
+            doRemoveKeyword(keyword){
+                this.form_data.keywords_data.splice(this.form_data.keywords_data.indexOf(keyword), 1)
+            }
         },
     }
 </script>

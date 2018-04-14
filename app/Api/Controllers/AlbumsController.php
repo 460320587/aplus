@@ -12,7 +12,9 @@ use Someline\Http\Requests\AlbumCreateRequest;
 use Someline\Http\Requests\AlbumUpdateRequest;
 use Someline\Models\Foundation\Album;
 use Someline\Models\Foundation\Audio;
+use Someline\Presenters\BasicPresenter;
 use Someline\Repositories\Interfaces\AlbumRepository;
+use Someline\Services\ZhangYueService;
 use Someline\Validators\AlbumValidator;
 
 class AlbumsController extends BaseController
@@ -305,4 +307,14 @@ class AlbumsController extends BaseController
             throw new DeleteResourceFailedException('Failed to delete.');
         }
     }
+
+    public function getZhangYueBookInfo($book_id)
+    {
+        $zhangYueService = new ZhangYueService();
+//        $data = $zhangYueService->fetchBookInfo('11001439');
+        $data = $zhangYueService->fetchBookInfo($book_id);
+//        $data = json_decode('{"partnerName": "\u6d4b\u8bd5\u4e66\u540d1", "category": "\u6742\u5fd7 -> \u638c\u9605\u51fa\u54c1\u6742\u5fd7", "displayName": "\u6d4b\u8bd5\u4e66\u540d1", "name": "\u6d4b\u8bd5\u4e66\u540d1", "bookId": 11001439, "author": "\u6d4b\u8bd5", "wordCount": 193614, "price": 0.03, "startChargeChapter": 0, "cover": "http://118.192.170.16:29998/group3/M00/0D/E5/wKgGFVdr0dGEWEMEAAAAAG9v6h8877992147.jpg", "brief": "\u9633\u6e10\u6e10\u9690\u53bb\u5148\u524d\u7684\u5149\u8f89\uff0c\u6162\u6162\u843d\u8fdb\u897f\u8fb9\u7684\u5c71\u5ce6\uff0c\u7ea2\u971e\u9f50\u5929\u3002\u9e21\u9e2d\u6210\u7fa4\u7ed3\u961f\u8fdb\u7b3c\uff0c\u725b\u9a6c\u60a0\u95f2\u81ea\u5728\u5f52\u680f\uff0c\u84dd\u8272\u7684\u708a\u70df\u8885\u8885\u5347\u817e\uff0c\u597d\u4e00\u5e45\u79cb\u65e5\u5915\u7167\u7684\u80dc\u666f\uff01\u201c\u5431\u5440\uff0c\u5431\u5440\u201d\u7684\u58f0\u97f3\u7531\u8fdc\u53ca\u8fd1\u3002\u9648\u548c\u5e73\u7684\u6bcd\u4eb2\u63a8\u7740\u6ee1\u6ee1\u4e00\u8f66\u9c9c\u5ae9\u7684\u732a\u8349\u5403\u529b\u5730\u722c\u4e0a\u5c4b\u53f0\uff0c\u201c\u5a46\u5a46\uff0c\u5e73\u4f22\u5b50\u8fd8\u6ca1\u6709\u653e\u5b66\uff1f\u201d\u201c\u4ed6\u8bf4\u4e86\uff0c\u653e\u5b66\u540e\u53bb\u780d\u67f4\u3002\u201d\u660f\u6697\u7684\u7164\u6cb9\u706f\u4e0b\uff0c\u9648\u548c\u5e73\u7684\u5a46\u5a46\u70e7\u7740\u665a\u996d\u706b\uff0c\u7076\u5802\u91cc\u7684\u706b\u5149\u6620\u7740\u5979\u7684\u6ee1\u5934\u94f6\u4e1d\u3002\u201c\u8fd9\u4e48\u665a\u4e86\u8be5\u56de\u6765\u4e86\uff0c\u8fd9\u4e2a\u4f22\u5b50\u771f\u662f\uff0c\u505a\u4ec0\u4e48\u4e8b\u90fd\u5fd8\u5f62\u3002\u201d\u9648\u548c\u5e73\u7684\u6bcd\u4eb2\u4e00\u8fb9\u5f80\u732a\u5708\u62b1\u732a\u8349\uff0c\u4e00\u8fb9\u57cb\u6028\u3002", "createTime": "2016-01-28 15:33:06", "billPattern": 20, "keywords": "\u6d4b\u8bd5,\u6742\u5fd7,\u8d2d\u7269,\u6307\u5357,\u53cc11,\u5929\u732b,\u72c2\u6b22,\u597d\u8d27", "categoryId": "1801", "completeStatus": "Y"}', true);
+        return (new BasicPresenter())->present($data);
+    }
+
 }
