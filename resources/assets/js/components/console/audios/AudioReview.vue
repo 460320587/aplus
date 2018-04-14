@@ -158,7 +158,7 @@
 
             <someline-form-group>
                 <template slot="ControlArea">
-                    <button type="submit" class="btn btn-primary" :disabled="disableSeconds > 0 && form_data.review_result != -1">
+                    <button type="submit" class="btn btn-primary" :disabled="isReviewLoading">
                         保存
                         <template v-if="disableSeconds > 0 && form_data.review_result != -1">
                             ({{ disableSeconds }})

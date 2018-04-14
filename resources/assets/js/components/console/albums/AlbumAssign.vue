@@ -44,14 +44,22 @@
         <someline-form-group>
             <template slot="Label">分配用户</template>
             <template slot="ControlArea">
-                <select name="account" v-model="form_data.related_user_id" class="form-control m-b">
-                    <option value="" disabled>请选择分配的用户</option>
-                    <template v-for="user in users">
-                        <option :value="user.user_id">
-                            {{ user.name }}
-                        </option>
-                    </template>
-                </select>
+                <!--<select name="account" v-model="form_data.related_user_id" class="form-control m-b">-->
+                <!--<option value="" disabled>请选择分配的用户</option>-->
+                <!--<template v-for="user in users">-->
+                <!--<option :value="user.user_id">-->
+                <!--{{ user.name }}-->
+                <!--</option>-->
+                <!--</template>-->
+                <!--</select>-->
+                <el-select v-model="form_data.related_user_id" style="width: 100%" clearable filterable placeholder="请选择分配的用户">
+                    <el-option
+                            v-for="item in users"
+                            :key="item.user_id"
+                            :label="item.name"
+                            :value="item.user_id">
+                    </el-option>
+                </el-select>
             </template>
         </someline-form-group>
         <someline-form-group-line/>

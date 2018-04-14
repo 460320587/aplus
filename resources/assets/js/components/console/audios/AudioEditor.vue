@@ -37,6 +37,7 @@
             <template slot="Label">声音文件</template>
             <template slot="ControlArea">
                 <template v-if="selected_audio">
+                    <p>{{ selected_audio.name }}</p>
                     <audio class="w-full m-b" :src="selected_audio.someline_file_url" controls autoplay>
                         Sorry, your browser doesn't support HTML5 audio
                     </audio>

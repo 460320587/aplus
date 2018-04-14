@@ -133,7 +133,7 @@
                        @keydown.enter.prevent="doAddKeyword"
                        v-model="keyword"/>
             </template>
-            <template slot="HelpText">输入关键词，按下选中回车即可添加</template>
+            <template slot="HelpText">输入关键词，按回车即可添加</template>
             <template v-for="keyword in form_data.keywords_data">
                 <a href="#" @click.prevent="doRemoveKeyword(keyword)" class="m-r-sm m-b-sm">
                     <span class="label bg-info">{{ keyword }}</span>
@@ -149,6 +149,21 @@
                 v-model="form_data.copyright">
             <template slot="Label">版权方</template>
         </someline-form-group-radio-list>
+        <someline-form-group-line/>
+
+        <someline-form-group>
+            <template slot="Label">分配用户</template>
+            <template slot="ControlArea">
+                <el-select v-model="form_data.related_user_id" style="width: 100%" clearable filterable placeholder="请选择分配的用户">
+                    <el-option
+                            v-for="item in users"
+                            :key="item.user_id"
+                            :label="item.name"
+                            :value="item.user_id">
+                    </el-option>
+                </el-select>
+            </template>
+        </someline-form-group>
         <someline-form-group-line/>
 
         <someline-form-group-radio-list
@@ -172,14 +187,14 @@
 </template>
 
 <script>
-    export default {
+    export default{
         props: {
             itemId: {
                 type: String,
                 required: false
             }
         },
-        data() {
+        data(){
             return {
 
                 isLoading: false,
@@ -249,6 +264,7 @@
 
                 form_data: {
                     book_id: null,
+                    related_user_id: null,
                     name: null,
                     author: null,
                     broadcaster: null,
@@ -268,6 +284,7 @@
                 data_loaded: 0,
                 remoteTagsLoading: false,
 
+                users: [],
                 someline_categories: [],
                 categories_props: {
                     value: 'someline_category_id',
@@ -278,21 +295,22 @@
             }
         },
         computed: {
-            inEditMode() {
+            inEditMode(){
                 return !!this.itemId;
             }
         },
         components: {},
-        mounted() {
+        mounted(){
             console.log('Component Ready.');
 
             this.fetchCategoryData();
+            this.fetchUserData();
 
         },
         watch: {
             'data_loaded': function () {
 
-                if (this.data_loaded == 1 && this.inEditMode) {
+                if (this.data_loaded == 2 && this.inEditMode) {
                     this.fetchData();
                 } else {
                     this.isLoading = false;
@@ -340,7 +358,27 @@
                     }, this.handleResponseError)
 
             },
-            updateDataFromResponse(response) {
+            fetchUserData() {
+
+//                if (this.isLoading) {
+//                    return;
+//                }
+                this.isLoading = true;
+
+                this.$api
+                    .get('users/all', {
+                        params: {
+//                            type: 'audio',
+//                            all_children: true
+                        }
+                    })
+                    .then((response) => {
+                        this.users = response.data.data;
+                        this.data_loaded += 1;
+                    }, this.handleResponseError)
+
+            },
+            updateDataFromResponse(response){
                 let data = response.data.data;
 
                 this.form_data = Object.assign({}, this.form_data, data);
@@ -355,7 +393,7 @@
                 });
                 return result;
             },
-            onFormSubmit() {
+            onFormSubmit(){
                 console.log('onFormSubmit');
 
                 this.isLoading = true;
@@ -385,7 +423,7 @@
                 });
                 this.redirectToUrlFromBaseUrl(`/console/albums/${this.itemId}`);
             },
-            handleResponseError(error) {
+            handleResponseError(error){
 
                 var error_message = '请求失败';
                 try {
@@ -404,7 +442,7 @@
                 });
 
             },
-            handleFormResponseComplete() {
+            handleFormResponseComplete(){
 
                 this.isLoading = false;
 

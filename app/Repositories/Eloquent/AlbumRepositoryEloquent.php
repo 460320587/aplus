@@ -14,15 +14,20 @@ use Someline\Presenters\AlbumPresenter;
  */
 class AlbumRepositoryEloquent extends BaseRepository implements AlbumRepository
 {
+
     protected $fieldSearchable = [
         'album_id' => '=',
         'book_id' => '=',
         'user_id' => '=',
+        'user.name' => 'like',
+        'broadcaster' => 'like',
+        'broadcaster_type' => 'like',
         'related_user_id' => '=',
         'author' => 'like',
         'keywords' => 'like',
         'name' => 'like',
     ];
+
     /**
      * Specify Model class name
      *
@@ -34,10 +39,10 @@ class AlbumRepositoryEloquent extends BaseRepository implements AlbumRepository
     }
 
     /**
-    * Specify Validator class name
-    *
-    * @return mixed
-    */
+     * Specify Validator class name
+     *
+     * @return mixed
+     */
     public function validator()
     {
 
@@ -46,10 +51,10 @@ class AlbumRepositoryEloquent extends BaseRepository implements AlbumRepository
 
 
     /**
-    * Specify Presenter class name
-    *
-    * @return mixed
-    */
+     * Specify Presenter class name
+     *
+     * @return mixed
+     */
     public function presenter()
     {
 

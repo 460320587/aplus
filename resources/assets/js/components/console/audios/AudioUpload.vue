@@ -288,6 +288,7 @@
                         this.form_data.audio_files.push({
                             error: true,
                             message: '上传失败，码率必须至少128kbps，请重新上传',
+                            display_client_original_name: file.name,
                             original_name: file.name,
                             file: audio_file,
                         })
@@ -304,9 +305,22 @@
                     message: '上传失败',
                     type: 'error'
                 });
+                var error = err
+                try {
+                    var target = err.target;
+                    if (target) {
+                        if (target.statusText && target.statusText.length > 0) {
+                            error = target.statusText;
+                        } else {
+                            error = target.status;
+                        }
+                    }
+                } catch (e) {
+                }
                 this.form_data.audio_files.push({
                     error: true,
-                    message: '上传失败',
+                    message: `上传失败（${error}）`,
+                    display_client_original_name: file.name,
                     original_name: file.name,
                     file: file,
                 })
