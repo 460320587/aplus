@@ -26,17 +26,18 @@ class FileController extends BaseController
             return response('Failed to save uploaded file.', 422);
         }
 
+        $clientOriginalName = $file->getClientOriginalName();
         $data = [
-            'client_original_name' => $file->getClientOriginalName(),
+            'client_original_name' => $clientOriginalName,
+            'display_client_original_name' => str_replace_last('.mp3', '', $clientOriginalName),
         ];
-
         if('mp3' == $file->getClientOriginalExtension()) {
             $path = $somelineFile->getFileStoragePath();
             $mp3file = new MP3File($path);
             $info = $mp3file->getInfo();
             $data['bitrate'] = !empty($info['Bitrate']) ? $info['Bitrate'] : null;
-            $data['duration'] = $mp3file->getDurationInFormatTime();
-        }
+            $data['duration'] = $mp3file->getDuration();
+            $data['duration_text'] = MP3File::formatTime($data['duration']);        }
 
         return response([
             'data' => array_merge($somelineFile->toSimpleArray(), $data)

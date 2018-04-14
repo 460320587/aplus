@@ -62,13 +62,13 @@
                 <template v-for="audio in form_data.audio_files">
                     <tr :class="audio.error ? 'danger' : ''">
                         <td>
-                            {{ audio.client_original_name }}
+                            {{ audio.display_client_original_name }}
                             <template v-if="!audio.error">
                                 <a href="#" @click.prevent="doPlayAudio(audio)"><i
                                         class="fa fa-play-circle"></i></a>
                             </template>
                         </td>
-                        <td>{{ audio.duration }}</td>
+                        <td>{{ audio.duration_text }}</td>
                         <td>
                             <template v-if="!audio.error">
                                 未保存

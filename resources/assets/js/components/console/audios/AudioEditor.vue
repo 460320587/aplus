@@ -56,7 +56,7 @@
                     <tr>
                         <td>{{ audio.name }} <a href="#" @click.prevent="doPlayAudio(audio)"><i
                                 class="fa fa-play-circle"></i></a></td>
-                        <td>{{ audio.audio_length }}</td>
+                        <td>{{ audio.audio_length_text }}</td>
                         <td>
                             <template v-if="audio.latest_review && audio.status == -1">
                                 <a href="#"

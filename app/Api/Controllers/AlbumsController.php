@@ -159,7 +159,7 @@ class AlbumsController extends BaseController
                     $original_name = $audio_file['client_original_name'];
                     preg_match_all('!\d+!', $original_name, $matches);
                     $sequence = isset($matches[0][0]) ? $matches[0][0] : 0;
-                    $name = str_replace('.mp3', '', $original_name);
+                    $name = str_replace_last('.mp3', '', $original_name);
                     $audio = Audio::create(array_merge($data, [
                         'name' => $name,
                         'original_name' => $original_name,

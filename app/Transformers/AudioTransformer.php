@@ -3,6 +3,7 @@
 namespace Someline\Transformers;
 
 use Someline\Models\Foundation\Audio;
+use Someline\MP3File;
 
 /**
  * Class AudioTransformer
@@ -34,6 +35,7 @@ class AudioTransformer extends BaseTransformer
             'someline_file_id' => $model->someline_file_id,
             'someline_file_url' => $model->getSomelineFileUrl(),
             'audio_length' => $model->audio_length,
+            'audio_length_text' => MP3File::formatTime($model->audio_length),
             'sequence' => $model->sequence,
             'status' => $model->status,
             'status_text' => $model->status_text,
