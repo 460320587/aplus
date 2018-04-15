@@ -18,6 +18,7 @@
             </template>
 
             <div class="well m-t">
+                <p>所属用户：{{ album.related_user ? album.related_user.data.name : '-' }}</p>
                 <p>已上传音频条数：{{ album.audios_count }}条</p>
                 <p>审核未过：{{ album.rejected_audios_count }}条</p>
                 <p class="m-b-none">最近上传时间：
@@ -267,7 +268,7 @@
                 this.$api
                     .get(`albums/${this.itemId}`, {
                         params: {
-                            include: 'audios.latest_review,latest_audio',
+                            include: 'audios.latest_review,latest_audio,related_user',
 //                            edit: true,
                         }
                     })
