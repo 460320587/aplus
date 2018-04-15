@@ -39,16 +39,30 @@ class AudioController extends BaseController
     public function getAudioRandomReview()
     {
         $user = $this->getAuthUser();
-        $audio = Audio::where('pool', Audio::POOL_REVIEW)
-            ->where('status', Audio::STATUS_NOT_REVIEWED)
-            ->orderBy('failed_times', 'desc')
-            ->orderBy('created_at', 'asc')
-            ->first();
-        if ($audio) {
-            return redirect('console/audios/' . $audio->audio_id . '/review');
-        } else {
-            return redirect('console/audios/review_landing');
-        }
+        $reviewingAudios = [];
+        do {
+
+            $audio = Audio::where('pool', Audio::POOL_REVIEW)
+                ->where('status', Audio::STATUS_NOT_REVIEWED)
+                ->whereNotIn('audio_id', $reviewingAudios)
+                ->orderBy('failed_times', 'desc')
+                ->orderBy('created_at', 'asc')
+                ->first();
+            if ($audio) {
+                $audio_id = $audio->audio_id;
+                if (!empty($audio_id)) {
+                    $currentReviewing = \Cache::get('reviewing_audio.' . $audio_id);
+                    if ($currentReviewing) {
+                        $reviewingAudios[] = $audio_id;
+                    } else {
+                        return redirect('console/audios/' . $audio->audio_id . '/review');
+                    }
+                }
+            } else {
+                return redirect('console/audios/review_landing');
+            }
+
+        } while (true);
     }
 
     public function getAudioReviewLanding()
@@ -68,6 +82,12 @@ class AudioController extends BaseController
         if ($audio->status != Audio::STATUS_NOT_REVIEWED && !$current_user->isRoleAdmin()) {
             abort('403');
         }
+
+        $currentReviewing = \Cache::get('reviewing_audio.' . $audio_id);
+        if ($currentReviewing != null && $currentReviewing != $this->getAuthUserId()) {
+            abort('403');
+        }
+        \Cache::put('reviewing_audio.' . $audio_id, $this->getAuthUserId(), 60);
         return view('console.audios.review', compact('audio_id'));
     }
 

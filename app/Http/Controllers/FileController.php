@@ -19,7 +19,7 @@ class FileController extends BaseController
             /** @var SomelineFile $somelineFile */
             $somelineFile = $somelineFileService->handleUploadedFile($file);
         } catch (Exception $e) {
-            return response('Failed to save: ' . $e->getMessage(), 422);
+            return response($e->getMessage(), 422);
         }
 
         if (!$somelineFile) {
@@ -29,15 +29,17 @@ class FileController extends BaseController
         $clientOriginalName = $file->getClientOriginalName();
         $data = [
             'client_original_name' => $clientOriginalName,
-            'display_client_original_name' => str_replace_last('.mp3', '', $clientOriginalName),
+            'display_client_original_name' => str_replace_last('.mp3', '', strtolower($clientOriginalName)),
         ];
-        if('mp3' == $file->getClientOriginalExtension()) {
+
+        if ('mp3' == strtolower($file->getClientOriginalExtension())) {
             $path = $somelineFile->getFileStoragePath();
             $mp3file = new MP3File($path);
             $info = $mp3file->getInfo();
             $data['bitrate'] = !empty($info['Bitrate']) ? $info['Bitrate'] : null;
             $data['duration'] = $mp3file->getDuration();
-            $data['duration_text'] = MP3File::formatTime($data['duration']);        }
+            $data['duration_text'] = MP3File::formatTime($data['duration']);
+        }
 
         return response([
             'data' => array_merge($somelineFile->toSimpleArray(), $data)

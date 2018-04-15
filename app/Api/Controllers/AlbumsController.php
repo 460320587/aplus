@@ -186,7 +186,7 @@ class AlbumsController extends BaseController
         ]);
 
         /** @var Audio $lastAudio */
-        $lastAudio = $album->ordered_audios('desc')->first();
+        $lastAudio = $album->ordered_audios('desc')->where('status', '=', 0)->first();
         if ($lastAudio) {
             if ($lastAudio->isPool(Audio::POOL_LARGE)) {
                 $lastAudio->updatePool(Audio::POOL_UNDETERMINED);
