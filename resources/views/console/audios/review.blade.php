@@ -3,7 +3,7 @@
 @section('content')
 
     <div class="bg-light lter b-b wrapper-md">
-        <a href="{{ url('console/audios') }}" class="btn btn-sm btn-default pull-right">返回</a>
+        <a href="{{ url('/console/audios/review_landing') }}" class="btn btn-sm btn-default pull-right">返回</a>
         <h1 class="m-n font-thin h3">审核声音</h1>
     </div>
     <div class="wrapper-md">

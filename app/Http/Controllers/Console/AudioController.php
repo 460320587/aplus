@@ -59,6 +59,15 @@ class AudioController extends BaseController
     //审核声音页
     public function getAudioReview($audio_id)
     {
+        $audio = Audio::find($audio_id);
+        if (!$audio) {
+            abort('404');
+        }
+        $current_user = auth_user();
+
+        if ($audio->status != Audio::STATUS_NOT_REVIEWED && !$current_user->hasRole(['admin', 'root'])) {
+            abort('403');
+        }
         return view('console.audios.review', compact('audio_id'));
     }
 

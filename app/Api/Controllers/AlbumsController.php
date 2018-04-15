@@ -201,6 +201,7 @@ class AlbumsController extends BaseController
             $needReviewCount = $atLeastReviewCount - $reviewAudiosCount - $approvedAudiosCount;
             if ($needReviewCount > 0) {
                 $album->audios()->where('pool', Audio::POOL_LARGE)
+                    ->where('status', '=', 0)
                     ->inRandomOrder()
                     ->take($needReviewCount)
                     ->update([

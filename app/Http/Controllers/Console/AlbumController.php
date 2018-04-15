@@ -67,6 +67,9 @@ class AlbumController extends BaseController
                 $canUpload = $album->related_user_id == $user->getUserId();
             }
         }
+        if(!$canUpload){
+            abort('403');
+        }
         return view('console.albums.audios', compact('canUpload', 'album_id'));
     }
 

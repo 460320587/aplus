@@ -78,7 +78,7 @@
                 <el-table-column
                         label="专辑名">
                     <template scope="scope">
-                        {{ scope.row.album.data.name }}
+                        {{ scope.row.album ? scope.row.album.data.name : '-' }}
                     </template>
                 </el-table-column>
                 <el-table-column
@@ -87,8 +87,8 @@
                         {{ scope.row.audio_length }}
                     </template>
                 </el-table-column>
+                <!--v-if="!isRole('publisher')"-->
                 <el-table-column
-                        v-if="!isRole('publisher')"
                         label="审核人员">
                     <template scope="scope">
                         {{ scope.row.reviewer ? scope.row.reviewer.data.name : '-' }}
@@ -120,6 +120,7 @@
                         label="操作">
                     <template scope="scope">
                         <a class="btn btn-default btn-sm r-2x"
+                           v-if="scope.row.album"
                            :href="getDetailUrl(scope.row)">
                             <i class="fa fa-file-text-o"></i>&nbsp;查看
                         </a>

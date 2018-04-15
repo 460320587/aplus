@@ -44,6 +44,8 @@ class AudiosController extends BaseController
         $data = $request->all();
         $user = $this->getAuthUser();
         return $this->repository->useModel(function ($model) use ($user, $data) {
+            $model = $model->whereHas('album');
+
             if ($user->hasRole('publisher')) {
                 $model = $model->where('user_id', $user->getUserId());
             } else if ($user->hasRole('reviewer')) {
