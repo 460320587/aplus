@@ -82,6 +82,13 @@ class Audio extends BaseModel implements Transformable, SomelineReviewInterface
 
     }
 
+    public function onUpdated()
+    {
+        /** @var Album $album */
+        $album = $this->album;
+        $album->doAutoApproveAudios();
+    }
+
     public function onSaved()
     {
         parent::onSaved();

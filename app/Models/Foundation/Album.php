@@ -142,4 +142,32 @@ class Album extends BaseModel implements Transformable
 
     }
 
+
+    public function doAutoApproveAudios()
+    {
+        $ordered_audios = $this->ordered_audios;
+        $pending_audios = [];
+
+        /** @var Audio $audio */
+        foreach ($ordered_audios as $audio) {
+            if ($audio->isPool(Audio::POOL_REVIEW) ||
+                $audio->isPool(Audio::POOL_UNDETERMINED) ||
+                $audio->isStatus(Audio::STATUS_REJECTED)) {
+                break;
+            } else if ($audio->isPool(Audio::POOL_LARGE) &&
+                $audio->isStatus(Audio::STATUS_NOT_REVIEWED)) {
+                $pending_audios[] = $audio;
+            } else if ($audio->isStatus(Audio::STATUS_APPROVED) && count($pending_audios) > 0) {
+
+                // update status
+                foreach ($pending_audios as $pending_audio) {
+                    $pending_audio->status = Audio::STATUS_APPROVED;
+                    $pending_audio->save();
+                }
+
+            }
+        }
+
+    }
+
 }
