@@ -17,13 +17,6 @@ Auth::routes();
 // Basic Routes
 //Route::get('/home', 'HomeController@index');
 
-Route::get('aaa', function () {
-    $albums = \Someline\Models\Foundation\Album::all();
-    foreach ($albums as $album) {
-        $album->doAutoApproveAudios();
-    }
-});
-
 // Protected Routes
 Route::group(['middleware' => 'auth'], function () {
 
