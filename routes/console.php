@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Foundation\Inspiring;
+use Someline\Component\Role\SomelineRoleService;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,3 +17,13 @@ use Illuminate\Foundation\Inspiring;
 Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->describe('Display an inspiring quote');
+
+
+
+Artisan::command('add-consumer-role', function () {
+
+    SomelineRoleService::addRole('consumer', '第三方');
+
+    echo "Added";
+
+})->describe('Add consumer role');

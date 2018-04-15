@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Prettus\Validator\Contracts\ValidatorInterface;
 use Someline\Http\Requests\AudioCreateRequest;
 use Someline\Http\Requests\AudioUpdateRequest;
+use Someline\Models\Foundation\Album;
 use Someline\Models\Foundation\Audio;
 use Someline\Repositories\Interfaces\AudioRepository;
 use Someline\Validators\AudioValidator;
@@ -63,6 +64,16 @@ class AudiosController extends BaseController
 
             return $model;
         })->paginate();
+    }
+
+    public function getConsumerAudios($album_id)
+    {
+        /** @var Album $album */
+        $album = Album::findOrFail($album_id);
+
+        $audios = $album->ordered_audios()->where('status', Audio::STATUS_APPROVED)->get();
+
+        return $this->repository->present($audios);
     }
 
     /**

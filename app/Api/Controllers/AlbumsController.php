@@ -83,6 +83,11 @@ class AlbumsController extends BaseController
         })->all();
     }
 
+    public function getConsumerIndex()
+    {
+        return $this->repository->all();
+    }
+
     /**
      * Store a newly created resource in storage.
      *

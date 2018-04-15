@@ -43,6 +43,14 @@ $api->version('v1', [
             $api->get('books/{id}', 'AlbumsController@getZhangYueBookInfo');
         });
 
+
+        // /consumer
+        $api->group(['prefix' => 'consumer', 'middleware' => ['role:root|admin|consumer']], function (Router $api) {
+            $api->get('albums', 'AlbumsController@getConsumerIndex');
+            $api->get('albums/{id}', 'AlbumsController@show');
+            $api->get('albums/{id}/audios', 'AudiosController@getConsumerAudios');
+        });
+
         // /albums
         $api->group(['prefix' => 'albums'], function (Router $api) {
 
