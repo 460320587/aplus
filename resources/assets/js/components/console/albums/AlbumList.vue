@@ -148,8 +148,8 @@
             return {
                 resourcePath: 'albums?include=related_user',
 
-                orderBy: 'album_id',
-                sortedBy: 'asc',
+                orderBy: 'updated_at',
+                sortedBy: 'desc',
 
                 orderableFields: [
                     {

@@ -107,7 +107,7 @@
                 <template slot="Label">声音</template>
                 <template slot="ControlArea">
                     <template v-if="audio">
-                        <audio class="w-full" :src="audio.someline_file_url" controls autoplay>
+                        <audio class="w-full" :src="audio.someline_file_url" controls>
                             Sorry, your browser doesn't support HTML5 audio
                         </audio>
                     </template>
