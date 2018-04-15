@@ -110,7 +110,14 @@
                 </el-table-column>
                 <el-table-column
                         width="160"
-                        label="更新于">
+                        label="审核时间">
+                    <template scope="scope">
+                        {{ scope.row.latest_review ? scope.row.latest_review.data.updated_at : '-' }}
+                    </template>
+                </el-table-column>
+                <el-table-column
+                        width="160"
+                        label="修改时间">
                     <template scope="scope">
                         {{ scope.row.updated_at }}
                     </template>
@@ -179,7 +186,7 @@
         computed: {
             resourceParams(){
                 return {
-                    include: 'album,reviewer',
+                    include: 'album,reviewer,latest_review',
                     status: this.filter_data.status,
                     album_id: this.albumId,
                 }

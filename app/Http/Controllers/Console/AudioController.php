@@ -67,12 +67,19 @@ class AudioController extends BaseController
 
     public function getAudioReviewLanding()
     {
-        return view('console.audios.review_landing');
+        $audio_count = Audio::where('pool', Audio::POOL_REVIEW)
+            ->where('status', Audio::STATUS_NOT_REVIEWED)
+            ->count();
+        return view('console.audios.review_landing', compact('audio_count'));
     }
 
     //审核声音页
     public function getAudioReview($audio_id)
     {
+        $audio_count = Audio::where('pool', Audio::POOL_REVIEW)
+            ->where('status', Audio::STATUS_NOT_REVIEWED)
+            ->count();
+
         $audio = Audio::find($audio_id);
         if (!$audio) {
             abort('404');
@@ -82,13 +89,12 @@ class AudioController extends BaseController
         if ($audio->status != Audio::STATUS_NOT_REVIEWED && !$current_user->isRoleAdmin()) {
             abort('403');
         }
-
         $currentReviewing = \Cache::get('reviewing_audio.' . $audio_id);
         if ($currentReviewing != null && $currentReviewing != $this->getAuthUserId()) {
             abort('403');
         }
         \Cache::put('reviewing_audio.' . $audio_id, $this->getAuthUserId(), 60);
-        return view('console.audios.review', compact('audio_id'));
+        return view('console.audios.review', compact('audio_id', 'audio_count'));
     }
 
     //专辑编辑页
