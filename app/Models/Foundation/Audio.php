@@ -126,6 +126,11 @@ class Audio extends BaseModel implements Transformable, SomelineReviewInterface
         $this->reviewed_at = $somelineReview->created_at;
         $this->status = $somelineReview->getReviewResult();
         $this->save();
+
+
+        /** @var Album $album */
+        $album = $this->album;
+        $album->doAutoApproveAudios();
     }
 
     public function isPool($pool)
