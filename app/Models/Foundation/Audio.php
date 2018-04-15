@@ -82,6 +82,13 @@ class Audio extends BaseModel implements Transformable, SomelineReviewInterface
 
     }
 
+    public function onSaved()
+    {
+        parent::onSaved();
+
+        $this->album->touch();
+    }
+
 
     public static function getStatusTexts()
     {
