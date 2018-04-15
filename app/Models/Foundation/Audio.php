@@ -115,7 +115,9 @@ class Audio extends BaseModel implements Transformable, SomelineReviewInterface
     public function onReviewed(SomelineReview $somelineReview)
     {
         if ($somelineReview->isApproved()) {
-            $this->updatePool(self::POOL_APPROVED);
+            if ($this->isPool(self::POOL_REVIEW)) {
+                $this->updatePool(self::POOL_APPROVED);
+            }
         } else {
             $this->failed_times += 1;
             $this->updatePool(self::POOL_REVIEW);
