@@ -65,7 +65,7 @@ class AudioController extends BaseController
         }
         $current_user = auth_user();
 
-        if ($audio->status != Audio::STATUS_NOT_REVIEWED && !$current_user->hasRole(['admin', 'root'])) {
+        if ($audio->status != Audio::STATUS_NOT_REVIEWED && !$current_user->isRoleAdmin()) {
             abort('403');
         }
         return view('console.audios.review', compact('audio_id'));

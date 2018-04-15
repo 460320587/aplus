@@ -12,6 +12,7 @@ use Someline\Http\Requests\AudioUpdateRequest;
 use Someline\Models\Foundation\Audio;
 use Someline\Repositories\Interfaces\AudioRepository;
 use Someline\Validators\AudioValidator;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 class AudiosController extends BaseController
 {
@@ -101,7 +102,15 @@ class AudiosController extends BaseController
      */
     public function show($id)
     {
-        return $this->repository->find($id);
+        /** @var Audio $audio */
+        $audio = $this->repository->skipPresenter(true)->find($id);
+        $authUser = $this->getAuthUser();
+        if (!$authUser->isRoleAdmin()) {
+            if (!$audio->isStatus(Audio::STATUS_NOT_REVIEWED)) {
+                throw new AccessDeniedHttpException();
+            }
+        }
+        return $this->repository->skipPresenter(false)->present($audio);
     }
 
     /**

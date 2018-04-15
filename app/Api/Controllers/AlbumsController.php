@@ -17,6 +17,7 @@ use Someline\Presenters\BasicPresenter;
 use Someline\Repositories\Interfaces\AlbumRepository;
 use Someline\Services\ZhangYueService;
 use Someline\Validators\AlbumValidator;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 class AlbumsController extends BaseController
 {
@@ -237,7 +238,15 @@ class AlbumsController extends BaseController
      */
     public function show($id)
     {
-        return $this->repository->find($id);
+        /** @var Album $album */
+        $album = $this->repository->skipPresenter(true)->find($id);
+        $authUser = $this->getAuthUser();
+        if (!$authUser->isRoleAdmin()) {
+            if ($album->getRelatedUserId() != $authUser->getUserId()) {
+                throw new AccessDeniedHttpException();
+            }
+        }
+        return $this->repository->skipPresenter(false)->present($album);
     }
 
     /**

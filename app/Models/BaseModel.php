@@ -39,4 +39,13 @@ class BaseModel extends Model
     }
 
 
+
+    /**
+     * @return mixed
+     */
+    public function getRelatedUserId()
+    {
+        return $this->related_user_id;
+    }
+
 }

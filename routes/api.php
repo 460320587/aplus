@@ -26,7 +26,7 @@ $api->version('v1', [
         $api->group(['middleware' => ['api.throttle'], 'limit' => 100, 'expires' => 5], function (Router $api) {
 
             // /users
-            $api->group(['prefix' => 'users'], function (Router $api) {
+            $api->group(['prefix' => 'users', 'middleware' => ['role:root|admin']], function (Router $api) {
                 $api->get('/', 'UsersController@index');
                 $api->get('/all', 'UsersController@all');
                 $api->post('/', 'UsersController@store');
@@ -35,6 +35,7 @@ $api->version('v1', [
                 $api->put('/{id}', 'UsersController@update');
                 $api->delete('/{id}', 'UsersController@destroy');
             });
+
         });
 
         // /zhangyue
@@ -44,46 +45,45 @@ $api->version('v1', [
 
         // /albums
         $api->group(['prefix' => 'albums'], function (Router $api) {
-            //查
-            $api->get('/', 'AlbumsController@index');
 
-            $api->get('/all', 'AlbumsController@all');
+            $api->group(['middleware' => ['role:root|admin']], function (Router $api) {
+                $api->get('/all', 'AlbumsController@all');
+                $api->get('/unassigned', 'AlbumsController@unassigned');
+                $api->post('/', 'AlbumsController@store');
+                $api->delete('/{id}', 'AlbumsController@destroy')->where('id', '[0-9]+');
+            });
 
-            //当前登陆用户
-            $api->get('/auth_user', 'AlbumsController@auth_user');
-            //专辑分配
-            $api->get('/unassigned', 'AlbumsController@unassigned');
-            //增
-            $api->post('/', 'AlbumsController@store');
-            //查 专辑详情页
-            $api->get('/{id}', 'AlbumsController@show');
-            //修改声音
-            $api->post('/{id}/audios', 'AlbumsController@storeAudios');
-            //改
-            $api->put('/{id}', 'AlbumsController@update')->where('id', '[0-9]+');
-            //修改分配专辑
-            $api->put('/{id}/simple', 'AlbumsController@updateSimple')->where('id', '[0-9]+');
-            //删
-            $api->delete('/{id}', 'AlbumsController@destroy')->where('id', '[0,9]+');
+            $api->group(['middleware' => ['role:root|admin|publisher']], function (Router $api) {
+                $api->get('/', 'AlbumsController@index');
+                $api->get('/auth_user', 'AlbumsController@auth_user');
+                $api->get('/{id}', 'AlbumsController@show');
+                $api->post('/{id}/audios', 'AlbumsController@storeAudios');
+                $api->put('/{id}', 'AlbumsController@update')->where('id', '[0-9]+');
+                $api->put('/{id}/simple', 'AlbumsController@updateSimple')->where('id', '[0-9]+');
+            });
         });
 
-        //audios
+        // /audios
         $api->group(['prefix' => 'audios'], function (Router $api) {
-            //查
-            $api->get('/', 'AudiosController@index');
-            //增
-            $api->post('/', 'AudiosController@store');
-            //查 专辑详情页
-            $api->get('/{id}', 'AudiosController@show');
-            //改
-            $api->put('/{id}', 'AudiosController@update')->where('id', '[0-9]+');
-            //删
-            $api->delete('/{id}', 'AudiosController@destroy')->where('id', '[0,9]+');
+            $api->group(['middleware' => ['role:root|admin']], function (Router $api) {
+                $api->get('/', 'AudiosController@index');
+            });
+            $api->group(['middleware' => ['role:root|admin|reviewer']], function (Router $api) {
+                $api->get('/{id}', 'AudiosController@show');
+            });
+            $api->group(['middleware' => ['role:root|admin|publisher']], function (Router $api) {
+                $api->post('/', 'AudiosController@store');
+                $api->delete('/{id}', 'AudiosController@destroy')->where('id', '[0-9]+');
+                $api->put('/{id}', 'AudiosController@update')->where('id', '[0-9]+');
+            });
         });
 
         \Someline\Component\File\SomelineFileServiceProvider::api_routes($api);
-        \Someline\Component\Review\SomelineReviewServiceProvider::api_routes($api);
+        $api->group(['middleware' => ['role:root|admin|reviewer']], function (Router $api) {
+            \Someline\Component\Review\SomelineReviewServiceProvider::api_routes($api);
+        });
         \Someline\Component\Category\SomelineCategoryServiceProvider::api_routes($api);
+
     });
 
 });

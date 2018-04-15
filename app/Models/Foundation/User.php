@@ -56,4 +56,9 @@ class User extends BaseUser
         }
     }
 
+    public function isRoleAdmin()
+    {
+        return $this->hasRole(['admin', 'root']);
+    }
+
 }
